@@ -24,7 +24,7 @@
 					<a class="brand" href="#">SlimEvent</a>
 					<ul class="nav">
 						<li {{ @route[0] == 'home' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}"><i class="icon-home"></i> 首页</a></li>
-						<li {{ @route[0] == 'discover' ? 'class="active"' : ''}}><a href="#"><i class="icon-search"></i> 发现</a></li>
+						<li {{ @route[0] == 'discover' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}event/1"><i class="icon-search"></i> 发现</a></li>
 						<li {{ @route[0] == 'my' ? 'class="active"' : '' }}><a href="#"><i class="icon-list"></i> 我的活动</a></li>
 						<li {{ @route[0] == 'feed' ? 'class="active"' : '' }}><a href="#"><i class="icon-user"></i> 朋友动态</a></li>
 					</ul>
@@ -54,12 +54,14 @@
 				<div class="row">
 					<div class="span2"><i>&nbsp;</i></div>
 					<div class="span10">
+						<F3:check if="{{ @route[0] == 'discover' }}">
 				<ul class="nav nav-pills">
 					<li {{ @route[1] == 'intro' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}event/1"><i class="icon-barcode"></i> 活动介绍</a></li>
 					<li {{ @route[1] == 'photo' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}event/1/photos"><i class="icon-camera-retro"></i> 照片</a></li>
 					<li {{ @route[1] == 'discussion' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}event/1/discussion"><i class="icon-comments"></i> 讨论</a></li>
 					<li {{ @route[1] == 'participants' ? 'class="participants"' : '' }}><a href="{{@WEB_ROOT}}event/1/participants"><i class="icon-group"></i> 参与者</a></li>
 				</ul>
+						</F3:check>
 					</div>
 				</div><!-- row -->
 			</div>
