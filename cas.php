@@ -2,8 +2,8 @@
 // phpCAS simple client
 //
 // // import phpCAS lib
-include_once('cas/CAS.php');
-phpCAS::setDebug();
+include_once('app/lib/cas/CAS.php');
+phpCAS::setDebug(false);
 
 // initialize phpCAS
 phpCAS::client(CAS_VERSION_2_0,'cas.hit.edu.cn',443, '');

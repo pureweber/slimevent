@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-include('google-api/apiClient.php');
-include('google-api/contrib/apiCalendarService.php');
+include('app/lib/google-api/apiClient.php');
+include('app/lib/google-api/contrib/apiCalendarService.php');
 
 $apiClient = new apiClient();
 
