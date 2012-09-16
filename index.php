@@ -10,7 +10,7 @@ F3::config('app/cfg/routes.cfg');
 F3::set('DB', new DB(
 	'mysql:host=localhost;port=3306;dbname=slimevent',
 	'root',
-	'vpcm'
+	'110'
 ));
 
 F3::run();
