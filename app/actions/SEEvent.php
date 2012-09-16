@@ -1,6 +1,13 @@
 <?php
 
 class SEEvent{
+
+	function __construct()
+	{
+		if(Account::is_login() === FALSE)
+			F3::reroute('/');
+	}
+
 	function show(){
 		F3::set('route', array('discover', 'intro'));
 

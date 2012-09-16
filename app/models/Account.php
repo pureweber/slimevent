@@ -2,13 +2,62 @@
 
 class Account{
 
-	static function exists($email){
-		if(trim($email) == ''){
-			return 1;
-		}
-		$r = DB::sql('SELECT COUNT(*) AS num FROM `users` WHERE `email` = :email', array(':email' => $email));
+	/*
+		根据uid和group修改用户名字
+		并且返回更新后的用户关联数组
+	*/
+	static function update($user){
 
-		return $r[0][num];
+		$sql = "UPDATE `snsUsers` SET `name` = :name WHERE `uid` = :uid AND `group` = :group";
+		DB::sql($sql, array(
+			':name' => trim($user['name']), 
+			':uid' => trim($user['uid']),
+			':group' => trim($user['group']) 
+			));
+
+		return self::exists($user);
+	}
+
+	/*
+		检测uid和group用户是否存在
+		如果存在,返回该用户的关联数组
+		如果不存在,返回 FALSE
+	*/
+	static function exists($user){
+
+		$sql = 'SELECT * FROM `snsUsers` WHERE `uid` = :uid AND `group` = :group';
+		$r = DB::sql($sql, array(
+			':uid' => trim($user['uid']), 
+			':group' => trim($user['group'])
+			));
+
+		if(empty($r))
+			return FALSE;
+		else
+			return $r[0];
+	}
+
+	/*
+		插入一个新用户的uid和grouph和name
+		如果插入成功,返回新用户的关联数组
+		如果插入失败,返回 FALSE
+	*/
+	static function insert($user){
+
+		if(trim($user['uid']) == '' || trim($user['group']) == '')  
+			return FALSE;
+
+		$sql = "INSERT INTO `snsUsers` (`uid`, `name`, `group`) VALUES (:uid, :name, :group)";
+		$r = DB::sql($sql, array(
+			':uid' => trim($user['uid']), 
+			':name' => trim($user['name']),
+			':group' => trim($user['group'])
+			));
+
+		if($r == 1)
+			return self::exists($user);
+		else
+			return FALSE;
 	}
 
 	static function valid($email, $pass){
@@ -31,24 +80,31 @@ class Account{
 	}
 
 	static function login($user){
-		setcookie('se_user_id', $user['id']);
-		setcookie('se_user_name', $user['displayname']);
-		setcookie('se_user_token', self::generate_login_token($user['id']));
+		setcookie('se_user_id', $user['id'], time() + 86400, '/');
+		setcookie('se_user_uid', $user['uid'], time() + 86400, '/');
+		setcookie('se_user_name', $user['name'], time() + 86400, '/');
+		setcookie('se_user_group', $user['group'], time() + 86400, '/');
+		setcookie('se_user_token', self::generate_login_token($user['id']), time() + 86400, '/');
 	}
 
 	static function logout(){
-		setcookie('se_user_id', '', time() - 86400);
-		setcookie('se_user_name',  '', time() - 86400);
-		setcookie('se_user_token',  '', time() - 86400);
+		setcookie('se_user_id', '', time() - 86400, '/');
+		setcookie('se_user_uid', '', time() - 86400, '/');
+		setcookie('se_user_name', '', time() - 86400, '/');
+		setcookie('se_user_group', '', time() - 86400, '/');
+		setcookie('se_user_token', '', time() - 86400, '/');
 	}
 
 	static function is_login(){
 		$cookie = F3::get('COOKIE');
 
+		if(!isset($cookie['se_user_id']) || !isset($cookie['se_user_token']))
+			return FALSE;
+
 		if($cookie['se_user_id'] != ''){
 			return self::validate_login_token($cookie['se_user_id'], $cookie['se_user_token']);
 		}else{
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -59,14 +115,17 @@ class Account{
 		return F3::get('COOKIE.se_user_name');
 	}
 
-	static function generate_login_token($uid){
-		return md5( $uid . F3::get('TOKEN_SALT') );
+	static function generate_login_token($id){
+		return md5( $id . F3::get('TOKEN_SALT') );
 	}
 
-	static function validate_login_token($uid, $token){
-		$valid = self::generate_login_token($uid);
+	static function validate_login_token($id, $token){
+		$valid = self::generate_login_token($id);
 
-		return $token == $valid;
+		if($token == $valid)
+			return TRUE;
+		else
+			return FALSE;
 	}
 };
 
