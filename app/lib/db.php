@@ -38,6 +38,14 @@ class DB extends Base {
 		//! Number of rows affected by query
 		$rows=0;
 
+	/*
+		返回最后一次插入的自增id
+	*/
+	static function get_insert_id()
+	{
+		return self::$vars['DB']->pdo->lastInsertId();
+	}
+
 	/**
 		Force PDO instantiation
 			@public
