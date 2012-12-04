@@ -1,7 +1,21 @@
 <?php
+/**
+ * SEEvent Class
+ *
+ * @package   Slimevent
+ **/
 
+/**
+ * Action for Event
+ */
 class SEEvent{
 
+
+/**
+ * Autoload a class
+ *
+ * @return void
+ */
    	function __construct()
 	{
 		if(Account::is_login() === FALSE)

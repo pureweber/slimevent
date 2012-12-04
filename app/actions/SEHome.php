@@ -1,4 +1,13 @@
 <?php
+/**
+ * SEHomeClass
+ *
+ * @package   Slimevent
+ **/
+
+/**
+ * Action for Home
+ */
 
 class SEHome{
 
