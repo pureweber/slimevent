@@ -40,7 +40,14 @@
 								<li><a href="#"><i class="icon-bullhorn"></i> 反馈</a></li>
 							</ul>
 						</li>
-						<li><a href="{{@WEB_ROOT}}logout"><i class="icon-signout"></i> 退出</a></li>
+						<F3:check if="{{ @COOKIE.se_login }}">
+							<F3:true>
+						<li><a href="{{@WEB_ROOT}}accounts/logout"><i class="icon-signout"></i> 退出</a></li>
+							</F3:true>
+							<F3:false>
+						<li><a href="{{@WEB_ROOT}}accounts/login"><i class="icon-signout"></i> 登录</a></li>
+							</F3:false>
+						</F3:check>
 					</ul>
 					<form class="navbar-search pull-right">
 						  <input type="text" class="span2 search-query" placeholder="Search..." />

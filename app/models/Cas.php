@@ -31,9 +31,8 @@ class CAS{
 		// for this test, simply print that the authentication was successfull
 
 		$user = Array();
-		$user['uid'] = phpCAS::getUser();
-		$user['name'] = phpCAS::getUser();
-		$user['group'] = F3::get('CAS_GROUP_NAME');
+		$user['stu_id'] = phpCAS::getUser(); //学号信息
+		//以后添加性别 班级 姓名 学院等信息
 
 		return $user;
 	}
