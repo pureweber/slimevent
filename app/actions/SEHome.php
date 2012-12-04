@@ -75,7 +75,6 @@ class SEHome{
 
 		Account::login($now_user);
 		F3::reroute('/');
-		*/
 	}
 
 };

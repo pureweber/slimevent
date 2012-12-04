@@ -48,7 +48,7 @@ class Account{
 		$r = DB::sql($sql, array(
 			':name' => trim($name), 
 			':pwd' => md5(trim($pwd)),
-			':group' => trim($group])
+			':group' => trim($group)
 			));
 
 		if($r == 1)
