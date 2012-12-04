@@ -3,6 +3,20 @@ body{
 }
 .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
 }
+#login{
+	margin-top:75px;
+}
+#login .item{
+	padding-top:10px;
+	height:50px;
+}
+.login-label{
+	float:left;
+	width:70px;
+	padding-right:15px;
+	text-align:right
+}
+
 
 .navbar .brand{
 	/*color:#fff;*/
