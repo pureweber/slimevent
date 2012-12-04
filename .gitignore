@@ -1,3 +1,6 @@
 cas/cas.cer
 static/font-awesome
 temp
+.*.swp
+.*.swo
+
