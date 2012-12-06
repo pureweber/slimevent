@@ -31,11 +31,18 @@
 
 
 					<ul class="nav pull-right">
-						<F3:check if="{{ @COOKIE.se_login }}">
-							<F3:true>
-						<li><a href="{{@WEB_ROOT}}accounts/logout"><i class="icon-signout"></i> 退出</a></li>
-							</F3:true>
-							<F3:false>
+					<F3:check if="{{ @COOKIE.se_login }}">
+						<F3:true>
+						
+						<li>
+							<a href="#"><span>{{@COOKIE.se_user_name}}</span></a>
+						</li>
+						<li>
+							<a href="{{@WEB_ROOT}}accounts/logout"><i class="icon-signout"></i> 退出</a>
+						</li>
+						
+						</F3:true>
+						<F3:false>
 						<li class="dropdown">
 							<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 								<i class="icon-signin"></i> 登录
@@ -45,7 +52,7 @@
 								<li><a href="{{@WEB_ROOT}}accounts/auth_login?auth=cas"><i class="icon-user"></i> 学生登录</a></li>
 								<!--<li><a href="#"><i class="icon-retweet"></i> SNS绑定</a></li>-->
 								<li class="divider"></li>
-								<li><a href="#"><i class="icon-bullhorn"></i> 管理登录</a></li>
+								<li><a href="{{@WEB_ROOT}}accounts/admin/login"><i class="icon-bullhorn"></i> 管理登录</a></li>
 							</ul>
 						</li>
 							</F3:false>

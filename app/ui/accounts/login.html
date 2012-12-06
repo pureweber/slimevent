@@ -3,19 +3,28 @@
 	<div class="container">
 		<div class="row" id="login">
 			<div class="span7">
-				<form class="form-horizontal" action="{{@WEB_ROOT}}admin/signup" method="post">
+				<form class="form-horizontal" action="" method="post">
 
 					<h3>用户登录</h3>
+
+						<F3:check if="{{@show_msg}}">
+							<F3:true>
+						<div class="alert alert-error">
+							{{@msg}}
+						</div>
+							</F3:true>
+						</F3:check>
+
 
 				<!------------------------------------------------>
 					<div class="item">
 						<label class="login-label">用户名</label>
-						<input class="input-xlarge" id="content" name="name" type="text" class="span3" >
+						<input class="input-xlarge" id="content" name="user_name" type="text" class="span3" >
 					</div>
 
 					<div class="item">
 						<label class="login-label">密码</label>
-						<input class="input-xlarge" id="time" name="password" type="password" class="span3" >
+						<input class="input-xlarge" id="time" name="user_pwd" type="password" class="span3" >
 						<a href="{{@WEB_ROOT}}forgot-password" style="color:#999">忘记密码？</a>
 					</div>
 
@@ -37,67 +46,67 @@
 
 				</form>
 			</div>
-			<div class="span4" style="padding:0 0 20px 40px;border-left:1px solid #e7e7e7">
-				<h5>还不是超盟注册用户？</h5>
-				<p>现在免费注册成为超盟注册用户，即刻享受便宜又放心的购物体验。</p>
-				<a href="{{@WEB_ROOT}}signup" class="btn">快速注册</a>
+			<div class="span4" style="padding:40px 0 40px 40px;border-left:1px solid #e7e7e7">
+				<h5>快来加入SlimEvent！</h5>
+				<p>加入SlimEvent。</p>
+				<a href="{{@WEB_ROOT}}signup" class="btn">我要加入</a>
 			</div>
 		</div>
 	</div><!-- Container -->
 
 
-		<div class="container">
-			<div class="row">
+		<!--<div class="container">-->
+			<!--<div class="row">-->
 
-				<div class="span6">
-					<h2> 个人登录 </h3>
+				<!--<div class="span6">-->
+					<!--<h2> 个人登录 </h3>-->
 
-					<a class="btn btn-large btn-danger" href="{{@WEB_ROOT}}accounts/auth_login?auth=cas">
-						<i class="icon-user"></i> 通过工大统一身份认证登录
-					</a>
-					<div class="alert alert-block">
-						<button type="button" class="close" data-dismiss="alert">Hide</button>
-					  	<h4>温馨提示</h4>
-							为保证登录用户的有效性以及真实性,目前直支持哈工大CAS登录.
-					</div><!-- alert -->
-				</div><!-- span6 -->
+					<!--<a class="btn btn-large btn-danger" href="{{@WEB_ROOT}}accounts/auth_login?auth=cas">-->
+						<!--<i class="icon-user"></i> 通过工大统一身份认证登录-->
+					<!--</a>-->
+					<!--<div class="alert alert-block">-->
+						<!--<button type="button" class="close" data-dismiss="alert">Hide</button>-->
+						  <!--<h4>温馨提示</h4>-->
+							<!--为保证登录用户的有效性以及真实性,目前直支持哈工大CAS登录.-->
+					<!--</div>[> alert <]-->
+				<!--</div>[> span6 <]-->
 
-				<div class="span6">
-					<h2> 社团登录 </h2>
-					<form class="form-horizontal" method="POST">
+				<!--<div class="span6">-->
+					<!--<h2> 社团登录 </h2>-->
+					<!--<form class="form-horizontal" method="POST">-->
 
-						<F3:check if="{{@show_msg}}">
-							<F3:true>
-						<div class="alert alert-error">
-							{{@msg}}
-						</div>
-							</F3:true>
-						</F3:check>
+						<!--<F3:check if="{{@show_msg}}">-->
+							<!--<F3:true>-->
+						<!--<div class="alert alert-error">-->
+							<!--{{@msg}}-->
+						<!--</div>-->
+							<!--</F3:true>-->
+						<!--</F3:check>-->
 
-						<div class="control-group">
-							<label class="control-label" for="inputEmail">账号</label>
-							<div class="controls">
-						  		<input type="text" id="inputEmail" name="user_name" placeholder="Email">
-							</div>
-					  	</div>
+						<!--<div class="control-group">-->
+							<!--<label class="control-label" for="inputEmail">账号</label>-->
+							<!--<div class="controls">-->
+								  <!--<input type="text" id="inputEmail" name="user_name" placeholder="Email">-->
+							<!--</div>-->
+						  <!--</div>-->
 
-					  	<div class="control-group">
-							<label class="control-label" for="inputPassword">密码</label>
-							<div class="controls">
-						  		<input type="password" id="inputPassword" name="user_pwd" placeholder="Password">
-							</div>
-					  	</div>
+						  <!--<div class="control-group">-->
+							<!--<label class="control-label" for="inputPassword">密码</label>-->
+							<!--<div class="controls">-->
+								  <!--<input type="password" id="inputPassword" name="user_pwd" placeholder="Password">-->
+							<!--</div>-->
+						  <!--</div>-->
 
-					  	<div class="control-group">
-							<div class="controls">
-							  	<button type="submit" class="btn btn-primary">登录</button>
-							</div>
-					 	</div>
+						  <!--<div class="control-group">-->
+							<!--<div class="controls">-->
+								  <!--<button type="submit" class="btn btn-primary">登录</button>-->
+							<!--</div>-->
+						 <!--</div>-->
 
-					</form>
-				</div><!-- span6 -->
+					<!--</form>-->
+				<!--</div>[> span6 <]-->
 
-			</div><!-- row -->
-		</div><!-- Container -->
+			<!--</div>[> row <]-->
+		<!--</div>[> Container <]-->
 
 <F3:include href="common/footer.html" />
