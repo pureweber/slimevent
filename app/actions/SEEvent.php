@@ -78,10 +78,10 @@ class SEEvent{
 
 	function show(){
 		F3::set('route', array('discover', 'intro'));
-		$event = Event::getevent(F3::get('PARAMS.eventID'));
-		F3::set('event',$event[0]);
+		//$event = Event::getevent(F3::get('PARAMS.eventID'));
+		//F3::set('event',$event[0]);
 
-		echo Template::serve('event/event.html');
+		echo Template::serve('event/event1.html');
 	}
 
 	function photos(){
