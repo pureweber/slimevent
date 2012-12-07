@@ -13,13 +13,14 @@ class SEHome{
 
 	function run()
 	{
-		if(Account::is_login() === TRUE)
-			echo Template::serve('hello.html');
-		else
-			F3::reroute('/accounts/login');
+		echo Template::serve('index.html');
+		//if(Account::is_login() === TRUE)
+			//echo Template::serve('hello.html');
+		//else
+			//F3::reroute('/accounts/admin/login');
 	}
 
-	function show_login()
+	function show_admin_login()
 	{
 		//show_msg = 1 表示 密码不正确类型 其余可扩充
 		if(F3::get('GET.show_msg') == 1)
@@ -31,7 +32,7 @@ class SEHome{
 		echo Template::serve('accounts/login.html');
 	}
 
-	function login()  
+	function admin_login()
 	{
 		$user_name = F3::get('POST.user_name');
 		$user_pwd = F3::get('POST.user_pwd');
@@ -40,7 +41,7 @@ class SEHome{
 
 		if($user === FALSE)
 			//show_msg = 1 表示 密码不正确类型 其余可扩充
-			F3::reroute('/accounts/login/?show_msg=1');  
+			F3::reroute('/accounts/admin/login/?show_msg=1');  
 		else
 		{
 			$user = Account::set_cookie($user);
