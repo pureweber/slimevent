@@ -46,7 +46,7 @@ class Account{
 	private static function validate_login_token()
 	{
 		$id = F3::get('COOKIE.se_user_id');
-		$name = F3::get('COOKIE.se_user_id');
+		$name = F3::get('COOKIE.se_user_name');
 		$group = F3::get('COOKIE.se_user_group');
 		$token = F3::get('COOKIE.se_user_token');
 
