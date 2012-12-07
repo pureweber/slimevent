@@ -19,7 +19,7 @@
 <div class="control-group">
 <label class="control-label" for="input01">活动名称</label>
 
-<div class="controls"> <input type="text" class="input-xlarge" id="input01" name ="title"> <span class="help-inline">4~16个字符之间</span> </div>
+<div class="controls"> <input type="text" class="input-xlarge" id="title" name ="title"> <span class="help-inline">4~16个字符之间</span> </div>
 </div>
 <div class="control-group">
 <label class="control-label" for="input01">活动地点</label>
@@ -29,7 +29,7 @@
 <div class="control-group">
 <label class="control-label" for="input01">开始时间</label>
 
-<div class="controls"> <input type="text" class="input-xlarge" id="input01" name ="starttime"> <span class="help-inline">时间格式：YYYY-MM-DD HH:MM:SS</span> </div>
+<div class="controls"> <input type="text" class="input-xlarge" id="input1" name ="starttime"> <span class="help-inline">时间格式：YYYY-MM-DD HH:MM:SS</span> </div>
 </div>
 <div class="control-group">
 <label class="control-label" for="input01">结束时间</label>
@@ -63,25 +63,7 @@
 <fieldset>
 <legend>活动详情</legend>
 
-<div class="control-group">
-<div class="btn-toolbar">
-<div class="btn-group">
-<a class="btn" href="#"><i class="icon-font"></i></a>
-<a class="btn" href="#"><i class="icon-bold"></i></a>
-<a class="btn" href="#"><i class="icon-italic"></i></a>
-<a class="btn" href="#"><i class="icon-underline"></i></a>
-</div>
-<div class="btn-group">
-<a class="btn" href="#"><i class="icon-link"></i></a>
-<a class="btn" href="#"><i class="icon-list-ul"></i></a>
-<a class="btn" href="#"><i class="icon-list-ol"></i></a>
-</div>
-<div class="btn-group">
-<a class="btn" href="#"><i class="icon-file"></i></a>
-</div>
-</div>
-
-<textarea class="input-xlarge" style="width:90%;height:250px;" name="introduction"></textarea>
+<textarea id="content" class="input-xlarge" style="width:90%;height:250px;" name="introduction"></textarea>
 </div>
 </fieldset>
 <fieldset>
@@ -102,9 +84,44 @@
 </p>
 </form>
 
+<button class="btn" onclick="save()">保存</button>
+
 </article>
 </div><!-- span10 -->
 </div><!-- row -->
 </div><!-- Container -->
+
+<script src="{{@WEB_ROOT}}static/editor/scripts/innovaeditor.js" type="text/javascript"></script>
+
+<script src="{{@WEB_ROOT}}static/editor/scripts/innovamanager.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('#content').liveEdit({
+			css: ['{{@WEB_ROOT}}static/bootstrap/css/bootstrap.min.css', '{{@WEB_ROOT}}static/bootstrap/bootstrap_extend.css'],
+			groups: [
+				["group1", "", ["Bold", "Italic", "Underline", "ForeColor", "RemoveFormat"]],
+				["group2", "", ["Bullets", "Numbering", "Indent", "Outdent"]],
+				["group3", "", ["Paragraph", "FontSize", "LinkDialog", "ImageDialog", "TableDialog", "Emoticons", "Snippets"]],
+				["group4", "", ["Undo", "Redo", "FullScreen" ]]
+				] /* Toolbar configuration */
+		});
+
+		$('#content').data('liveEdit').startedit(); /* Run the Editor */
+		$("#title").focus();
+	});
+
+    function save() {
+		var sHtml = $('#content').data('liveEdit').getXHTMLBody(); //Use before finishedit()
+		$('#content').data('liveEdit').finishedit();
+
+		$('#btnEdit').css('display', 'inline'); 
+		$('#btnSave').css('display', 'none');
+
+		alert(sHtml); /*You can use the sHtml for any purpose, eg. saving the content to your database, etc, depend on you custom app */
+	}
+
+</script>
+
 
 <F3:include href="common/footer.html" />

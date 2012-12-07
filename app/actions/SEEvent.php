@@ -16,9 +16,6 @@ class SEEvent{
 	}
 
 	function create(){
-		$id = Account::the_user_id(); //这个是当前登录用户的id
-		//你需要修改下面的代码和models里Event.php里的createevent()函数,使得创建活动用户的id也存到event表里
-
 		$a =Event::createevent(
 			$_POST["title"],
 			$_POST["sort"],
@@ -28,6 +25,16 @@ class SEEvent{
 			$_POST["endtime"],
 			$_POST["introduction"]
 		);
+		$d = array();
+		$d['title'] = F3::get("POST.title");
+		//$d['date'] = F3::get("POST.date");
+		$d['time'] = F3::get("POST.time");
+		$d['region'] = F3::get("POST.region");
+		$d['addr'] = F3::get("POST.addr");
+		$d['content'] = F3::get("POST.content");
+
+		$d['category'] = F3::get("POST.category");
+		$d['lable'] = F3::get("POST.lable");
 
 		F3::reroute("/event/{$a}");
 	}
@@ -67,7 +74,7 @@ class SEEvent{
 	}
 
 	function show_create(){
-		echo Template::serve('create.html');
+		echo Template::serve('event/create.html');
 	}
 
 	function show(){
