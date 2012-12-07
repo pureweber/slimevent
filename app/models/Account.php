@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * 用户父类
+ * @package slimevent
+ */
+
 class Account{
 
 	/**
@@ -148,9 +153,10 @@ class Account{
 	{
 		$sql = 'SELECT * FROM `users` WHERE `name` = :name';
 		$r = DB::sql($sql, array(':name' => trim($name)));
-
 		if(empty($r))
+		{
 			return false;
+		}
 		else
 			return $r[0];
 	}
@@ -165,7 +171,7 @@ class Account{
 		if(trim($name) == '' || trim($pwd) == '' || trim($group) == '')  
 			return false;
 
-		$sql = "INSERT INTO `users` (`name`, `pwd`, `group`) VALUES (:name, :pwd, :goup)";
+		$sql = "INSERT INTO `users` (`name`, `pwd`, `group`) VALUES (:name, :pwd, :group)";
 		$r = DB::sql($sql, array(
 			':name' => trim($name), 
 			':pwd' => md5(trim($pwd)),

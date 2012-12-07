@@ -3,6 +3,10 @@
 
 class Event{
 
+	/**
+	 * 设置当前用户cookie
+	 * @param $id 用户关联数组
+	 */
 	static function getevent($id)
 	{
     	return $r=DB::sql("select * from event where id= :id",array(':id' => $id));
