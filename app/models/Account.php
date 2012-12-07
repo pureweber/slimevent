@@ -98,7 +98,7 @@ class Account{
 	 */
 	static function logout()
 	{
-		unset_cookie();
+		self::unset_cookie();
 	}
 
 	/**
