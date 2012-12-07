@@ -1,0 +1,110 @@
+<F3:include href="common/header.html" />
+
+<div class="container">
+
+<div class="row">
+<div class="span2">
+<F3:include href="common/sidebar.html" />
+</div>
+<div class="span10">
+
+
+<h1>创建活动</h1>
+<article class="event">
+
+<form class="form-horizontal" method='post'>
+
+<fieldset>
+<legend>基本信息</legend>
+<div class="control-group">
+<label class="control-label" for="input01">活动名称</label>
+
+<div class="controls"> <input type="text" class="input-xlarge" id="input01" name ="title"> <span class="help-inline">4~16个字符之间</span> </div>
+</div>
+<div class="control-group">
+<label class="control-label" for="input01">活动地点</label>
+
+<div class="controls"> <input type="text" class="input-xlarge" id="input01" name ="location"> <span class="help-inline">2~15个字符之间</span> </div>
+</div>
+<div class="control-group">
+<label class="control-label" for="input01">开始时间</label>
+
+<div class="controls"> <input type="text" class="input-xlarge" id="input01" name ="starttime"> <span class="help-inline">时间格式：YYYY-MM-DD HH:MM:SS</span> </div>
+</div>
+<div class="control-group">
+<label class="control-label" for="input01">结束时间</label>
+
+<div class="controls"> <input type="text" class="input-xlarge" id="input01" name ="endtime"><span class="help-inline">时间格式：YYYY-MM-DD HH:MM:SS</span> </div>
+</div>
+<div class="control-group">
+<label class="control-label" for="input01">分类</label>
+<div class="controls"> <select name="sort">
+<option value="讲座">讲座</option>
+<option value="招聘会">招聘会</option>
+<option value ="比赛">比赛</option>
+<option value ="聚会">聚会</option>
+<option value ="集体活动">集体活动</option>
+<option value ="投票">投票</option>
+<option value = "征集签名">征集签名</option>
+</select> <span class="help-inline">选择适当的分类会增加你的活动的曝光率</span> </div>
+</div>
+<div class="control-group">
+<label class="control-label" for="input01">标签</label>
+<div class="controls">
+<input type="text" class="input-xlarge" name = "label"/> <span class="help-inline">选择合适的标签，让用户更容易找到你的活动</span>
+<p class="help-block"><code>人文</code> <code>技术</code> <code>公益</code> <code>宣讲</code> <code>科普</code></p>
+</div>
+</div>
+<div class="control-group">
+<label class="control-label" for="input01">主图片</label>
+<div class="controls"> <input type="file" class="input-file input-xlarge" id="input01"> <span class="help-inline">建议大小, 800x350像素</span></div>
+</div>
+</fieldset>
+<fieldset>
+<legend>活动详情</legend>
+
+<div class="control-group">
+<div class="btn-toolbar">
+<div class="btn-group">
+<a class="btn" href="#"><i class="icon-font"></i></a>
+<a class="btn" href="#"><i class="icon-bold"></i></a>
+<a class="btn" href="#"><i class="icon-italic"></i></a>
+<a class="btn" href="#"><i class="icon-underline"></i></a>
+</div>
+<div class="btn-group">
+<a class="btn" href="#"><i class="icon-link"></i></a>
+<a class="btn" href="#"><i class="icon-list-ul"></i></a>
+<a class="btn" href="#"><i class="icon-list-ol"></i></a>
+</div>
+<div class="btn-group">
+<a class="btn" href="#"><i class="icon-file"></i></a>
+</div>
+</div>
+
+<textarea class="input-xlarge" style="width:90%;height:250px;" name="introduction"></textarea>
+</div>
+</fieldset>
+<fieldset>
+<legend>发布选项</legend>
+<div class="control-group">
+<label class="control-label">SNS同步</label>
+<div class="controls">
+<label><input type="checkbox" /> 同步到新浪微博</label>
+<label><input type="checkbox" /> 同步到腾讯微博</label>
+<label><input type="checkbox" /> 同步到人人网</label>
+<label><input type="checkbox" /> 同步到Google+</label>
+</div>
+</div>
+</fieldset>
+
+<p>
+<button type="submit" class="btn btn-success"><i class="icon-ok-sign"></i> 创建活动</button>
+</p>
+</form>
+
+</article>
+</div><!-- span10 -->
+</div><!-- row -->
+</div><!-- Container -->
+
+<F3:include href="common/footer.html" />

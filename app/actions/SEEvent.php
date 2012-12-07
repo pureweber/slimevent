@@ -10,16 +10,9 @@
  */
 class SEEvent{
 
-
-/**
- * Autoload a class
- *
- * @return void
- */
-   	function __construct()
+	function __construct()
 	{
-		if(Account::is_login() === FALSE)
-			F3::reroute('/');
+		SECommon::set_unread_msg_num();
 	}
 
 	function create(){
@@ -59,6 +52,7 @@ class SEEvent{
 		echo "参加活动的id: ".$eid;
 		//显示id为eid活动的所有参与者信息(名字,起始空闲时间)
 	}
+
 	function my()
 	{
 		$uid = Account::the_user_id(); //这个是当前登录用户的id
@@ -77,6 +71,7 @@ class SEEvent{
 	}
 
 	function show(){
+		F3::set('subnav', true);
 		F3::set('route', array('discover', 'intro'));
 		//$event = Event::getevent(F3::get('PARAMS.eventID'));
 		//F3::set('event',$event[0]);
@@ -85,11 +80,13 @@ class SEEvent{
 	}
 
 	function photos(){
+		F3::set('subnav', true);
 		F3::set('route', array('discover', 'photo'));
 
 		echo Template::serve('event/photo.html');
 	}
 	function discussion(){
+		F3::set('subnav', true);
 		F3::set('route', array('discover', 'discussion'));
 
 		echo Template::serve('event/discussion.html');

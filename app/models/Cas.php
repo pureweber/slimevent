@@ -10,7 +10,7 @@ class CAS{
 		phpCAS::setDebug(false);
 
 		// initialize phpCAS
-		phpCAS::client(CAS_VERSION_2_0,'cas.hit.edu.cn',443, '');
+		phpCAS::client(CAS_VERSION_2_0,'cas.hit.edu.cn',443, 'cas');
 
 		$cert = dirname(__FILE__) . '/cas.cer';
 
