@@ -30,7 +30,8 @@ class SEHome{
 		$data['email'] = "hhaaa@mail";
 		$data['phone'] = "ii2222111";
 		$data['introduction'] = "luggwoaipin";
-		Org::edit_basic_info($data);
+		//Org::edit_basic_info($data);
+		Student::register(111);
 
 		//Student::add_basic_info($data);
 		//Student::edit_basic_info($data);
