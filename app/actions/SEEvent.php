@@ -73,6 +73,10 @@ class SEEvent{
 		*/
 	}
 
+	function show_edit(){
+		echo Template::serve('event/edit.html');
+	}
+
 	function show_create(){
 		echo Template::serve('event/create.html');
 	}
