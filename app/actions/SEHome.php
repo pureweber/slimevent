@@ -19,7 +19,10 @@ class SEHome{
 		//Admin::add_user("cslub", "123", "club", "normal");
 		//Admin::add_user("orghit", "123", "org", "normal");
 		$data = array();
-
+		$event = array();
+		$event['title'] = "aaaaa";
+		$event['region'] = "2";
+		$event['time'] = "22012";
 		$data['name'] = "aaa";
 		$data['no'] = "bb831";
 		$data['sex'] = "ccfemale";
@@ -31,8 +34,9 @@ class SEHome{
 		$data['phone'] = "ii2222111";
 		$data['introduction'] = "luggwoaipin";
 		//Org::edit_basic_info($data);
-		Student::register(111);
-
+//		Student::register(111);
+		//Event::create($event);
+		Event::show(20);
 		//Student::add_basic_info($data);
 		//Student::edit_basic_info($data);
 		//Admin::edit_user_info(14,$data);

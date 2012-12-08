@@ -12,8 +12,7 @@ class Club extends Account{
 	 */
 	static function edit_basic_info($data)
 	{
-		//$uid = self::the_user_id();
-		$uid = 16;
+		$uid = self::the_user_id();
 
 		$sql = "UPDATE `club` SET `introduction` = :intro WHERE `uid` = :uid";
 

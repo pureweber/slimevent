@@ -1,24 +1,41 @@
-
 <?php
+
+	/**
+	 * 活动类
+	 * @package Slimevent
+	 */
 
 class Event{
 
 	/**
-	 * 设置当前用户cookie
-	 * @param $id 用户关联数组
+	 * 在event表里创建一个新活动
+	 * @param $data : 活动信息关联数组
+	 * @return bool
 	 */
-	static function getevent($id)
+	static function create($data)
 	{
-    	return $r=DB::sql("select * from event where id= :id",array(':id' => $id));
+		$r = EDB::insert('event',$data);
+
+		if($r == 1)
+			return true;
+		else
+			return false;
 	}
 
-	static function createevent($title,$sort,$label,$location,$starttime,$endtime,$introduction)
+	/**
+	 * 根据eid得到活动信息
+	 * @param $eid : 活动id
+	 * @return 不存在返回false 存在返回关联数组
+	 */
+	static function show($eid)
 	{
-	 	DB::sql("insert into event(title,sort,label,location,starttime,endtime,introduction) values(:title,:sort,:label,:location,:starttime,:endtime,:introduction)",array(':title' => $title,':sort' => $sort,':label' => $label,':location'=>$location,':starttime'=>$starttime,':endtime'=>$endtime,':introduction' => $introduction));
+		$sql = "SELECT * FROM `event` WHERE `eid` = :eid";
+		$r = DB::sql($sql, array(':eid' => $eid));
 
-		return DB::get_insert_id();
-
+		if(empty($r))
+			return false;
+		else
+			return $r['0'];
 	}
 };
-
 ?>

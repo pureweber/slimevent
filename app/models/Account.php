@@ -78,12 +78,12 @@ class Account{
 	protected static function encrypt_pwd($pwd)
 	{
 		return md5(F3::get('PWD_SALT').trim($pwd));
-
 	}
 
 	/**
 	 * 登录系统
-	 * @param	$name : 用户名 $pwd : 密码
+	 * @param  $name : 用户名 
+	 * @param  $pwd : 密码
 	 * @return true : 正确登录	false : 用户名或密码不正确  status : 登录失败,返回用户状态
 	 */
 	static function login($name, $pwd)
