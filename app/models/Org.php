@@ -14,8 +14,7 @@ class Org extends Account{
 	 */
 	static function edit_basic_info($data)
 	{
-		//$uid = self::the_user_id();
-		$uid = 17;
+		$uid = self::the_user_id();
 
 		$sql = "UPDATE `org` SET `introduction` = :intro WHERE `uid` = :uid";
 

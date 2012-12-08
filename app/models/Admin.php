@@ -10,7 +10,10 @@ class Admin	extends Service{
 
 	/*
 	 * 添加一个用户
-	 * @param $name : 用户名 $pwd : 密码 $group : 用户组 $status : 用户状态(默认空为正常太)
+	 * @param $name : 用户名 
+	 * @param $pwd : 密码 
+	 * @param $group : 用户组 
+	 * @param $status : 用户状态(默认空为正常太)
 	 * @return bool 成功返回true 失败返回false
 	 */
 	static function add_user($name, $pwd, $group, $status = "")
@@ -35,7 +38,8 @@ class Admin	extends Service{
 
 	/**
 	 * 修改任意用户密码
-	 * @param $uid : 用户在users表里的id  $pwd : 新密码
+	 * @param $uid : 用户在users表里的id  
+	 * @param $pwd : 新密码
 	 * @return bool 成功返回true 失败返回false
 	 */
 	static function reset_user_pwd($uid, $pwd)
@@ -51,7 +55,8 @@ class Admin	extends Service{
 
 	/**
 	 * 修改某用户状态
-	 * @param $uid : 用户在users表里的id $status : 用户新状态
+	 * @param $uid : 用户在users表里的id 
+	 * @param $status : 用户新状态
 	 * @return bool 成功返回true 失败返回false
 	 */
 	static function change_user_status($uid, $status)
@@ -125,7 +130,8 @@ class Admin	extends Service{
 
 	/**
 	 * 修改某用户基本信息
-	 * @param $uid : 用户在users表里的id $data : 信息关联数组
+	 * @param $uid : 用户在users表里的id 
+	 * @param $data : 信息关联数组
 	 * @return bool 成功返回true  失败返回false
 	 */
 	static function edit_user_info($uid, $data)
