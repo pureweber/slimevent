@@ -1,0 +1,127 @@
+<F3:include href="common/header.html" />
+
+<div class="container">
+
+
+
+	<div class="row">
+		
+		<div class="span2" style="margin-top:100px">
+			<div class="well" style="padding: 8px 0 margin-top:100px">
+				<ul class="nav nav-list">
+					<li class="nav-header">快速查看</li>
+					<li><a href="#info">社团信息</a></li>
+					<li><a href="#msg-box">站内消息</a></li>
+					<li><a href="#event-list">活动列表</a></li>
+					<li class="divider"></li>
+					<li><a href="#">帮助</a></li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="offset1 span9">
+
+		<div class="row" id="info">
+			<h3>社团信息</h3>
+			<!--<div>-->
+				<!--<table class="table">-->
+					<!--<tr>-->
+						<!--<td>名称</td>-->
+						<!--<td>俱乐部</td>-->
+					<!--</tr>-->
+					<!--<tr>-->
+						<!--<td>即将举行的活动</td>-->
+						<!--<td>2</td>-->
+					<!--</tr>-->
+				<!--</table>-->
+			<!--</div>-->
+		</div>
+
+		<div class="row" id="msg-box">
+			<h3>站内消息</h3>
+		</div>
+
+		<div class="row" id="event-list">
+			<!--Banner-->
+			<div>
+				
+				<h3 style="display:inline">活动列表</h3>
+
+				<!--<div style="float:right">-->
+					<a href="{{@WEB_ROOT}}create" class="btn btn-large">创建新活动</a>
+				<!--</div>-->
+			</div>
+
+			<table class="table" style="margin-top:20px">
+				<tr>
+					<th>序号</th>
+					<th width="45%">标题</th>
+					<th>时间</th>
+					<th>参加人数</th>
+					<th>感兴趣人数</th>
+					<th width="12%">操作</th>
+				</tr>
+
+			<F3:repeat group="{{@events}}" value="{{@event}}" counter="{{@count}}">
+				<tr>
+					<td>{{@count}}</td>
+					<td><a href="{{@WEB_ROOT}}event/{{@event.eid}}">{{@event.title}}</a></td>
+					<td>{{@event.date}}</td>
+					<td><a href="{{@WEB_ROOT}}event/{{@event.eid}}/join/list">{{@event.join}}</a></td>
+					<td>{{@event.praise}}</td>
+					<td><a href="{{@WEB_ROOT}}event/{{@event.eid}}/edit" class="btn btn-primary">编辑</a></td>
+				</tr>
+			</F3:repeat>
+
+				<tr>
+					<td>1</td>
+					<td><a href="#">计算机科学与技术学院电影放映活动--本周放映永无止境/药命效应</a></td>
+					<td>2012/12/12</td>
+					<td><a href="#">14</a></td>
+					<td>20</td>
+					<td><a href="{{@WEB_ROOT}}edit/1" class="btn btn-primary">编辑</a></td>
+				</tr>
+
+				<tr>
+					<td>2</td>
+					<td><a href="#">电影放映活动--本周放映永无止境/药命效应</a></td>
+					<td>2012/12/12</td>
+					<td>14</td>
+					<td>20</td>
+					<td><a href="{{@WEB_ROOT}}edit/1" class="btn btn-primary">编辑</a></td>
+				</tr>
+
+				<tr>
+					<td>3</td>
+					<td><a href="#">面向网络社区的问答对识别及语义挖掘研究</a></td>
+					<td>2012/12/18</td>
+					<td>12</td>
+					<td>19</td>
+					<td><a href="{{@WEB_ROOT}}edit/1" class="btn btn-primary">编辑</a></td>
+				</tr>
+			</table>
+
+
+			<div class="row pagination-right pagination">
+				<ul>
+					<li class="disabled"><a href="#">Prev</a></li>
+					<li class="disabled"><a href="#">1</a></li>
+					<li><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+					<li><a href="#">5</a></li>
+					<li><a href="#">6</a></li>
+					<li><a href="#">7</a></li>
+					<li><a href="#">8</a></li>
+					<li><a href="#">Next</a></li>
+				</ul>
+			</div>
+		</div> <!-- Row -->
+
+		</div>
+	</div>
+
+</div><!-- Container -->
+
+
+<F3:include href="common/footer.html" />
