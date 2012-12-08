@@ -6,6 +6,32 @@
 class Student extends Account{
 
 	/**
+	 * 注册学生用户(在users表里插入一条学生记录)
+	 * @param $name : 学生学号
+	 * @return bool 成功返回true 失败返回false
+	 */
+	static function register($name)
+	{
+		$group = F3::get('STUDENT_GROUP');
+		$pwd = self::encrypt_pwd(F3::get('DEFAULT_PWD'));
+		$status = F3::get('NORMAL_STATUS');
+
+		$sql = "INSERT INTO `users` (`name`,`pwd`,`group`,`status`) VALUES (:name, :pwd, :group, :status)";
+
+		$r = DB::sql($sql, array(
+			':name' => trim($name),
+			':pwd' => trim($pwd),
+			':group' => trim($group),
+			':status' => trim($status)
+			));
+
+		if($r == 1)
+			return true;
+		else
+			return false;
+	}
+
+	/**
 	 * 添加个人基本信息
 	 * @param $data : 个人信息关联数组
 	 * @return bool 成功true  失败false

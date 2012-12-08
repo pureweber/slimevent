@@ -13,9 +13,6 @@ class SEClub{
 		SECommon::set_unread_msg_num();
 	}
 
-<<<<<<< HEAD
-
-=======
 	function show_list(){
 		F3::set("title", "社团管理");
 		$data = array();
@@ -47,7 +44,6 @@ class SEClub{
 		F3::set('list', $data);
 		echo Template::serve('club/join.html');
 	}
->>>>>>> 4d1159c62063fc348f4ad35f0b4cf80d93a021da
 
 }
 
