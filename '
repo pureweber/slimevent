@@ -13,39 +13,23 @@ class SEHome{
 
 	function test()
 	{
-		//Admin::add_user("free", "123", "student", "normal");
-		//Admin::add_user("root", "123", "admin", "normal");
-		//Admin::add_user("service", "123", "service", "normal");
-		//Admin::add_user("cslub", "123", "club", "normal");
-		//Admin::add_user("orghit", "123", "org", "normal");
+		Admin::add_user("zhukejuin", "123", "admin", "black");
+
 		$data = array();
-
-		$data['name'] = "aaa";
-		$data['no'] = "bb831";
-		$data['sex'] = "ccfemale";
-		$data['class'] = "dd667";
-		$data['college'] = "ffhitaaa";
-		$data['major'] = "eeaa";
-		$data['avatar'] = "gg121";
-		$data['email'] = "hhaaa@mail";
-		$data['phone'] = "ii2222111";
-		$data['introduction'] = "luggwoaipin";
-		Org::edit_basic_info($data);
-
-		//Student::add_basic_info($data);
-		//Student::edit_basic_info($data);
-		//Admin::edit_user_info(14,$data);
-		//Admin::edit_user_info(1,'student',$data);
-	//	Admin::reset_user_pwd(11,2222);
+		$data['name'] = "lihai";
+		$data['no'] = "831";
+		$data['sex'] = "female";
+		$data['class'] = "667";
+		$data['college'] = "hit";
+		$data['major'] = "aa";
+		$data['avatar'] = "12";
+		$data['email'] = "@mail";
+		$data['phone'] = "11111";
+		$data['introduction'] = "woaipingpang";
+		//Admin::edit_user_info(6,'club',$data);
+		//Admin::reset_user_pwd(1,123);
 		//Admin::add_user_to_black_list(10);
 		//Admin::remove_user_from_black_list(10);
-		//Admin::change_user_status(11,"normal");
-		//echo Admin::get_user_group(10);
-		//$r = Account::login("orghit","123");
-		//var_dump($r);
-		//echo Account::the_user_id();
-		//echo Account::the_user_group();
-		//echo Account::the_user_name();
 	}
 
 

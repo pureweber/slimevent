@@ -66,7 +66,7 @@ class Account{
 	protected static function valid($name, $pwd)
 	{
 		$r = DB::sql('SELECT * FROM `users` WHERE `name` = :name AND `pwd` = :pwd', array(
-			':name' => $name, ':pwd' => self::encrypt_pwd($pwd)
+			':name' => trim($name), ':pwd' => self::encrypt_pwd($pwd)
 		));
 
 		if( count($r) > 0 )
@@ -84,24 +84,21 @@ class Account{
 	/**
 	 * 登录系统
 	 * @param	$name : 用户名 $pwd : 密码
-	 * @return	bool 成功返回true  失败返回false
+	 * @return true : 正确登录	false : 用户名或密码不正确  status : 登录失败,返回用户状态
 	 */
 	static function login($name, $pwd)
 	{
-		$name = trim($name);
-		$pwd = trim($pwd);
-
-		if(empty($name) || empty($pwd))
-			return false;
-
 		$user = self::valid($name, $pwd);
 
 		if($user === false)
-			return false;
-		else
+			return false;	//用户名或密码不正确
+		elseif($user['status'] == F3::get('NORMAL_STATUS'))
+		{
 			self::set_cookie($user);
-
-		return true;
+			return true;	//正确登录
+		}
+		else
+			return $user['status'];	//登录失败 返回用户状态	
 	}
 
 	/**
@@ -165,29 +162,6 @@ class Account{
 		}
 		else
 			return $r[0];
-	}
-
-	/**
-	 * 插入新用户
-	 * @param $name : 用户名 $pwd : 密码 $group : 用户组
- 	 * @return bool  成功返回true  失败返回false
-	 */
-	static function insert($name, $pwd, $group)
-	{
-		if(trim($name) == '' || trim($pwd) == '' || trim($group) == '')  
-			return false;
-
-		$sql = "INSERT INTO `users` (`name`, `pwd`, `group`) VALUES (:name, :pwd, :group)";
-		$r = DB::sql($sql, array(
-			':name' => trim($name), 
-			':pwd' => self::encrypt_pwd($pwd),
-			':group' => trim($group)
-		));
-
-		if($r == 1)
-			return true;
-		else
-			return false;
 	}
 
 	/**

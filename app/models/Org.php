@@ -1,9 +1,11 @@
 <?php
+
 /**
- * 社团类
+ * 第三方机构类
  * @package Slimevent
  */
-class Club extends Account{
+
+class Org extends Account{
 
 	/**
 	 * 编辑基本信息
@@ -13,9 +15,9 @@ class Club extends Account{
 	static function edit_basic_info($data)
 	{
 		//$uid = self::the_user_id();
-		$uid = 16;
+		$uid = 17;
 
-		$sql = "UPDATE `club` SET `introduction` = :intro WHERE `uid` = :uid";
+		$sql = "UPDATE `org` SET `introduction` = :intro WHERE `uid` = :uid";
 
 		$r = DB::sql($sql, array(':intro' => $data['introduction'], ':uid' => $uid));
 

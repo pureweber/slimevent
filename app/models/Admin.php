@@ -1,25 +1,30 @@
 <?php
 
+
 /**
  * 管理员类
  * @package Slimevent
  */
 
-class Admin	extends Account{
+class Admin	extends Service{
 
 	/*
-	 * 新建一个用户
-	 * @param $user : 用户信息关联数组
-	 * @return bool 成功返回true  失败返回false
+	 * 添加一个用户
+	 * @param $name : 用户名 $pwd : 密码 $group : 用户组 $status : 用户状态(默认空为正常太)
+	 * @return bool 成功返回true 失败返回false
 	 */
-	static function add_user($name, $pwd, $group)
+	static function add_user($name, $pwd, $group, $status = "")
 	{
-		$sql = "INSERT INTO `users` (`name`,`pwd`,`group`) VALUES (:name, :pwd, :group)";
+		if($status == "")
+			$status = F3::get('NORMAL_STATUS');
+
+		$sql = "INSERT INTO `users` (`name`,`pwd`,`group`,`status`) VALUES (:name, :pwd, :group, :status)";
 
 		$r = DB::sql($sql, array(
 			':name' => trim($name),
 			':pwd' => self::encrypt_pwd($pwd),
-			':group' => trim($group)
+			':group' => trim($group),
+			':status' => trim($status)
 			));
 
 		if($r == 1)
@@ -45,13 +50,20 @@ class Admin	extends Account{
 	}
 
 	/**
-	 * 修改任意用户group
-	 * @param $uid : 用户在users表里的id  $group : 新的group
+	 * 修改某用户状态
+	 * @param $uid : 用户在users表里的id $status : 用户新状态
 	 * @return bool 成功返回true 失败返回false
 	 */
-	static function change_user_group($uid, $group)
+	static function change_user_status($uid, $status)
 	{
-			//等待实现
+		$sql = "UPDATE `users` SET `status` = :status WHERE `id` = :uid";
+		$r = DB::sql($sql, array(':uid' => trim($uid), ':status' => trim($status)));
+
+		if($r >= 0)
+			return true;
+		else
+			return false;
+
 	}
 
 	/**
@@ -59,7 +71,7 @@ class Admin	extends Account{
 	 * @param $uid : 用户在users表里的id
 	 * @return 成功返回group名字  失败返回false
 	 */
-	static function get_user_group($uid)
+	private static function get_user_group($uid)
 	{
 		$sql = "SELECT `group` FROM `users` WHERE `id` = :uid";
 		$r = DB::sql($sql , array(':uid' => $uid));
@@ -69,36 +81,73 @@ class Admin	extends Account{
 		else
 			return $r['0']['group'];
 	}
-
-	/**
-	 * 编辑任意用户基本信息
-	 * @param $uid : 用户在users表里的id $group : 用户所属组 $data : 信息关联数组
-	 * @return bool 成功返回true  失败返回false
-	 */
-	static function edit_user_info($uid, $group, $data)
+		
+	private	static function edit_student_info($uid, $data)
 	{
-		 switch($group)
-		 {
-			case F3::get('STUDENT_GROUP'):
-
-				$sql = "UPDATE `student` SET `name` = :name, `no` = :no, `sex` = :sex, `class` = :class, `college` = :college, `major` = :major, `avatar` = :avatar, `email` = :email, `phone` = :phone WHERE `uid` = :uid";
-				$r = DB::sql($sql, array( ':uid' => trim($uid), ':name' => trim($data['name']), ':no' => trim($data['no']), ':sex' => trim($data['sex']), ':class' => trim($data['class']), ':college' => trim($data['college']), ':major' => trim($data['major']), ':avatar' => trim($data['avatar']), ':email' => trim($data['email']), ':phone' => trim($data['phone'])));
-				break;
-
-			case F3::get('CLUB_GROUP'):
-
-				$sql = "UPDATE `club` SET `name` = :name, `introduction` = :intro WHERE `uid` = :uid";
-				$r = DB::sql($sql, array( ':uid' => trim($uid), ':name' => trim($data['name']), ':intro' => trim($data['introduction'])));
-				break;
-
-			default:
-				return false;
-		 }
-
-		if($r >= 0)
+		$sql = "UPDATE `student` SET `name` = :name, `no` = :no, `sex` = :sex, `class` = :class, `college` = :college, `major` = :major, `avatar` = :avatar, `email` = :email, `phone` = :phone WHERE `uid` = :uid";
+		$r = DB::sql($sql, array( ':uid' => trim($uid), ':name' => trim($data['name']), ':no' => trim($data['no']), ':sex' => trim($data['sex']), ':class' => trim($data['class']), ':college' => trim($data['college']), ':major' => trim($data['major']), ':avatar' => trim($data['avatar']), ':email' => trim($data['email']), ':phone' => trim($data['phone'])));
+		if($r >= 0 ) 
 			return true;
 		else
 			return false;
+
+	}
+
+	private static function edit_club_info($uid, $data)
+	{
+		$sql = "UPDATE `club` SET `name` = :name, `introduction` = :intro WHERE `uid` = :uid";
+		$r = DB::sql($sql, array( ':uid' => trim($uid), ':name' => trim($data['name']), ':intro' => trim($data['introduction'])));
+		if($r >= 0 ) 
+			return true;
+		else
+			return false;
+	}
+
+	private static function edit_org_info($uid, $data)
+	{
+		$sql = "UPDATE `org` SET `name` = :name, `introduction` = :intro WHERE `uid` = :uid";
+		$r = DB::sql($sql, array( ':uid' => trim($uid), ':name' => trim($data['name']), ':intro' => trim($data['introduction'])));
+		if($r >= 0 ) 
+			return true;
+		else
+			return false;
+	}
+
+	private static function edit_service_info($uid, $data)
+	{
+		$sql = "UPDATE `service` SET `name` = :name WHERE `uid` = :uid";
+		$r = DB::sql($sql, array( ':uid' => trim($uid), ':name' => trim($data['name'])));
+		if($r >= 0 ) 
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * 修改某用户基本信息
+	 * @param $uid : 用户在users表里的id $data : 信息关联数组
+	 * @return bool 成功返回true  失败返回false
+	 */
+	static function edit_user_info($uid, $data)
+	{
+		$group = self::get_user_group($uid);
+		switch($group)
+		{
+			case F3::get('STUDENT_GROUP'):
+				return self::edit_student_info($uid, $data);
+				break;
+			case F3::get('CLUB_GROUP'):
+				return self::edit_club_info($uid, $data);
+				break;
+			case F3::get('ORG_GROUP'):
+				return self::edit_org_info($uid, $data);
+				break;
+			case F3::get('SERVICE_GROUP'):
+				return self::edit_service_info($uid, $data);
+				break;
+			default:
+				return false;
+		}
 	}
 
 };
