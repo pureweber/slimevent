@@ -149,6 +149,7 @@ class DB extends Base {
 						$query->execute();
 					}
 				}
+
 				// Check SQLSTATE
 				foreach (array($this->pdo,$query) as $obj)
 					if ($obj->errorCode()!=PDO::ERR_NONE) {
@@ -217,6 +218,8 @@ class DB extends Base {
 			@public
 	**/
 	static function sql($cmds,array $args=NULL,$ttl=0,$db='DB') {
+		if(F3::get('ECHOSQL') === true)
+			echo $cmds.'<br>';
 		return self::$vars[$db]->exec($cmds,$args,$ttl);
 	}
 

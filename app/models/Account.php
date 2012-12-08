@@ -2,7 +2,7 @@
 
 /**
  * 用户父类
- * @package slimevent
+ * @package Slimevent
  */
 
 class Account{
@@ -11,30 +11,30 @@ class Account{
 	 * 设置当前用户cookie
 	 * @param $user 用户关联数组
 	 */
-	private static function set_cookie($user)
+	protected static function set_cookie($user)
 	{
-		setcookie('se_user_id', $user['id'], time() + 86400, '/');
-		setcookie('se_user_name', $user['name'], time() + 86400, '/');
-		setcookie('se_user_group', $user['group'], time() + 86400, '/');
-		setcookie('se_user_token', self::generate_login_token($user['id'], $user['name'], $user['group']), time() + 86400, '/');
+		setcookie('se_user_id', $user['id'], time() + F3::get('COOKIE_TIME'), '/');
+		setcookie('se_user_name', $user['name'], time() + F3::get('COOKIE_TIME'), '/');
+		setcookie('se_user_group', $user['group'], time() + F3::get('COOKIE_TIME'), '/');
+		setcookie('se_user_token', self::generate_login_token($user['id'], $user['name'], $user['group']), time() + F3::get('COOKIE_TIME'), '/');
 	}
 
 	/**
 	 * 清除当前用户cookie
 	 */
-	private static function unset_cookie()
+	protected static function unset_cookie()
 	{
-		setcookie('se_user_id', '', time() - 86400, '/');
-		setcookie('se_user_name', '', time() - 86400, '/');
-		setcookie('se_user_group', '', time() - 86400, '/');
-		setcookie('se_user_token', '', time() - 86400, '/');
+		setcookie('se_user_id', '', time() - F3::get('COOKIE_TIME'), '/');
+		setcookie('se_user_name', '', time() - F3::get('COOKIE_TIME'), '/');
+		setcookie('se_user_group', '', time() - F3::get('COOKIE_TIME'), '/');
+		setcookie('se_user_token', '', time() - F3::get('COOKIE_TIME'), '/');
 	}
 
 	/**
 	 * 生成cookie密钥token
 	 * @return sring se_user_token
 	 */
-	private static function generate_login_token($id, $name, $group)
+	protected static function generate_login_token($id, $name, $group)
 	{
 		return md5( $id.$name.$group . F3::get('TOKEN_SALT') );
 	}
@@ -43,7 +43,7 @@ class Account{
 	 * 验证cookie是否合法
 	 * @return 合法返回true 不合法返回false
 	 */
-	private static function validate_login_token()
+	protected static function validate_login_token()
 	{
 		$id = F3::get('COOKIE.se_user_id');
 		$name = F3::get('COOKIE.se_user_name');
@@ -63,16 +63,22 @@ class Account{
 	 * @param $name : 用户名  $pwd : 密码
 	 * @return 如果正确返回用户关联数组 如果错误返回false
 	 */
-	private static function valid($name, $pwd)
+	protected static function valid($name, $pwd)
 	{
 		$r = DB::sql('SELECT * FROM `users` WHERE `name` = :name AND `pwd` = :pwd', array(
-			':name' => $name, ':pwd' => md5($pwd)
+			':name' => $name, ':pwd' => self::encrypt_pwd($pwd)
 		));
 
 		if( count($r) > 0 )
 			return $r[0];
 		else
 			return false;
+	}
+
+	protected static function encrypt_pwd($pwd)
+	{
+		return md5(F3::get('PWD_SALT').trim($pwd));
+
 	}
 
 	/**
@@ -174,7 +180,7 @@ class Account{
 		$sql = "INSERT INTO `users` (`name`, `pwd`, `group`) VALUES (:name, :pwd, :group)";
 		$r = DB::sql($sql, array(
 			':name' => trim($name), 
-			':pwd' => md5(trim($pwd)),
+			':pwd' => self::encrypt_pwd($pwd),
 			':group' => trim($group)
 		));
 
@@ -182,6 +188,16 @@ class Account{
 			return true;
 		else
 			return false;
+	}
+
+	/**
+	 * 编辑基本信息 虚构函数
+	 * @param $info : 基本信息关联数组
+	 * @return bool 修改成功返回true  失败返回false
+	 */
+	static function edit_basic_info($info)
+	{
+
 	}
 
 };

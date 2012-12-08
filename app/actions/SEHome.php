@@ -11,6 +11,29 @@
 
 class SEHome{
 
+	function test()
+	{
+		$user = array();
+		$user['name'] = "cca";
+		$user['pwd'] = "bbbb";
+		$user['group'] = "ccc";
+
+		$data = array();
+		$data['name'] = "lihai";
+		$data['no'] = "831";
+		$data['sex'] = "female";
+		$data['class'] = "667";
+		$data['college'] = "hit";
+		$data['major'] = "aa";
+		$data['avatar'] = "12";
+		$data['email'] = "@mail";
+		$data['phone'] = "11111";
+		$data['introduction'] = "woaipingpang";
+		//Admin::edit_user_info(6,'club',$data);
+		Admin::reset_user_pwd(1,123);
+	}
+
+
 	function run()
 	{
 		echo Template::serve('index.html');
@@ -24,11 +47,11 @@ class SEHome{
 	{	
 		switch(F3::get('GET.auth'))
 		{
-			case 'cas':
+			case F3::get('CAS_AUTH'):
 				$user = CAS::login();
 
 				$name = $user['stu_id'];
-				$pwd = md5(trim($name));
+				$pwd = md5(F3::get('DEFAULT_PWD'));
 				$group = F3::get('STUDENT_GROUP');
 
 				if(Student::exists($name) === FALSE)
@@ -36,7 +59,7 @@ class SEHome{
 
 				Account::login($name, $pwd);
 				break;
-			case 'club':
+			case F3::get('CLUB_AUTH'):
 				echo Template::serve('club/login.html');
 				return;
 			default:
@@ -44,7 +67,6 @@ class SEHome{
 		}
 
 		F3::reroute('/');
-
 	}
 
 	function login()
