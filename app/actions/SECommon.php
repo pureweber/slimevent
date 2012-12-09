@@ -19,7 +19,10 @@ class SECommon{
 		foreach($select as $v){
 			if(is_array($v))
 				$n[$v['id']] = $v['name'];
+			else
+				$n = $select;
 		}
+		//Code::dump($n);
 
 		foreach($n as $k => $v)
 			if(isset($_POST[$name]) && $_POST[$name] == $k)
@@ -76,7 +79,7 @@ class SECommon{
 		$d['region'] = F3::get("POST.region");
 		$d['addr'] = F3::get("POST.addr");
 		$d['category_id'] = F3::get("POST.category");
-		$d['lable'] = F3::get("POST.lable");
+		$d['label'] = F3::get("POST.label");
 		$d['introduction'] = F3::get("POST.introduction");
 
 		$d['post_time'] = time();
