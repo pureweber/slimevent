@@ -89,6 +89,59 @@ class Account{
 	}
 
 	/**
+	 * 根据$uid 和 $group得到用户的基本个人信息
+	 * @return array 用户信息关联数组
+	 */
+	protected static function get_user_basic_info($uid, $group)
+	{
+		switch($group)
+		{
+			case F3::get('STUDENT_GROUP'):
+				$table = 'student';
+				break;
+			case F3::get('CLUB_GROUP'):
+				$table = 'club';
+				break;
+			case F3::get('ORG_GROUP'):
+				$table = 'org';
+				break;
+			case F3::get('SERVICE_GROUP'):
+				$table = 'service';
+				break;
+			case F3::get('ADMIN_GROUP'):
+				$table = 'admin';
+				break;
+			default:
+				Sys::error(F3::get('INVALID_GROUP_CODE'), $uid);
+		}
+		$b = EDB::select($table, 'uid', $uid);
+
+		if( count($b) == 0 )
+			Sys::error(F3::get('NOT_EXIST_USER_INFO_CODE'), $uid);
+		elseif( count($b) > 1 )
+			Sys::error(F3::get('USERS_INFO_ID_SAME_CODE'), $uid);
+
+		return $b[0];
+	}
+
+	/**
+	 * 得到$uid用户的所有信息
+	 * @return 二维数组 [0]存的是users表里的关联信息 [1]存的是关联的基本信息
+	 */
+	static function get_user($uid)
+	{
+		$u = EDB::select('users', 'id', $uid);
+
+		if( count($u) == 0 )
+			Sys::error(F3::get('NOT_EXIST_USER_CODE'), $uid);
+		elseif( count($u) > 1 )
+			Sys::error(F3::get('USERS_ID_SAME_CODE'), $uid);
+
+		$u[1] = self::get_user_basic_info($uid, $u[0]['group']);
+		return $u;
+	}
+
+	/**
 	 * 登录系统
 	 * @param  $name : 用户名 
 	 * @param  $pwd : 密码
@@ -191,24 +244,29 @@ class Account{
 		return Event::create($data);
 	}
 
+	/**
+	 * 验证当前用户是否有修改$eid活动信息的权利
+	 * @param $eid
+	 * @return bool
+	 */
 	private static function verify_edit_event_permission($eid)
 	{
-		if(self::the_user_group() == F3::get('ADMIN_GROUP'))
+		if(self::the_user_group() == F3::get('ADMIN_GROUP'))   //我是管理员
 			return true;
-//		if(self::the_user_group() == F3::get('SERVICE_GROUP'))
+//		if(self::the_user_group() == F3::get('SERVICE_GROUP'))  //我是客服
 //			return true;
 
 		$e = Event::show($eid);
-		if(self::the_user_id() == $e['organizer'])
+		if(self::the_user_id() == $e['organizer']) 		//该活动是我的
 			return true;
 
 		return false;
 	}
 
 	/**
-	 * 根据eid更新活动信息
+	 * 根据eid修改活动信息
 	 * @param $eid
-	 * @param $data 需要更新信息的关联数组(请不要包含eid)
+	 * @param $data 需要修改信息的关联数组(请不要包含eid)
 	 * @return true : 更新成功 false : 没有更新
 	 */
 	static function edit_event($eid, $data)
@@ -219,15 +277,20 @@ class Account{
 			return Event::update($eid, $data);
 	}
 
+	/**
+	 * 验证当前用户是否有删除$eid活动信息的权利
+	 * @param $eid
+	 * @return bool
+	 */
 	private static function verify_del_event_permission($eid)
 	{
-		if(self::the_user_group() == F3::get('ADMIN_GROUP'))
+		if(self::the_user_group() == F3::get('ADMIN_GROUP'))  //我是管理员
 			return true;
-		if(self::the_user_group() == F3::get('SERVICE_GROUP'))
+		if(self::the_user_group() == F3::get('SERVICE_GROUP'))  //我是客服
 			return true;
 
 		$e = Event::show($eid);
-		if(self::the_user_id() == $e['organizer'])
+		if(self::the_user_id() == $e['organizer'])  //该活动是我的
 			return true;
 
 		return false;
