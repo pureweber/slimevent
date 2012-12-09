@@ -16,7 +16,7 @@ class Account{
 		setcookie('se_user_id', $user['id'], time() + F3::get('COOKIE_TIME'), '/');
 		setcookie('se_user_name', $user['name'], time() + F3::get('COOKIE_TIME'), '/');
 		setcookie('se_user_group', $user['group'], time() + F3::get('COOKIE_TIME'), '/');
-		setcookie('se_user_token', self::generate_login_token($user['id'], $user['name'], $user['group']), time() + F3::get('COOKIE_TIME'), '/');
+		setcookie('se_user_token', self::generate_login_token($user), time() + F3::get('COOKIE_TIME'), '/');
 	}
 
 	/**
@@ -34,28 +34,29 @@ class Account{
 	 * 生成cookie密钥token
 	 * @return sring se_user_token
 	 */
-	protected static function generate_login_token($id, $name, $group)
+	protected static function generate_login_token($user)
 	{
-		return md5( $id.$name.$group . F3::get('TOKEN_SALT') );
+		return md5( $user['id'].$user['name'].$user['group'] . F3::get('TOKEN_SALT') );
 	}
 
 	/**
-	 * 验证cookie是否合法
-	 * @return 合法返回true 不合法返回false
+	 * 验证cookie是否合法 如果不合法跳转错误页面
 	 */
 	protected static function validate_login_token()
 	{
-		$id = F3::get('COOKIE.se_user_id');
-		$name = F3::get('COOKIE.se_user_name');
-		$group = F3::get('COOKIE.se_user_group');
+		$user = array(
+			'id' => F3::get('COOKIE.se_user_id'),
+			'name' => F3::get('COOKIE.se_user_name'),
+			'group' => F3::get('COOKIE.se_user_group')
+			);
 		$token = F3::get('COOKIE.se_user_token');
+		$valid = self::generate_login_token($user);
 
-		$valid = self::generate_login_token($id, $name, $group);
-
-		if($token == $valid)
-			return true;
-		else
-			return false;
+		if($token != $valid)
+		{
+			self::unset_cookie();
+			Sys::error(F3::get('COOKIE_ILLEGAL_CODE'));
+		}
 	}
 
 	/**
@@ -69,22 +70,82 @@ class Account{
 			':name' => trim($name), ':pwd' => self::encrypt_pwd($pwd)
 		));
 
-		if( count($r) > 0 )
+		if( count($r) == 0 )
+			return false;
+		else if( count($r) == 1 )
 			return $r[0];
 		else
-			return false;
+			Sys::error(F3::get('USERS_NAME_SAME_CODE'), $name);
 	}
 
+	/**
+	 * 加密密码
+	 * @param $pwd
+	 * @return 加密后密码
+	 */
 	protected static function encrypt_pwd($pwd)
 	{
 		return md5(F3::get('PWD_SALT').trim($pwd));
 	}
 
 	/**
+	 * 根据$uid 和 $group得到用户的基本个人信息
+	 * @return array 用户信息关联数组
+	 */
+	protected static function get_user_basic_info($uid, $group)
+	{
+		switch($group)
+		{
+			case F3::get('STUDENT_GROUP'):
+				$table = 'student';
+				break;
+			case F3::get('CLUB_GROUP'):
+				$table = 'club';
+				break;
+			case F3::get('ORG_GROUP'):
+				$table = 'org';
+				break;
+			case F3::get('SERVICE_GROUP'):
+				$table = 'service';
+				break;
+			case F3::get('ADMIN_GROUP'):
+				$table = 'admin';
+				break;
+			default:
+				Sys::error(F3::get('INVALID_GROUP_CODE'), $uid);
+		}
+		$b = EDB::select($table, 'uid', $uid);
+
+		if( count($b) == 0 )
+			Sys::error(F3::get('NOT_EXIST_USER_INFO_CODE'), $uid);
+		elseif( count($b) > 1 )
+			Sys::error(F3::get('USERS_INFO_ID_SAME_CODE'), $uid);
+
+		return $b[0];
+	}
+
+	/**
+	 * 得到$uid用户的所有信息
+	 * @return 二维数组 [0]存的是users表里的关联信息 [1]存的是关联的基本信息
+	 */
+	static function get_user($uid)
+	{
+		$u = EDB::select('users', 'id', $uid);
+
+		if( count($u) == 0 )
+			Sys::error(F3::get('NOT_EXIST_USER_CODE'), $uid);
+		elseif( count($u) > 1 )
+			Sys::error(F3::get('USERS_ID_SAME_CODE'), $uid);
+
+		$u[1] = self::get_user_basic_info($uid, $u[0]['group']);
+		return $u;
+	}
+
+	/**
 	 * 登录系统
 	 * @param  $name : 用户名 
 	 * @param  $pwd : 密码
-	 * @return true : 正确登录	false : 用户名或密码不正确  status : 登录失败,返回用户状态
+	 * @return true : 正确登录	false : 用户名或密码不正确  
 	 */
 	static function login($name, $pwd)
 	{
@@ -97,8 +158,12 @@ class Account{
 			self::set_cookie($user);
 			return true;	//正确登录
 		}
+		elseif($user['status'] == F3::get('BLACK_STATUS'))
+			Sys::error(F3::get('BLACK_USER_CODE'), $user['name']);  //黑名单
+		elseif($user['status'] == F3::get('DELETED_STATUS'))
+			Sys::error(F3::get('DELETE_USER_CODE'), $user['name']);  //已删除用户
 		else
-			return $user['status'];	//登录失败 返回用户状态	
+			Sys::error(F3::get('INVALID_USER_CODE'), $user['name']); //无效用户状态
 	}
 
 	/**
@@ -116,10 +181,8 @@ class Account{
 	 */
 	static function the_user_id()
 	{
-		if(self::validate_login_token() === true)
-			return F3::get('COOKIE.se_user_id');
-		else
-			F3::reroute("/error/".F3::get('COOKIE_ILLEGAL_CODE'));
+		self::validate_login_token();
+		return F3::get('COOKIE.se_user_id');
 	}
 
 	/**
@@ -129,10 +192,8 @@ class Account{
 	 */
 	static function the_user_name()
 	{
-		if(self::validate_login_token() === true)
-			return F3::get('COOKIE.se_user_name');
-		else
-			F3::reroute("/error/1");
+		self::validate_login_token();
+		return F3::get('COOKIE.se_user_name');
 	}
 
 	/**
@@ -142,10 +203,8 @@ class Account{
 	 */
 	static function the_user_group()
 	{
-		if(self::validate_login_token() === true)
-			return F3::get('COOKIE.se_user_group');
-		else
-			F3::reroute("/error/1");
+		self::validate_login_token();
+		return F3::get('COOKIE.se_user_group');
 	}
 
 	/**
@@ -156,12 +215,13 @@ class Account{
 	{
 		$sql = 'SELECT * FROM `users` WHERE `name` = :name';
 		$r = DB::sql($sql, array(':name' => trim($name)));
-		if(empty($r))
-		{
+
+		if( count($r) == 0 )
 			return false;
-		}
-		else
+		else if( count($r) == 1 )
 			return $r[0];
+		else
+			Sys::error(F3::get('USERS_NAME_SAME_CODE'), $name);
 	}
 
 	/**
@@ -185,24 +245,29 @@ class Account{
 		return Event::create($data);
 	}
 
+	/**
+	 * 验证当前用户是否有修改$eid活动信息的权利
+	 * @param $eid
+	 * @return bool
+	 */
 	private static function verify_edit_event_permission($eid)
 	{
-		if(self::the_user_group() == F3::get('ADMIN_GROUP'))
+		if(self::the_user_group() == F3::get('ADMIN_GROUP'))   //我是管理员
 			return true;
-//		if(self::the_user_group() == F3::get('SERVICE_GROUP'))
+//		if(self::the_user_group() == F3::get('SERVICE_GROUP'))  //我是客服
 //			return true;
 
 		$e = Event::show($eid);
-		if(self::the_user_id() == $e['organizer'])
+		if(self::the_user_id() == $e['organizer']) 		//该活动是我的
 			return true;
 
 		return false;
 	}
 
 	/**
-	 * 根据eid更新活动信息
+	 * 根据eid修改活动信息
 	 * @param $eid
-	 * @param $data 需要更新信息的关联数组(请不要包含eid)
+	 * @param $data 需要修改信息的关联数组(请不要包含eid)
 	 * @return true : 更新成功 false : 没有更新
 	 */
 	static function edit_event($eid, $data)
@@ -213,15 +278,20 @@ class Account{
 			return Event::update($eid, $data);
 	}
 
+	/**
+	 * 验证当前用户是否有删除$eid活动信息的权利
+	 * @param $eid
+	 * @return bool
+	 */
 	private static function verify_del_event_permission($eid)
 	{
-		if(self::the_user_group() == F3::get('ADMIN_GROUP'))
+		if(self::the_user_group() == F3::get('ADMIN_GROUP'))  //我是管理员
 			return true;
-		if(self::the_user_group() == F3::get('SERVICE_GROUP'))
+		if(self::the_user_group() == F3::get('SERVICE_GROUP'))  //我是客服
 			return true;
 
 		$e = Event::show($eid);
-		if(self::the_user_id() == $e['organizer'])
+		if(self::the_user_id() == $e['organizer'])  //该活动是我的
 			return true;
 
 		return false;

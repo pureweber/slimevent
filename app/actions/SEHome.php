@@ -33,7 +33,7 @@ class SEHome{
 		$data['avatar'] = "gg121";
 		$data['email'] = "hhaaa@mail";
 		$data['phone'] = "ii2222111";
-		$data['introduction'] = "luggwoaipin";
+		//$data['introduction'] = "luggwoaipin";
 		//Org::edit_basic_info($data);
 //		Student::register(111);
 		//echo Event::create($event);
@@ -42,7 +42,10 @@ class SEHome{
 		//echo EDB::counts('event','eid',7);
 		//Student::add_basic_info($data);
 		//Student::edit_basic_info($data);
-		//Admin::edit_user_info(14,$data);
+		//Admin::edit_user_info(26,$data);
+		//Event::show(1);
+		$r = Category::get_all();
+		Code::dump($r);
 		//Admin::edit_user_info(1,'student',$data);
 	//	Admin::reset_user_pwd(11,2222);
 		//Admin::add_user_to_black_list(10);
@@ -52,13 +55,20 @@ class SEHome{
 		//$r = Account::login("orghit","123");
 		//var_dump($r);
 		//echo Account::the_user_id();
+		//var_dump(Account::exists("kjlmfeaa"));
 		//echo Account::the_user_group();
 		//echo Account::the_user_name();
 		//Account::edit_event(6,$event);
 		//Service::event_audit_fail(5);
 		//Service::event_audit_pass(50);
-		$r = Service::get_event_to_audit();
-		var_dump($r);
+		//$r = Service::get_event_to_audit();
+		//var_dump($r);
+//		Service::event_audit_pass(2);
+		//Service::event_audit_fail(2);
+		//echo Admin::add_user("zhukiieaaaiii", "123","admin","normal");
+		//Admin::reset_user_pwd(20,"123");
+
+		//Admin::get_user(18);
 	}
 
 
