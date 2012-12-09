@@ -57,8 +57,10 @@ class SEHome{
 		//Account::edit_event(6,$event);
 		//Service::event_audit_fail(5);
 		//Service::event_audit_pass(50);
-		$r = Service::get_event_to_audit();
-		var_dump($r);
+		//$r = Service::get_event_to_audit();
+		//var_dump($r);
+//		Service::event_audit_pass(2);
+		Service::event_audit_fail(2);
 	}
 
 
