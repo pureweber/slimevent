@@ -8,8 +8,8 @@
 <!--</div>-->
 <div class="offset2 span8">
 
-
 <h3>创建活动</h3>
+
 <article class="create-event">
 
 
@@ -17,38 +17,42 @@
 
 <div class="pull-right">
 	<button onclick="audite()" type="button" class="btn btn-success btn-large"><i class="icon-ok-sign"></i> 提交审核</button>
+	<!--<button onclick="saveDraft()" type="button" class="btn btn-large"><i class="icon-file"></i> 存为草稿</button>-->
 	<button onclick="saveDraft()" type="button" class="btn btn-large"><i class="icon-file"></i> 存为草稿</button>
 </div>
 
 </article>
-</div><!-- span10 -->
+
+</div><!-- span8-->
+
+<div id="tip"></div>
+
 </div><!-- row -->
 </div><!-- Container -->
 <script type="text/javascript">
 	function audite(){
-		$("#create-form").submit(function(){
-				var options = {
-					target : '#tip',
-					url : "{{@WEB_ROOT}}event/audite",
-					type : 'POST',
-				}
-				$(this).ajaxSubmit(options);
-				return false;
-			});
+		/*
+		var options = {
+			target : '#tip',
+			url : "{{@WEB_ROOT}}audit",
+			type : 'POST',
+			success : function(eid){alert(eid);update_form(eid);}
+		}
+		$("#create-form").ajaxSubmit(options);
+		*/
+		getIntroduction();
+		$("#create-form").attr('action', '{{@WEB_ROOT}}audit').submit();
 	}
 
 	function saveDraft(){
-		$("#create-form").attr("action","{{@WEB_ROOT}}create").submit();
-		/*$("#create-form").submit(function(){
-				var options = {
-					target : '#tip',
-					url : "{{@WEB_ROOT}}create",
-					type : 'POST',
-				}
-				$(this).ajaxSubmit(options);
-				return false;
-			});
-			*/
+		getIntroduction();
+		var options = {
+			target : '#tip',
+			url : "{{@WEB_ROOT}}draft",
+			type : 'POST',
+			success : function(eid){alert("保存成功"+eid);updateForm(eid);}
+		}
+		$("#create-form").ajaxSubmit(options);
 	}
 </script>
 

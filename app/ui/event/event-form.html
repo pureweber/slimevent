@@ -11,7 +11,7 @@
 	<!-- Text input-->
 	<label class="control-label" for="input01">标题</label>
 	<div class="controls">
-		<input type="text" placeholder="请输入活动标题" class="span6" name="title" value="{{@POST.title}}">
+		<input type="text" placeholder="请输入活动标题" class="span6" name="title" value="{{@POST.title}}jjj">
 		<p class="help-block">最长不可超过32个字符</p>
 	</div>
 </div>
@@ -30,7 +30,7 @@
 	<!-- Text input-->
 	<label class="control-label" for="input01">地点</label>
 	<div class="controls">
-		<input type="text" placeholder="请输入活动地点" class="input-xlarge" name="addr" value="{{@POST.addr}}">
+		<input type="text" placeholder="请输入活动地点" class="input-xlarge" name="addr" value="{{@POST.addr}}jklaj">
 		<p class="help-block">请详细到具体教室/房间</p>
 	</div>
 </div>
@@ -39,7 +39,7 @@
 <!-- Appended input-->
 	<label class="control-label">活动日期</label>
 	<div class="controls">
-		<input class="span2 date-picker" placeholder="请点击输入框" type="text" name="date" value="{{@POST.date}}">
+		<input class="span2 date-picker" placeholder="请点击输入框" type="text" name="date" value="{{@POST.date}}2012/12/09">
 		<i class="icon-calendar icon-large" style="margin: 6px 0 0 -24.5px; pointer-events: none; position: relative;"></i>
 		<p class="help-block"></p>
 	</div>
@@ -50,7 +50,7 @@
 <!-- Appended input-->
 	<label class="control-label">开始时间</label>
 	<div class="controls">
-		<input class="span2 begin-time" placeholder="请点击输入框" type="text" name="begin_time" value="{{@POST.begin_time}}">
+		<input class="span2 begin-time" placeholder="请点击输入框" type="text" name="begin_time" value="{{@POST.begin_time}}12:00">
 		<i class="icon-time icon-large" style="margin: 6px 0 0 -22.5px; pointer-events: none; position: relative;"></i>
 	</div>
 
@@ -60,7 +60,7 @@
 <!-- Appended input-->
 	<label class="control-label">结束时间</label>
 	<div class="controls">
-		<input class="span2 end-time" placeholder="请点击输入框" type="text" name="end_time" value="{{@POST.end_time}}">
+		<input class="span2 end-time" placeholder="请点击输入框" type="text" name="end_time" value="{{@POST.end_time}}12:00">
 		<i class="icon-time icon-large" style="margin: 6px 0 0 -22.5px; pointer-events: none; position: relative;"></i>
 	</div>
 </div>
@@ -80,13 +80,16 @@
 
 <div class="control-group">
 <!-- Text input-->
-	<label class="control-label" for="input01">标签</label>
+	<label class="control-lable" for="input01">标签</label>
 	<div class="controls">
-		<input type="text" placeholder="" class="input-xlarge" name="label" value="{{@POST.label}}">
+		<input type="text" placeholder="" class="input-xlarge" name="lable" value="{{@POST.lable}}lsjdflawj">
 		<p class="help-block"></p>
 	</div>
 </div>
 </fieldset>
+
+	<input type="hidden" name="eid" value="{{@POST.eid}}"/>
+	<input type="hidden" name="poster_change" value="0"/>
 
 
 <fieldset>
@@ -94,18 +97,17 @@
 <div class="control-group">
 	<label class="control-label" for="input01"></label>
 	<div class="controls">
-
-	<div class="fileupload fileupload-new" data-provides="fileupload">
+	<div class="fileupload fileupload-{{@POST.eid ? 'exists' : 'new'}}" data-provides="fileupload">
 		<div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">
 			<img src="{{@POST.poster}}"/>
 		</div>
 		<div>
-			<span class="btn btn-file">
+			<span class="btn btn-file upload-button">
 				<span class="fileupload-new">从本地上传图片文件</span>
 				<span class="fileupload-exists">更换图片</span>
 				<input type="file" name="poster"/>
 			</span>
-			<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">移除</a>
+			<a href="#" class="btn fileupload-exists upload-button" data-dismiss="fileupload">移除</a>
 		</div>
 	</div>
 
@@ -175,16 +177,31 @@
 			minuteStep:10,showMeridian:false
 			});
 
+		$('.upload-button').click(function(){
+				$("input[name='poster_change']").attr('value', '1');
+			})
 
 		$('#content').data('liveEdit').startedit(); /* Run the Editor */
 		$("#title").focus();
+
 	});
 
-    function save() {
+    function getIntroduction() {
 		var sHtml = $('#content').data('liveEdit').getXHTMLBody(); //Use before finishedit()
 		$('#content').data('liveEdit').finishedit();
-		alert(sHtml); /*You can use the sHtml for any purpose, eg. saving the content to your database, etc, depend on you custom app */
+		$('#content').html(sHtml);
+	}
+
+	function updateForm(eid){
+		$("input[name='eid']").attr('value', eid);
+		$("input[name='poster_change']").attr('value', '0');
 	}
 
 </script>
+
+<F3:check if="{{@POST.eid}}">
+	<F3:true>
+	</F3:true>
+</F3:check>
+
 

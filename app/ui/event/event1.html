@@ -12,13 +12,13 @@
 			<div id="event-info" class="row">
 
 				<div class="span3" id="event-img">
-					<img width="175" height="260" src="{{@WEB_ROOT}}/static/img/6.jpg" onerror="javascript:this.src='{{@WEB_ROOT}}avatar/-1.jpg'" />
+					<img width="175" height="260" src="{{@e.poster}}" onerror="javascript:this.src='{{@WEB_ROOT}}avatar/-1.jpg'" />
 				</div>
 
 				<div class="span7">
 
 					<div id="event-title">
-						<h1>青春随风 - 吉他爱好者切磋交流分享会</h1>
+						<h1>{{@e.title}}</h1>
 					</div>
 
 					<div id="event-feature">
@@ -27,16 +27,18 @@
 
 					<div id="event-items">
 						<div id="event-time" class="event-item">
-							<span><i class="icon-time"></i> 时间</span> : 2012年12月12日(星期三) 18:30 - 20:30<a href="#"> (进行中)</a>
+							<span><i class="icon-time"></i> 时间</span> : {{@e.date}} {{@e.begin_time}} - {{@e.end_time}}
 						</div>
 						<div id="event-place" class="event-item">
-							<span><i class="icon-map-marker"></i> 地点</span> : <a href="#">一校区</a> 正心楼
+							<span><i class="icon-map-marker"></i> 地点</span> : <a href="#">{{@e.region}}</a> {{@e.addr}}
 						</div>
 						<div id="event-category" class="event-item">
-							<span><i class="icon-tag"></i> 类型</span> : <a href="#">社团类</a> <a href="#">讲座</a>
+							<span><i class="icon-tag"></i> 类型</span> : 
+							<a href="#">社团类</a>
+							<a href="#">讲座</a>
 						</div>
 						<div id="event-owner" class="event-item">
-							<span><i class="icon-user"></i> 发起者</span> : <a href="#">星期五协会</a>
+							<span><i class="icon-user"></i> 发起者</span> : <a href="#">{{@e.organizer}}</a>
 						</div>
 					</div><!-- event-items -->
 
@@ -62,10 +64,14 @@
 				<!-- JiaThis Button END -->
 			</div><!-- event-social -->
 
-			<div id="event-details" style="margin-top:15px">
-				<h2> 活动详情 </h2>
-				<p>你是个乐手，平时只身一人在家弹琴么？你是个音乐发烧友，喜欢户外活动，享受周末午后的草地和阳光么？你是个对世界有独特想法但无处倾诉的人么？</p>
+			<div id="event-details" style="margin-top:15px;">
+				<h3> 活动详情 </h3>
+				<div style="padding:5px 20px;">
+					{{@e.introduction}}
+				</div>
 			</div><!-- event-details -->
+
+			<hr>
 
 			<div id="event-discuss">
 				<!-- Duoshuo Comment BEGIN -->

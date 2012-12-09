@@ -9,16 +9,23 @@ class SECommon{
 
 	static function set_unread_msg_num(){
 		//$unread_msg_num = MsgBox::get_unread_num();
-		F3::set("unread_msg", 4);
+		F3::set("unread_msg", 3);
 	}
 
 	static function generate_select_option($select, $name = ''){
 		$o = "";
-		foreach($select as $v)
-			if(isset($_POST[$name]) && $_POST[$name] == $v['id'])
-				$o .= "<option selected value='{$v['id']}'>{$v['name']}</option>";
+		$n = array();
+
+		foreach($select as $v){
+			if(is_array($v))
+				$n[$v['id']] = $v['name'];
+		}
+
+		foreach($n as $k => $v)
+			if(isset($_POST[$name]) && $_POST[$name] == $k)
+				$o .= "<option selected value='{$k}'>{$v}</option>";
 			else
-				$o .= "<option value='{$v['id']}'>{$v['name']}</option>";
+				$o .= "<option value='{$k}'>{$v}</option>";
 
 		if($name == '')
 			return $o;
@@ -41,6 +48,7 @@ class SECommon{
 
 	static function get_create_form_value(){
 		$date = explode('/', F3::get("POST.date"));
+		//Code::dump($_POST);
 		$year = $date[0];
 		$month = $date[1];
 		$day= $date[2];
@@ -50,14 +58,26 @@ class SECommon{
 
 		$d = array();
 
+		$eid = F3::get("POST.eid");
+
+
+		if($eid !== false){
+			$d['eid'] = (int)$eid;
+		}
+		//Code::dump($d);
+		//echo $d['eid'];
+
+		if(F3::get("POST.poster_change") == 1)
+			$d['poster'] = self::upload_img("poster");
+		//echo $d['poster'];
+		//echo F3::get("POST.upload_change");
+
 		$d['title'] = F3::get("POST.title");
 		$d['region'] = F3::get("POST.region");
 		$d['addr'] = F3::get("POST.addr");
-		$d['category'] = F3::get("POST.category");
+		$d['category_id'] = F3::get("POST.category");
 		$d['lable'] = F3::get("POST.lable");
 		$d['introduction'] = F3::get("POST.introduction");
-
-		$d['poster'] = self::upload_img("poster");
 
 		$d['post_time'] = time();
 		$d['begin_time'] = mktime($begin_time[0], $begin_time[1], 0, $month, $day, $year);
@@ -65,4 +85,33 @@ class SECommon{
 
 		return $d;
 	}
+
+	static function format_time_to_show($info){
+		$info['date'] = date("Y/m/d", $info['begin_time']);
+		$info['begin_time'] = date("H:i", $info['begin_time']);
+		$info['end_time'] = date("H:i", $info['end_time']);
+
+		return $info;
+	}
+
+
+	static function format_info_to_show($info){
+
+		// format Time&Date
+		$info = self::format_time_to_show($info);
+
+		// format Region
+		$region = F3::get("REGION");
+
+		foreach($region as $k => $v){
+			if($info['region'] == $k){
+				$info['region'] = $v;
+				break;
+			}
+		}
+
+		return $info;
+	}
+
 }
+
