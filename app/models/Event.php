@@ -14,15 +14,21 @@ class Event{
 	 */
 	static function show($eid)
 	{
-		$sql = "SELECT * FROM `event` WHERE `eid` = :eid";
+		$sql = "SELECT `event`.*, `category`.`name` AS 'category' FROM `event`,`category` WHERE `eid` = :eid AND `category`.id = `event`.`category_id`";
+
 		$r = DB::sql($sql, array(':eid' => $eid));
 
 		if(count($r) == 0)
 			Sys::error(F3::get('EVENT_NOT_EXIST_CODE'),$eid);
 		else if(count($r) == 1)
-			return $r['0'];
+			$e = $r['0'];
 		else	
 			Sys::error(F3::get('DB_EVENT_EID_SAME_CODE'),$eid);
+
+		$organizer = Account::get_user($r['0']['organizer_id']);
+		$e['organizer'] = $organizer['1']['name'];
+
+		return $e;
 	}
 
 	/**
@@ -53,6 +59,7 @@ class Event{
 		else
 			return true;
 	}
+
 
 };
 ?>
