@@ -34,11 +34,10 @@
 						</div>
 						<div id="event-category" class="event-item">
 							<span><i class="icon-tag"></i> 类型</span> : 
-							<a href="#">社团类</a>
-							<a href="#">讲座</a>
+							<a href="{{@WEB_ROOT}}{{@e.category_id}}">{{@e.category}}</a>
 						</div>
 						<div id="event-owner" class="event-item">
-							<span><i class="icon-user"></i> 发起者</span> : <a href="#">{{@e.organizer}}</a>
+							<span><i class="icon-user"></i> 发起者</span> : <a href="{{@WEB_ROOT}}{{@e.organizer_id}}">{{@e.organizer}}</a>
 						</div>
 					</div><!-- event-items -->
 

@@ -14,21 +14,58 @@ class Event{
 	 */
 	static function show($eid)
 	{
-		$sql = "SELECT `event`.*, `category`.`name` AS 'category' FROM `event`,`category` WHERE `eid` = :eid AND `category`.id = `event`.`category_id`";
+		$e = self::get("`eid` = {$eid}");
+		return $e[0];
+	}
 
-		$r = DB::sql($sql, array(':eid' => $eid));
+	/**
+	 * 根据eid和查询条件得到活动信息
+	 * @param $con : SQL查询条件
+	 * @return array 返回多维关联数组
+	 */
+	static function show_by($con)
+	{
+		return self::get($con);
+	}
+
+	/**
+	 * 根据查询条件得到符合条件活动的数量
+	 * @param $con : SQL查询条件
+	 * @return int
+	 */
+	static function get_num($con = "`status` = 'passed'")
+	{
+		$sql = "SELECT COUNT(*) FROM `event` WHERE {$con}";
+
+		$r = DB::sql($sql);
+
+		return $r[0]["count(*)"];
+	}
+
+	/**
+	 * 根据eid和查询条件得到活动信息，供show()和show_by()调用
+	 * @param $con : SQL查询条件
+	 * @return array 返回多维关联数组
+	 */
+	private static function get($con)
+	{
+		$sql = "SELECT `event`.*, `category`.`name` AS 'category' FROM `event`,`category` 
+					WHERE {$con} AND `category`.id = `event`.`category_id`";
+
+		$r = DB::sql($sql);
 
 		if(count($r) == 0)
-			Sys::error(F3::get('EVENT_NOT_EXIST_CODE'),$eid);
-		else if(count($r) == 1)
-			$e = $r['0'];
-		else	
-			Sys::error(F3::get('DB_EVENT_EID_SAME_CODE'),$eid);
+			Sys::error(F3::get('EVENT_NOT_EXIST_CODE'),-1);
+		//else if(count($r) == 1)
+			//$e = $r['0'];
+		//else	
+			//Sys::error(F3::get('DB_EVENT_EID_SAME_CODE'),$eid);
+		foreach($r as &$row){
+			$organizer = Account::get_user($row['organizer_id']);
+			$row['organizer'] = $organizer[1]['name'];
+		}
 
-		$organizer = Account::get_user($r['0']['organizer_id']);
-		$e['organizer'] = $organizer['1']['name'];
-
-		return $e;
+		return $r;
 	}
 
 	/**

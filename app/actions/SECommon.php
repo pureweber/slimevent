@@ -112,8 +112,50 @@ class SECommon{
 				break;
 			}
 		}
-
 		return $info;
+	}
+
+	static function pagination($current_page, $total_pages, $url = '', $onclick = false){
+		$html = "";
+		$html .= "<div class='pagination pagination-right'> <ul>";
+		$url = F3::get("WEB_ROOT").$url;
+
+		//
+		if($current_page == 0):
+			$html .= "<li class='disabled'><a href='#'>上一页</a></li>";
+		else:
+			$prev_page = $current_page - 1;
+			$html .= "<li><a href='";
+			$html .= $onclick? "#' onclick='{$onclick}(${prev_page}, this)":"{$url}?&page={$prev_page}";
+			$html .= "'>上一页</a></li>";
+		endif;
+
+
+		for($i = 0; $i < $total_pages; $i++):
+			$j = $i + 1;
+			if($i == $current_page):
+				$html .= "<li class='active'><a href='#'>{$j}</a></li>";
+			else:
+				$html .= "<li><a href='";
+				$html .= $onclick? "#' onclick='{$onclick}(${i}, this)":"{$url}?page={$i}";
+				$html .= "'>{$j}</a></li>";
+			endif;
+		endfor;
+
+
+		if($current_page == $total_pages - 1):
+			$html .= "<li class='disabled'><a href='#'>下一页</a></li>";
+		else:
+			$next_page = $current_page + 1;
+			$html .= "<li><a href='";
+			$html .= $onclick? "#' onclick='{$onclick}(${next_page}, this)'":"list?ugroup={$show_group}&&page={$next_page}";
+			$html .= "'>下一页</a></li>";
+		endif;
+
+		$html .= "</ul></div>";
+
+		F3::set('pagination', $html);
+
 	}
 
 }
