@@ -258,7 +258,7 @@ class Account{
 //			return true;
 
 		$e = Event::show($eid);
-		if(self::the_user_id() == $e['organizer']) 		//该活动是我的
+		if(self::the_user_id() == $e['organizer_id']) 		//该活动是我的
 			return true;
 
 		return false;
@@ -291,7 +291,7 @@ class Account{
 			return true;
 
 		$e = Event::show($eid);
-		if(self::the_user_id() == $e['organizer'])  //该活动是我的
+		if(self::the_user_id() == $e['organizer_id'])  //该活动是我的
 			return true;
 
 		return false;
