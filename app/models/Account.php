@@ -241,7 +241,7 @@ class Account{
 	 */
 	static function create_event($data)
 	{
-		$data['organizer'] = self::the_user_id();
+		$data['organizer_id'] = self::the_user_id();
 		return Event::create($data);
 	}
 
