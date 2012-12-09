@@ -2,7 +2,7 @@
 
 class Sys{
 
-	static function error($error_code,$data)
+	static function error($error_code,$data = "")
 	{
 		if(is_array($data))
 			var_dump($data);

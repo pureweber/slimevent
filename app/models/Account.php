@@ -16,7 +16,7 @@ class Account{
 		setcookie('se_user_id', $user['id'], time() + F3::get('COOKIE_TIME'), '/');
 		setcookie('se_user_name', $user['name'], time() + F3::get('COOKIE_TIME'), '/');
 		setcookie('se_user_group', $user['group'], time() + F3::get('COOKIE_TIME'), '/');
-		setcookie('se_user_token', self::generate_login_token($user['id'], $user['name'], $user['group']), time() + F3::get('COOKIE_TIME'), '/');
+		setcookie('se_user_token', self::generate_login_token($user), time() + F3::get('COOKIE_TIME'), '/');
 	}
 
 	/**
@@ -34,28 +34,29 @@ class Account{
 	 * 生成cookie密钥token
 	 * @return sring se_user_token
 	 */
-	protected static function generate_login_token($id, $name, $group)
+	protected static function generate_login_token($user)
 	{
-		return md5( $id.$name.$group . F3::get('TOKEN_SALT') );
+		return md5( $user['id'].$user['name'].$user['group'] . F3::get('TOKEN_SALT') );
 	}
 
 	/**
-	 * 验证cookie是否合法
-	 * @return 合法返回true 不合法返回false
+	 * 验证cookie是否合法 如果不合法跳转错误页面
 	 */
 	protected static function validate_login_token()
 	{
-		$id = F3::get('COOKIE.se_user_id');
-		$name = F3::get('COOKIE.se_user_name');
-		$group = F3::get('COOKIE.se_user_group');
+		$user = array(
+			'id' => F3::get('COOKIE.se_user_id'),
+			'name' => F3::get('COOKIE.se_user_name'),
+			'group' => F3::get('COOKIE.se_user_group')
+			);
 		$token = F3::get('COOKIE.se_user_token');
+		$valid = self::generate_login_token($user);
 
-		$valid = self::generate_login_token($id, $name, $group);
-
-		if($token == $valid)
-			return true;
-		else
-			return false;
+		if($token != $valid)
+		{
+			self::unset_cookie();
+			Sys::error(F3::get('COOKIE_ILLEGAL_CODE'));
+		}
 	}
 
 	/**
@@ -69,12 +70,19 @@ class Account{
 			':name' => trim($name), ':pwd' => self::encrypt_pwd($pwd)
 		));
 
-		if( count($r) > 0 )
+		if( count($r) == 0 )
+			return false;
+		else if( count($r) == 1 )
 			return $r[0];
 		else
-			return false;
+			Sys::error(F3::get('USERS_NAME_SAME_CODE'), $name);
 	}
 
+	/**
+	 * 加密密码
+	 * @param $pwd
+	 * @return 加密后密码
+	 */
 	protected static function encrypt_pwd($pwd)
 	{
 		return md5(F3::get('PWD_SALT').trim($pwd));
@@ -84,7 +92,7 @@ class Account{
 	 * 登录系统
 	 * @param  $name : 用户名 
 	 * @param  $pwd : 密码
-	 * @return true : 正确登录	false : 用户名或密码不正确  status : 登录失败,返回用户状态
+	 * @return true : 正确登录	false : 用户名或密码不正确  
 	 */
 	static function login($name, $pwd)
 	{
@@ -97,8 +105,12 @@ class Account{
 			self::set_cookie($user);
 			return true;	//正确登录
 		}
+		elseif($user['status'] == F3::get('BLACK_STATUS'))
+			Sys::error(F3::get('BLACK_USER_CODE'), $user['name']);  //黑名单
+		elseif($user['status'] == F3::get('DELETED_STATUS'))
+			Sys::error(F3::get('DELETE_USER_CODE'), $user['name']);  //已删除用户
 		else
-			return $user['status'];	//登录失败 返回用户状态	
+			Sys::error(F3::get('INVALID_USER_CODE'), $user['name']); //无效用户状态
 	}
 
 	/**
@@ -116,10 +128,8 @@ class Account{
 	 */
 	static function the_user_id()
 	{
-		if(self::validate_login_token() === true)
-			return F3::get('COOKIE.se_user_id');
-		else
-			F3::reroute("/error/".F3::get('COOKIE_ILLEGAL_CODE'));
+		self::validate_login_token();
+		return F3::get('COOKIE.se_user_id');
 	}
 
 	/**
@@ -129,10 +139,8 @@ class Account{
 	 */
 	static function the_user_name()
 	{
-		if(self::validate_login_token() === true)
-			return F3::get('COOKIE.se_user_name');
-		else
-			F3::reroute("/error/1");
+		self::validate_login_token();
+		return F3::get('COOKIE.se_user_name');
 	}
 
 	/**
@@ -142,10 +150,8 @@ class Account{
 	 */
 	static function the_user_group()
 	{
-		if(self::validate_login_token() === true)
-			return F3::get('COOKIE.se_user_group');
-		else
-			F3::reroute("/error/1");
+		self::validate_login_token();
+		return F3::get('COOKIE.se_user_group');
 	}
 
 	/**
@@ -156,12 +162,13 @@ class Account{
 	{
 		$sql = 'SELECT * FROM `users` WHERE `name` = :name';
 		$r = DB::sql($sql, array(':name' => trim($name)));
-		if(empty($r))
-		{
+
+		if( count($r) == 0 )
 			return false;
-		}
-		else
+		else if( count($r) == 1 )
 			return $r[0];
+		else
+			Sys::error(F3::get('USERS_NAME_SAME_CODE'), $name);
 	}
 
 	/**

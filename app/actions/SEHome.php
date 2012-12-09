@@ -52,6 +52,7 @@ class SEHome{
 		//$r = Account::login("orghit","123");
 		//var_dump($r);
 		//echo Account::the_user_id();
+		var_dump(Account::exists("kjlmfeaa"));
 		//echo Account::the_user_group();
 		//echo Account::the_user_name();
 		//Account::edit_event(6,$event);
@@ -60,7 +61,7 @@ class SEHome{
 		//$r = Service::get_event_to_audit();
 		//var_dump($r);
 //		Service::event_audit_pass(2);
-		Service::event_audit_fail(2);
+		//Service::event_audit_fail(2);
 	}
 
 
