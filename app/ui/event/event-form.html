@@ -80,7 +80,7 @@
 	<label class="control-label">标签</label>
 	<div class="controls">
 		<input type="text" placeholder="" class="input-xlarge" name="label" value="{{@POST.label}}">
-		<p class="help-block"></p>
+		<p class="help-block">多个标签请用空格分隔</p>
 	</div>
 </div>
 
@@ -168,11 +168,11 @@
 			});
 
 		$('.end-time').timepicker({
-			minuteStep:10,showMeridian:false
+			minuteStep:10,showMeridian:false,defaultTime:'value'
 			});
 
 		$('.begin-time').timepicker({
-			minuteStep:10,showMeridian:false
+			minuteStep:10,showMeridian:false,defaultTime:'value'
 			});
 
 		$('.upload-button').click(function(){

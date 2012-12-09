@@ -21,7 +21,7 @@ class SEEvent{
 	function show_edit(){
 		$info = Event::show($this->eid);
 
-		SECommon::format_time_to_show($info);
+		$info = SECommon::format_time_to_show($info);
 
 		$info['eid'] = $this->eid;
 		$_POST = $info;
