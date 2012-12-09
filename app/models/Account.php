@@ -119,7 +119,7 @@ class Account{
 		if(self::validate_login_token() === true)
 			return F3::get('COOKIE.se_user_id');
 		else
-			F3::reroute("/error/1");
+			F3::reroute("/error/".F3::get('COOKIE_ILLEGAL_CODE'));
 	}
 
 	/**
@@ -172,6 +172,73 @@ class Account{
 	static function edit_basic_info($info)
 	{
 
+	}
+
+	/**
+	 * 在event表里创建一个新活动
+	 * @param $data : 活动信息关联数组
+	 * @return $eid : 新建活动的id
+	 */
+	static function create_event($data)
+	{
+		return Event::create($data);
+	}
+
+	private static function verify_edit_event_permission($eid)
+	{
+		if(self::the_user_group() == F3::get('ADMIN_GROUP'))
+			return true;
+//		if(self::the_user_group() == F3::get('SERVICE_GROUP'))
+//			return true;
+
+		$e = Event::show($eid);
+		if(self::the_user_id() == $e['organizer'])
+			return true;
+
+		return false;
+	}
+
+	/**
+	 * 根据eid更新活动信息
+	 * @param $eid
+	 * @param $data 需要更新信息的关联数组(请不要包含eid)
+	 * @return true : 更新成功 false : 没有更新
+	 */
+	static function edit_event($eid, $data)
+	{
+		if(self::verify_edit_event_permission($eid) === false)
+			Sys::error(F3::get('ILLEGAL_EDIT_EVENT_CODE'), $eid);
+		else
+			return Event::update($eid, $data);
+	}
+
+	private static function verify_del_event_permission($eid)
+	{
+		if(self::the_user_group() == F3::get('ADMIN_GROUP'))
+			return true;
+		if(self::the_user_group() == F3::get('SERVICE_GROUP'))
+			return true;
+
+		$e = Event::show($eid);
+		if(self::the_user_id() == $e['organizer'])
+			return true;
+
+		return false;
+	}
+
+	/**
+	 * 删除id为eid的活动信息
+	 * @param $eid
+	 */
+	static function delete_event($eid)
+	{
+		if(self::verify_del_event_permission($eid) === false)
+			Sys::error(F3::get('ILLEGAL_DELELE_EVENT_CODE'), $eid);
+		else
+		{
+			$data = array('status' => F3::get('EVENT_DELETED_STATUS') );
+			Event::update($eid, $data);
+		}
 	}
 
 };

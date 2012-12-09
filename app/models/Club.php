@@ -23,6 +23,30 @@ class Club extends Account{
 		else
 			return false;
 	}
+	
+	static function create_event($data)
+	{
+		$data['verify'] = F3::get('EVENT_PASSED_VERIFY');
+		$r = Event::create($data);
+	}
+
+	static function update_event($eid)
+	{
+		$r = Event::update($data);
+	}
+
+	private static function verify_permission($eid)
+	{
+		$group = Account::the_user_group();
+
+		if($group == F3::get('ADMIN_GROUP')
+			return true;
+		else
+			$sql	
+			$uid = Account::the_user_id();
+
+
+	}
 
 };
 

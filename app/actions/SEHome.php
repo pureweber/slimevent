@@ -20,9 +20,10 @@ class SEHome{
 		//Admin::add_user("orghit", "123", "org", "normal");
 		$data = array();
 		$event = array();
-		$event['title'] = "aaaaa";
+		$event['title'] = "bbb";
 		$event['region'] = "2";
-		$event['time'] = "22012";
+		$event['category'] = "40";
+		$event['begin_time'] = "119912";
 		$data['name'] = "aaa";
 		$data['no'] = "bb831";
 		$data['sex'] = "ccfemale";
@@ -35,8 +36,10 @@ class SEHome{
 		$data['introduction'] = "luggwoaipin";
 		//Org::edit_basic_info($data);
 //		Student::register(111);
-		//Event::create($event);
-		Event::show(20);
+		//echo Event::create($event);
+		//var_dump(Event::show(20));
+		//var_dump(Event::update(200,$event));
+		//echo EDB::counts('event','eid',7);
 		//Student::add_basic_info($data);
 		//Student::edit_basic_info($data);
 		//Admin::edit_user_info(14,$data);
@@ -51,6 +54,11 @@ class SEHome{
 		//echo Account::the_user_id();
 		//echo Account::the_user_group();
 		//echo Account::the_user_name();
+		//Account::edit_event(6,$event);
+		//Service::event_audit_fail(5);
+		//Service::event_audit_pass(50);
+		$r = Service::get_event_to_audit();
+		var_dump($r);
 	}
 
 
