@@ -1,0 +1,190 @@
+
+<form class="form-horizontal" id="create-form" method="post" enctype="multipart/form-data">
+
+<fieldset>
+
+<div id="legend" class="">
+	<legend class="">基本信息</legend>
+</div>
+
+<div class="control-group">
+	<!-- Text input-->
+	<label class="control-label" for="input01">标题</label>
+	<div class="controls">
+		<input type="text" placeholder="请输入活动标题" class="span6" name="title" value="{{@POST.title}}">
+		<p class="help-block">最长不可超过32个字符</p>
+	</div>
+</div>
+
+<div class="control-group">
+<!-- Select Basic -->
+	<label class="control-label">校区</label>
+	<div class="controls">
+		<select class="input-large" name="region" value="{{@POST.region}}">
+			{{@select_region}}
+		</select>
+	</div>
+</div>
+
+<div class="control-group">
+	<!-- Text input-->
+	<label class="control-label" for="input01">地点</label>
+	<div class="controls">
+		<input type="text" placeholder="请输入活动地点" class="input-xlarge" name="addr" value="{{@POST.addr}}">
+		<p class="help-block">请详细到具体教室/房间</p>
+	</div>
+</div>
+
+<div class="control-group">
+<!-- Appended input-->
+	<label class="control-label">活动日期</label>
+	<div class="controls">
+		<input class="span2 date-picker" placeholder="请点击输入框" type="text" name="date" value="{{@POST.date}}">
+		<i class="icon-calendar icon-large" style="margin: 6px 0 0 -24.5px; pointer-events: none; position: relative;"></i>
+		<p class="help-block"></p>
+	</div>
+
+</div>
+
+<div class="control-group">
+<!-- Appended input-->
+	<label class="control-label">开始时间</label>
+	<div class="controls">
+		<input class="span2 begin-time" placeholder="请点击输入框" type="text" name="begin_time" value="{{@POST.begin_time}}">
+		<i class="icon-time icon-large" style="margin: 6px 0 0 -22.5px; pointer-events: none; position: relative;"></i>
+	</div>
+
+</div>
+
+<div class="control-group">
+<!-- Appended input-->
+	<label class="control-label">结束时间</label>
+	<div class="controls">
+		<input class="span2 end-time" placeholder="请点击输入框" type="text" name="end_time" value="{{@POST.end_time}}">
+		<i class="icon-time icon-large" style="margin: 6px 0 0 -22.5px; pointer-events: none; position: relative;"></i>
+	</div>
+</div>
+
+<div class="control-group">
+<!-- Select Basic -->
+	<label class="control-label">活动类型</label>
+	<div class="controls">
+		<select class="input-large" name="category" value="{{@POST.category}}">
+			{{@select_category}}
+			<option>论坛</option>
+			<option>招聘</option>
+
+		</select>
+	</div>
+</div>
+
+<div class="control-group">
+<!-- Text input-->
+	<label class="control-label" for="input01">标签</label>
+	<div class="controls">
+		<input type="text" placeholder="" class="input-xlarge" name="label" value="{{@POST.label}}">
+		<p class="help-block"></p>
+	</div>
+</div>
+</fieldset>
+
+
+<fieldset>
+	<legend>上传海报</legend>
+<div class="control-group">
+	<label class="control-label" for="input01"></label>
+	<div class="controls">
+
+	<div class="fileupload fileupload-new" data-provides="fileupload">
+		<div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">
+			<img src="{{@POST.poster}}"/>
+		</div>
+		<div>
+			<span class="btn btn-file">
+				<span class="fileupload-new">从本地上传图片文件</span>
+				<span class="fileupload-exists">更换图片</span>
+				<input type="file" name="poster"/>
+			</span>
+			<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">移除</a>
+		</div>
+	</div>
+
+	</div>
+</div>
+</fieldset>
+
+
+<fieldset>
+	<legend>活动详情</legend>
+	<textarea id="content" class="input-xlarge" style="width:90%;height:250px;" name="introduction">{{@POST.introduction}}</textarea>
+</fieldset>
+
+<!--<fieldset>-->
+	<!--<legend>发布选项</legend>-->
+	<!--<div class="control-group">-->
+		<!--<label class="control-label">SNS同步</label>-->
+		<!--<div class="controls">-->
+			<!--<label><input type="checkbox" /> 同步到新浪微博</label>-->
+			<!--<label><input type="checkbox" /> 同步到腾讯微博</label>-->
+			<!--<label><input type="checkbox" /> 同步到人人网</label>-->
+			<!--<label><input type="checkbox" /> 同步到Google+</label>-->
+		<!--</div>-->
+	<!--</div>-->
+<!--</fieldset>-->
+
+</form>
+
+<script src="{{@WEB_ROOT}}static/js/jquery.form.js" type="text/javascript"></script>
+
+<script src="{{@WEB_ROOT}}static/js/bootstrap-fileupload.js" type="text/javascript"></script>
+<link type="text/css" rel="stylesheet" href="{{@WEB_ROOT}}static/css/fileupload.css" />
+
+<script src="{{@WEB_ROOT}}static/js/bootstrap-timepicker.js" type="text/javascript"></script>
+<link type="text/css" rel="stylesheet" href="{{@WEB_ROOT}}static/css/timepicker.css" />
+
+<script src="{{@WEB_ROOT}}static/js/bootstrap-datepicker.js" type="text/javascript"></script>
+<link type="text/css" rel="stylesheet" href="{{@WEB_ROOT}}static/css/datepicker.css" />
+
+<script src="{{@WEB_ROOT}}static/editor/scripts/innovaeditor.js" type="text/javascript"></script>
+<script src="{{@WEB_ROOT}}static/editor/scripts/innovamanager.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+	
+	$(document).ready(function () {
+
+		$('#content').liveEdit({
+			css: ['{{@WEB_ROOT}}static/bootstrap/css/bootstrap.min.css', '{{@WEB_ROOT}}static/bootstrap/bootstrap_extend.css'],
+			groups: [
+				["group1", "", ["Paragraph", "FontSize", "Bold", "Italic", "Underline", "ForeColor", "RemoveFormat"]],
+				["group2", "", ["Bullets", "Numbering", "Indent", "Outdent"]],
+				["group3", "", ["LinkDialog", "ImageDialog", "TableDialog", "Emoticons", "Snippets"]],
+				["group4", "", ["Undo", "Redo", "FullScreen" ]]
+				] /* Toolbar configuration */
+		});
+
+		//$('.date-picker').datepicker("setFromat", "YYYY-MM-DD");
+		$('.date-picker').datepicker({
+			format:'yyyy/mm/dd',weekStart:1
+			});
+
+		$('.end-time').timepicker({
+			minuteStep:10,showMeridian:false
+			});
+
+		$('.begin-time').timepicker({
+			minuteStep:10,showMeridian:false
+			});
+
+
+		$('#content').data('liveEdit').startedit(); /* Run the Editor */
+		$("#title").focus();
+	});
+
+    function save() {
+		var sHtml = $('#content').data('liveEdit').getXHTMLBody(); //Use before finishedit()
+		$('#content').data('liveEdit').finishedit();
+		alert(sHtml); /*You can use the sHtml for any purpose, eg. saving the content to your database, etc, depend on you custom app */
+	}
+
+</script>
+

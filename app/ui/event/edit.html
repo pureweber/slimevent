@@ -1,0 +1,42 @@
+<F3:include href="common/header.html" />
+
+<div class="container">
+
+<div class="row">
+<!--<div class="span2">-->
+<!--<F3:include href="common/sidebar.html" />-->
+<!--</div>-->
+<div class="offset2 span8">
+
+
+<h3>创建活动</h3>
+<article class="create-event">
+
+
+<F3:include href="event/event-form.html" />
+
+<div class="pull-right">
+	<button onclick="audite()" type="button" class="btn btn-success btn-large"><i class="icon-ok-sign"></i> 提交审核</button>
+</div>
+
+</article>
+</div><!-- span10 -->
+</div><!-- row -->
+</div><!-- Container -->
+<script type="text/javascript">
+	function audite(){
+		alert("提示：提交后需审核通过才能在网站中更新");
+		$("#create-form").submit(function(){
+				var options = {
+					target : '#tip',
+					url : "{{@WEB_ROOT}}event/audite",
+					type : 'POST',
+				}
+				$(this).ajaxSubmit(options);
+				return false;
+			});
+	}
+</script>
+
+
+<F3:include href="common/footer.html" />

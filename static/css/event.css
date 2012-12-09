@@ -225,3 +225,7 @@ section.meta p{
 	margin:0px;
 	width: 600px;
 }
+
+.create-event fieldset{
+	margin:20px 0;
+}

@@ -16,39 +16,21 @@ class SEEvent{
 	}
 
 	function create(){
-		$a =Event::createevent(
-			$_POST["title"],
-			$_POST["sort"],
-			$_POST["label"],
-			$_POST["location"],
-			$_POST["starttime"],
-			$_POST["endtime"],
-			$_POST["introduction"]
-		);
-		$d = array();
-		$d['title'] = F3::get("POST.title");
-		//$d['date'] = F3::get("POST.date");
-		$d['time'] = F3::get("POST.time");
-		$d['region'] = F3::get("POST.region");
-		$d['addr'] = F3::get("POST.addr");
-		$d['content'] = F3::get("POST.content");
+		$d = SECommon::get_create_form_value();
 
-		$d['category'] = F3::get("POST.category");
-		$d['lable'] = F3::get("POST.lable");
-
-		F3::reroute("/event/{$a}");
+		Code::dump($d);
+		if($d === false)
+			$this->show_create();
+		else{
+			Account::create_event($d);
+			F3::reroute("/event/{$eid}");
+		}
 	}
 
 	function joins() 
 	{
 		$uid = Account::the_user_id(); //这个是当前登录用户的id
 		$eid = F3::get('PARAMS.eventID');  //这个是用户要参加的活动id
-
-		/*想办法获取下面两个时间*/
-		//$spare_time_start =   //用户空闲的开始时间
-		//$spare_time_end =     //用户空闲的结束时间 
-
-		//之后你要做得就是把上现的参数传到models里的某个静态函数里,在那个静态函数里把这些参数存入数据库
 
 		echo "当前登录用户的id: ".$uid;
 		echo "用户要参加活动的id: ".$eid;
@@ -64,13 +46,6 @@ class SEEvent{
 	{
 		$uid = Account::the_user_id(); //这个是当前登录用户的id
 		echo "当前登录用户的id: ".$uid;
-		
-		//根据uid从数据库搜索出该用户创建的所有活动以及参与的所有活动的信息
-		//之后在ui目录下创建一个html文件,用于显示当前用户创建活动以及参与活动的列表
-
-		/*用于用户可能参与或创建了很多活动,不可能用一个个独立的变量把活动的信息传到html页面,所以你需要使用数组
-		最好的是,给html页面只传递两个数组,分别存储着创建的所有活动信息以及参与的所用活动信息
-		*/
 	}
 
 	function show_edit(){
@@ -78,13 +53,19 @@ class SEEvent{
 	}
 
 	function show_create(){
+		$region = array(array('id'=>1,'name'=>"一校区"), array('id'=>2,'name'=>"二校区"));
+		$category = array();
+
+		SECommon::generate_select_option($region, 'region');
+		SECommon::generate_select_option($category, 'category');
+
 		echo Template::serve('event/create.html');
 	}
 
 	function show(){
 		F3::set('subnav', true);
 		F3::set('route', array('discover', 'intro'));
-		//$event = Event::getevent(F3::get('PARAMS.eventID'));
+		$event = Event::show(F3::get('PARAMS.eventID'));
 		//F3::set('event',$event[0]);
 
 		echo Template::serve('event/event1.html');
