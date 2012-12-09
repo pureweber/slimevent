@@ -1,6 +1,18 @@
 <?php
 
 class Sys{
+
+	static function error($error_code,$data)
+	{
+		if(is_array($data))
+			var_dump($data);
+		else
+			echo $data;
+		echo $error_code;
+
+		F3::reroute("/error/$error_code/$data");
+	}
+
 	static function time_quaters(){
 		static $times = null;
 
