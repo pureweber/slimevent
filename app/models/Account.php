@@ -83,7 +83,7 @@ class Account{
 	 * @param $pwd
 	 * @return 加密后密码
 	 */
-	protected static function encrypt_pwd($pwd)
+	static function encrypt_pwd($pwd)
 	{
 		return md5(F3::get('PWD_SALT').trim($pwd));
 	}

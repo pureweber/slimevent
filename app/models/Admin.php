@@ -8,6 +8,40 @@
 
 class Admin	extends Service{
 
+	/**
+	 * 添加某用户基本信息
+	 * @param $uid : 用户在users表里的id 
+	 * @param $data : 信息关联数组
+	 */
+	static function add_user_info($uid,$group,$data)
+	{
+		$data['uid'] = $uid;
+
+		switch($group)
+		{
+			case F3::get('STUDENT_GROUP'):
+				$table = 'student';
+				break;
+			case F3::get('CLUB_GROUP'):
+				$table = 'club';
+				break;
+			case F3::get('ORG_GROUP'):
+				$table = 'org';
+				break;
+			case F3::get('SERVICE_GROUP'):
+				$table = 'service';
+				break;
+			case F3::get('SERVICE_GROUP'):
+				$table = 'admin';
+				break;
+		}
+
+		$b = EDB::select($table, 'uid', $uid);
+
+		if( count($b) == 0 )
+			EDB::insert($table, $data);
+	}
+
 	/*
 	 * 添加一个用户
 	 * @param $name : 用户名 
@@ -16,7 +50,7 @@ class Admin	extends Service{
 	 * @param $status : 用户状态(默认空为正常态)
 	 * @return $uid : 新建用户的$id
 	 */
-	static function add_user($name, $pwd, $group, $status = "")
+	static function add_user($name, $pwd, $group, $status = "", $data)
 	{
 		if(self::exists($name) !== false)
 			Sys::error(F3::get('USERS_NAME_SAME_CODE'),$name);
@@ -33,7 +67,11 @@ class Admin	extends Service{
 			':status' => trim($status)
 			));
 
-		return DB::get_insert_id();
+		$uid = DB::get_insert_id();
+
+		self::add_user_info($uid,$group, $data);
+
+		return $uid;
 	}
 
 	/**
@@ -59,6 +97,7 @@ class Admin	extends Service{
 		$sql = "UPDATE `users` SET `status` = :status WHERE `id` = :uid";
 		DB::sql($sql, array(':uid' => trim($uid), ':status' => trim($status)));
 	}
+
 
 	/**
 	 * 修改某用户基本信息
