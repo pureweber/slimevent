@@ -80,8 +80,9 @@ class Event{
 
 		$r = DB::sql($sql, $data);
 
-		if(count($r) == 0)
-			Sys::error(F3::get('EVENT_NOT_EXIST_CODE'),$con);
+		//if(count($r) == 0)
+			//Sys::error(F3::get('EVENT_NOT_EXIST_CODE'),$con);
+			//return array();
 		//else if(count($r) == 1)
 			//$e = $r['0'];
 		//else	
