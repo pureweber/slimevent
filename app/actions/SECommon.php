@@ -131,7 +131,7 @@ class SECommon{
 		//$con = "`label` LIKE '%AWF%'";
 		//$con = '1 ORDER BY `post_time` DESC';
 		
-		$total_num = Event::get_num($con);
+		$total_num = Event::get_num($con, $data);
 		if($total_num == 0)
 			return false;
 

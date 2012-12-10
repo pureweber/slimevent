@@ -1,25 +1,33 @@
 <table class="table" style="margin-top:20px">
 	<tr>
-		<th>序号</th>
-		<th width="45%">标题</th>
-		<th>时间</th>
-		<th>参加人数</th>
-		<th>感兴趣人数</th>
-		<th width="12%">操作</th>
+		<th width="5%">#</th>
+		<th width="55%">标题</th>
+		<th width="10%">发布时间</th>
+		<th width="10%">参加/赞</th>
+		<th width="20%">操作</th>
 	</tr>
 
 <F3:repeat group="{{@events}}" value="{{@event}}" counter="{{@count}}">
 	<tr>
 		<td>{{@count}}</td>
-		<td><a href="{{@WEB_ROOT}}event/{{@event.eid}}">{{@event.title}}</a></td>
-		<td>{{@event.date}}</td>
-		<td><a href="{{@WEB_ROOT}}event/{{@event.eid}}/join/list">{{@event.joiners}}</a></td>
-		<td>{{@event.praisers}}</td>
-		<td><a href="{{@WEB_ROOT}}event/{{@event.eid}}/edit" class="btn btn-primary">编辑</a></td>
+		<td><a href="{{@WEB_ROOT}}event/{{@event.eid}}{{@event.status==@EVENT_PASSED_STATUS?'':'/preview'}}" 
+				target="_blank" class="event-{{@event.status}}">{{@event.title}}</a></td>
+		<td>{{@event.post_time}}</td>
+		<td><a href="{{@WEB_ROOT}}event/{{@event.eid}}/join/list">{{@event.joiners}}</a>/{{@event.praisers}}</td>
+		<td>
+			<a href="{{@WEB_ROOT}}event/{{@event.eid}}/del" class="btn btn-danger" 
+				onclick="return confirm('确定要删除<<{{@event.title}}>>活动吗');">删除</a>
+			<a href="{{@WEB_ROOT}}event/{{@event.eid}}/edit" class="btn btn-primary">编辑</a>
+		</td>
 	</tr>
 </F3:repeat>
 </table>
 
 {{@pagination}}
 
+<style>
+	.event-{{@EVENT_DRAFT_STATUS}}{color:#a080f0}
+	.event-{{@EVENT_AUDIT_STATUS}}{color:#c0ff40}
+	.event-{{@EVENT_FAILED_STATUS}}{color:#ff0000}
+</style>
 

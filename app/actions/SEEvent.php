@@ -19,7 +19,7 @@ class SEEvent{
 	}
 
 	function show_edit(){
-		$info = Event::show($this->eid, F3::get("EVENT_DRAFT_STATUS"));
+		$info = Event::show($this->eid, false);
 
 		$info = SECommon::format_time_to_show($info);
 
@@ -32,6 +32,11 @@ class SEEvent{
 		SECommon::generate_select_option($category, 'category');
 
 		echo Template::serve('event/edit.html');
+	}
+
+	function del(){
+		Account::delete_event($this->eid);
+		F3::reroute('/club');
 	}
 
 	function audit(){
@@ -108,16 +113,20 @@ class SEEvent{
 		echo Template::serve('event/create.html');
 	}
 
-	function show(){
+	function show($status = true){
 		F3::set('subnav', true);
 		F3::set('route', array('discover', 'intro'));
-		$event = Event::show($this->eid);
+		$event = Event::show($this->eid, $status);
 		$event = SECommon::format_info_to_show($event);
 
 		//Code::dump($event);
 		F3::set('e',$event);
 
 		echo Template::serve('event/event1.html');
+	}
+
+	function preview(){
+		$this->show(false);
 	}
 
 	function photos(){
