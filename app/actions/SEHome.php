@@ -44,8 +44,8 @@ class SEHome{
 		//Student::edit_basic_info($data);
 		//Admin::edit_user_info(26,$data);
 		//Event::show(1);
-		$r = Category::get_all();
-		Code::dump($r);
+		//$r = Category::get_all();
+		//Code::dump($r);
 		//Admin::edit_user_info(1,'student',$data);
 	//	Admin::reset_user_pwd(11,2222);
 		//Admin::add_user_to_black_list(10);
@@ -69,6 +69,11 @@ class SEHome{
 		//Admin::reset_user_pwd(20,"123");
 
 		//Admin::get_user(18);
+		//Student::join_event(45);
+		//Student::unjoin_event(45);
+		//Student::praise_event(35);
+		Student::unpraise_event(34);
+		//Student::unjoin_event(34);
 	}
 
 

@@ -56,7 +56,7 @@ class Event{
 		$r = DB::sql($sql);
 
 		if(count($r) == 0)
-			Sys::error(F3::get('EVENT_NOT_EXIST_CODE'),-1);
+			Sys::error(F3::get('EVENT_NOT_EXIST_CODE'),$con);
 		//else if(count($r) == 1)
 			//$e = $r['0'];
 		//else	
