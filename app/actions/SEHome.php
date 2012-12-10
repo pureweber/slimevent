@@ -87,15 +87,17 @@ class SEHome{
 		{
 			case F3::get('CAS_AUTH'):
 				$user = CAS::login();
-
-				$name = $user['stu_id'];
-				$pwd = md5(F3::get('DEFAULT_PWD'));
+				$name = trim($user['name']); 
+				if($name  == "")
+					Sys::error(F3::get("NOT_GET_CAS_ID"));
+				$pwd = F3::get('DEFAULT_PWD');
 				$group = F3::get('STUDENT_GROUP');
-
-				if(Student::exists($name) === FALSE)
-					Student::insert($name, $pwd, $group);
-
-				Account::login($name, $pwd);
+				$status = F3::get('NORMAL_STATUS');
+				$data = array(
+						'name' => $user['stu_name'],
+						'sex' => $user['sex']);
+				if(Account::exists($name) === false)  //首次通过CAS登录
+					Admin::add_user($name, $pwd, $group, $status, $data);
 				break;
 			case F3::get('CLUB_AUTH'):
 				echo Template::serve('club/login.html');
@@ -104,6 +106,7 @@ class SEHome{
 				F3::reroute('/');
 		}
 
+		Account::login($name, $pwd);
 		F3::reroute('/');
 	}
 
@@ -114,11 +117,10 @@ class SEHome{
 
 		$user = Account::login($user_name, $user_pwd); 
 
-		if($user === FALSE){
+		if($user === false)
 			F3::reroute('/club/login/?show_msg=1');  
-		} else {
+		else 
 			F3::reroute('/');
-		}
 	}
 
 	function logout()
@@ -127,7 +129,7 @@ class SEHome{
 		{
 			case F3::get('STUDENT_GROUP'):
 				Account::logout();
-				CAS::logout();
+	//			CAS::logout();
 				break;
 			default:
 				Account::logout();
@@ -136,54 +138,6 @@ class SEHome{
 		F3::reroute('/');
 	}
 
-	function auth_login()
-	{
-		switch(F3::get('GET.auth'))
-		{
-			case 'cas':
-				$user = CAS::login();
-				break;
-			default:
-				F3::reroute('/');
-		}
-
-		$name = $user['stu_id'];
-		$pwd = md5(trim($name));
-		$group = F3::get('STUDENT_GROUP');
-
-		if(Student::exists($name) === FALSE)
-			Student::insert($name, $pwd, $group);
-
-		Account::login($name, $pwd);
-
-		F3::reroute('/');
-	}
-
-	function show_club_login()
-	{
-		//show_msg = 1 表示 密码不正确类型 其余可扩充
-		if(F3::get('GET.show_msg') == 1)
-		{
-			$msg = "用户名或密码错误";
-			F3::set("msg", $msg);
-			F3::set("show_msg", "true");
-		}
-		echo Template::serve('club/login.html');
-	}
-
-	function club_login()
-	{
-		$user_name = F3::get('POST.user_name');
-		$user_pwd = F3::get('POST.user_pwd');
-
-		$user = Account::login($user_name, $user_pwd); 
-
-		if($user === FALSE){
-			F3::reroute('/club/login/?show_msg=1');  
-		} else {
-			F3::reroute('/');
-		}
-	}
 };
 
 ?>

@@ -27,8 +27,9 @@ class CAS{
 		// for this test, simply print that the authentication was successfull
 
 		$user = Array();
-		$user['stu_id'] = phpCAS::getUser();
 		$user['name'] = phpCAS::getUser();
+		$user['stu_name'] = "s".phpCAS::getUser();
+		$user['sex'] = "male";
 
 		return $user;
 	}
