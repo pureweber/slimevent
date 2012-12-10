@@ -74,6 +74,7 @@ class SEHome{
 
 	function run()
 	{
+		SECommon::show_by("");
 		echo Template::serve('index.html');
 		//if(Account::is_login() === TRUE)
 			//echo Template::serve('hello.html');

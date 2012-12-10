@@ -6,12 +6,16 @@
 			<img src="{{@e.poster}}">
 		</div>
 		<div class="span6 info">
-			<h4><a href="{{@WEB_ROOT}}event/{{@e.edi}}">{{@e.title}}</a></h4>
+			<h4><a href="{{@WEB_ROOT}}event/{{@e.eid}}">{{@e.title}}</a></h4>
 			<ul>
-				<li class="event-label"><span><a href="#">{{@e.label}}</a></span></li>
+				<li class="event-label"><span>
+			<F3:repeat group="{{@e.label}}" value="{{@v}}">
+					<a href="{{@WEB_ROOT}}{{@v}}">{{@v}}</a>
+			</F3:repeat>
+				</span></li>
 				<li>{{@e.date}} {{@e.begin_time}} - {{@e.end_time}}</li>
 				<li>{{@e.region}} {{@e.addr}}</li>
-				<li class="hoster"><a href="{{@WEB_ROOT}}{{@e.organizer_id}}">{{@e.organizer}}</a><span>  主办</span></li>
+				<li class="organizer"><a href="{{@WEB_ROOT}}{{@e.organizer_id}}">{{@e.organizer}}</a><span>  主办</span></li>
 			</ul>
 			<p style="margin-left:25px">已有<strong>{{@e.joiners}}</strong>人报名参加，<strong>{{@e.parisers}}</strong>人感兴趣</p>
 		</div>

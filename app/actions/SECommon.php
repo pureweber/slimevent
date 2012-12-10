@@ -93,10 +93,17 @@ class SECommon{
 		$info['date'] = date("Y/m/d", $info['begin_time']);
 		$info['begin_time'] = date("H:i", $info['begin_time']);
 		$info['end_time'] = date("H:i", $info['end_time']);
+		$info['post_time'] = date("Y/m/d H:i:s", $info['post_time']);
 
 		return $info;
 	}
 
+	static function format_infos_to_show($data){
+		$d = array();
+		foreach($data as $info)
+			$d[] = self::format_info_to_show($info);
+		return $d;
+	}
 
 	static function format_info_to_show($info){
 
@@ -106,19 +113,46 @@ class SECommon{
 		// format Region
 		$region = F3::get("REGION");
 
-		foreach($region as $k => $v){
+		$info['label'] = explode(" ", $info['label']);
+
+		foreach($region as $k => $v)
 			if($info['region'] == $k){
 				$info['region'] = $v;
 				break;
 			}
-		}
+		
 		return $info;
+	}
+
+	static function show_by($url, $con = "1"){
+
+		//$con = "`label` LIKE '%AWF%'";
+		$con = '1 ORDER BY `post_time` DESC';
+		
+		$total_num = Event::get_num($con);
+		if($total_num == 0)
+			return false;
+
+		$get_page = F3::get("GET.page");
+		$per_page_show = F3::get("PER_PAGE_SHOW");
+		$current_page = $get_page == NULL ? 0 : $get_page;
+
+		$limit = " LIMIT ".$current_page * $per_page_show.", ".$per_page_show;
+
+		$events = Event::show_by($con.$limit);
+		$e = self::format_infos_to_show($events);
+
+		self::pagination($current_page, (int)ceil($total_num / $per_page_show), $url);
+		F3::set("events", $e);
+
+		return true;
 	}
 
 	static function pagination($current_page, $total_pages, $url = '', $onclick = false){
 		$html = "";
 		$html .= "<div class='pagination pagination-right'> <ul>";
 		$url = F3::get("WEB_ROOT").$url;
+		//$current_page = $current_page == NULL ? 0 : $current_page;
 
 		//
 		if($current_page == 0):
@@ -126,7 +160,7 @@ class SECommon{
 		else:
 			$prev_page = $current_page - 1;
 			$html .= "<li><a href='";
-			$html .= $onclick? "#' onclick='{$onclick}(${prev_page}, this)":"{$url}?&page={$prev_page}";
+			$html .= $onclick? "#' onclick='{$onclick}(${prev_page}, this)":"{$url}?page={$prev_page}";
 			$html .= "'>上一页</a></li>";
 		endif;
 
@@ -148,14 +182,13 @@ class SECommon{
 		else:
 			$next_page = $current_page + 1;
 			$html .= "<li><a href='";
-			$html .= $onclick? "#' onclick='{$onclick}(${next_page}, this)'":"list?ugroup={$show_group}&&page={$next_page}";
+			$html .= $onclick? "#' onclick='{$onclick}(${next_page}, this)'":"list?page={$next_page}";
 			$html .= "'>下一页</a></li>";
 		endif;
 
 		$html .= "</ul></div>";
 
 		F3::set('pagination', $html);
-
 	}
 
 }

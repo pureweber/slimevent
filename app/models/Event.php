@@ -38,8 +38,9 @@ class Event{
 		$sql = "SELECT COUNT(*) FROM `event` WHERE {$con}";
 
 		$r = DB::sql($sql);
+		//Code::dump($r);
 
-		return $r[0]["count(*)"];
+		return $r[0]["COUNT(*)"];
 	}
 
 	/**
@@ -50,7 +51,7 @@ class Event{
 	private static function get($con)
 	{
 		$sql = "SELECT `event`.*, `category`.`name` AS 'category' FROM `event`,`category` 
-					WHERE {$con} AND `category`.id = `event`.`category_id`";
+					WHERE `category`.id = `event`.`category_id` AND {$con}";
 
 		$r = DB::sql($sql);
 
@@ -63,6 +64,8 @@ class Event{
 		foreach($r as &$row){
 			$organizer = Account::get_user($row['organizer_id']);
 			$row['organizer'] = $organizer[1]['name'];
+			$row['joiners'] = 10;
+			$row['parisers'] = 18;
 		}
 
 		return $r;

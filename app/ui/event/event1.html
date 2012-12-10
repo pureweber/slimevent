@@ -33,11 +33,17 @@
 							<span><i class="icon-map-marker"></i> 地点</span> : <a href="#">{{@e.region}}</a> {{@e.addr}}
 						</div>
 						<div id="event-category" class="event-item">
-							<span><i class="icon-tag"></i> 类型</span> : 
+							<span><i class="icon-reorder"></i> 类型</span> : 
 							<a href="{{@WEB_ROOT}}{{@e.category_id}}">{{@e.category}}</a>
 						</div>
 						<div id="event-owner" class="event-item">
-							<span><i class="icon-user"></i> 发起者</span> : <a href="{{@WEB_ROOT}}{{@e.organizer_id}}">{{@e.organizer}}</a>
+							<span><i class="icon-user"></i> 组织者</span> : <a href="{{@WEB_ROOT}}{{@e.organizer_id}}">{{@e.organizer}}</a>
+						</div>
+						<div id="event-category" class="event-item">
+							<span><i class="icon-tags"></i> 标签</span> : 
+						<F3:repeat group="{{@e.label}}" value="{{@v}}">
+							<a href="{{@WEB_ROOT}}{{@v}}">{{@v}}</a>
+						</F3:repeat>
 						</div>
 					</div><!-- event-items -->
 
