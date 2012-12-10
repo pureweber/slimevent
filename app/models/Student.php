@@ -43,6 +43,45 @@ class Student extends Account{
 			return false;
 	}
 
+	/**
+	 * 当前登录学生报名活动
+	 * @param $eid
+	 */
+	//static function join_event($eid)
+	//{
+		//$uid = self::the_user_id();
+		//JoinList::add($uid, $eid);
+	//}
+
+	/**
+	 * 当前登录学生取消报名活动
+	 * @param $eid
+	 */
+	//static function unjoin_event($eid)
+	//{
+		//$uid = self::the_user_id();
+		//JoinList::remove($uid, $eid);
+	//}
+
+	/**
+	 * 当前登录学生赞活动
+	 * @param $eid
+	 */
+	//static function praise_event($eid)
+	//{
+		//$uid = self::the_user_id();
+		//PraiseList::add($uid, $eid);
+	//}
+
+	/**
+	 * 当前登录学生取消赞活动
+	 * @param $eid
+	 */
+	//static function unpraise_event($eid)
+	//{
+		//$uid = self::the_user_id();
+		//PraiseList::remove($uid, $eid);
+	/*}*/
 };
 
 ?>
