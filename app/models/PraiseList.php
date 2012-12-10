@@ -13,7 +13,7 @@ class PraiseList{
 	 */
 	private static function check($eid)
 	{
-		$e = Event::show($eid);
+		$e = Event::get_basic_info($eid);
 
 		if($e['status'] != F3::get('EVENT_PASSED_STATUS')) 
 			Sys::error(F3::get('EVENT_NOT_PRAISE'),$eid);		//活动未审核通过去 无法赞

@@ -257,7 +257,7 @@ class Account{
 //		if(self::the_user_group() == F3::get('SERVICE_GROUP'))  //我是客服
 //			return true;
 
-		$e = Event::show($eid);
+		$e = Event::get_basic_info($eid);
 		if(self::the_user_id() == $e['organizer_id']) 		//该活动是我的
 			return true;
 
@@ -290,7 +290,7 @@ class Account{
 		if(self::the_user_group() == F3::get('SERVICE_GROUP'))  //我是客服
 			return true;
 
-		$e = Event::show($eid);
+		$e = Event::get_basic_info($eid);
 		if(self::the_user_id() == $e['organizer_id'])  //该活动是我的
 			return true;
 
