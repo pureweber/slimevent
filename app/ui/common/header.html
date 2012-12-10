@@ -11,20 +11,24 @@
 	<script type="text/javascript" src="{{@WEB_ROOT}}static/js/jquery.js"></script>
 	<script type="text/javascript" src="{{@WEB_ROOT}}static/bootstrap/js/bootstrap.min.js"></script>
 
-	<script type="text/javascript" src="{{@WEB_ROOT}}static/noty/jquery.noty.js"></script>
-
-	<script type="text/javascript" src="{{@WEB_ROOT}}static/noty/layouts/topRight.js"></script>
-
-	<script type="text/javascript" src="{{@WEB_ROOT}}static/noty/themes/default.js"></script>
+	<!--<script type="text/javascript" src="{{@WEB_ROOT}}static/noty/jquery.noty.js"></script>-->
+	<!--<script type="text/javascript" src="{{@WEB_ROOT}}static/noty/layouts/topRight.js"></script>-->
+	<!--<script type="text/javascript" src="{{@WEB_ROOT}}static/noty/themes/default.js"></script>-->
+	<script type="text/javascript" src="{{@WEB_ROOT}}static/js/jquery.gritter.js"></script>
+	<link type="text/css" rel="stylesheet" href="{{@WEB_ROOT}}static/css/gritter.css" />
 
 	<script type="text/javascript">
 		$(function(){
 			$('.dropdown-toggle').dropdown()
 			//var noty = $('#wrap').noty({text:'Hello!'});
-
+			$.extend($.gritter.options, { 
+				fade_in_speed: 'medium', // how fast notifications fade in (string or int)
+				fade_out_speed: 1000, // how fast the notices fade out
+				time: 5000 // hang on the screen for...
+			});
 		});
 
-		var noty = noty({layout:'topRight',text: 'LOOK AT ME!!!!!!!!!!!'});
+		//var noty = noty({layout:'topRight',text: 'LOOK AT ME!!!!!!!!!!!'});
 	</script>
 </head>
 <body>

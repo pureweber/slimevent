@@ -193,6 +193,10 @@
 	function updateForm(eid){
 		$("input[name='eid']").attr('value', eid);
 		$("input[name='poster_change']").attr('value', '0');
+		$.gritter.add({
+			title: '保存成功!',
+			text: "<a href='{{@WEB_ROOT}}event/"+eid+"'>点此预览</a>"
+		});
 	}
 
 </script>
