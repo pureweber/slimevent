@@ -72,8 +72,13 @@ class SEHome{
 		//Student::join_event(45);
 		//Student::unjoin_event(45);
 		//Student::praise_event(35);
-		Student::unpraise_event(34);
+//		Student::unpraise_event(34);
 		//Student::unjoin_event(34);
+		//$r = JoinList::get_join_user(34);
+		//$r = PraiseList::get_praise_user(2);
+		//$r = PraiseList::get_praise_event(46);
+		$r = JoinList::get_join_event(46);
+		Code::dump($r);
 	}
 
 

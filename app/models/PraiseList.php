@@ -49,6 +49,28 @@ class PraiseList{
 		$sql = "DELETE FROM `praise` WHERE `uid` = :uid AND `eid` = :eid";
 		DB::sql($sql, array(':uid' => $uid, ':eid' => $eid));
 	}
+
+	/**
+	 * 返回赞$eid活动的用户信息(uid, time)
+	 * @param $eid
+	 * @return array 用户赞活动记录关联数组
+	 */
+	static function get_praise_user($eid)
+	{
+		$sql = "SELECT `uid`, `time` FROM `praise` WHERE `eid` = :eid";
+		return DB::sql($sql, array(':eid' => $eid));
+	}
+
+	/*
+	 * 返回$uid用户赞过的所有活动信息(eid, time)
+	 * @return array 用户赞活动记录关联数组
+	 */
+	 */
+	static function get_praise_event($uid)
+	{
+		$sql = "SELECT `eid`, `time` FROM `praise` WHERE `uid` = :uid";
+		return DB::sql($sql, array(':uid' => $uid));
+	}
 };
 
 ?>
