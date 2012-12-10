@@ -19,7 +19,7 @@ class SEEvent{
 	}
 
 	function show_edit(){
-		$info = Event::show($this->eid);
+		$info = Event::show($this->eid, F3::get("EVENT_DRAFT_STATUS"));
 
 		$info = SECommon::format_time_to_show($info);
 

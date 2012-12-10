@@ -16,7 +16,7 @@ class SEClub{
 	function show_list(){
 		F3::set("title", "社团管理");
 		$uid = Account::the_user_id();
-		SECommon::show_by("club", "`organizer` = :uid", array(":uid"=>$uid));
+		SECommon::show_by("club", "`organizer_id` = :uid", array(":uid"=>$uid));
 		echo Template::serve('club/list.html');
 	}
 
