@@ -21,7 +21,7 @@ class Event{
 		$r = DB::sql($sql, array(":eid"=>$eid));
 
 		if(count($r) == 0)
-			Sys::error(F3::get('EVENT_NOT_EXIST_CODE'),-1);
+			Sys::error(F3::get('EVENT_NOT_EXIST_CODE'),$eid);
 		else
 			return $r[0];
 	}

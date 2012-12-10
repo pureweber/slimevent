@@ -13,7 +13,7 @@ class JoinList{
 	 */
 	private static function check($eid)
 	{
-		$e = Event::show($eid);  //得到活动详情
+		$e = Event::get_basic_info($eid);  //得到活动详情
 
 		if($e['sign_up'] == F3::get('EVENT_NEED_SIGN') && $e['status'] == F3::get('EVENT_PASSED_STATUS'))  //活动允许报名且活动为审核通过状态
 		{
