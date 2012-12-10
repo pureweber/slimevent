@@ -50,6 +50,8 @@ class SECommon{
 	}
 
 	static function get_create_form_value(){
+		$d = array();
+
 		$date = explode('/', F3::get("POST.date"));
 		//Code::dump($_POST);
 		$year = $date[0];
@@ -59,11 +61,7 @@ class SECommon{
 		$begin_time = explode(':', F3::get("POST.begin_time"));
 		$end_time = explode(':', F3::get("POST.end_time"));
 
-		$d = array();
-
 		$eid = F3::get("POST.eid");
-
-
 		if($eid !== false){
 			$d['eid'] = (int)$eid;
 		}
@@ -98,6 +96,23 @@ class SECommon{
 		return $info;
 	}
 
+	static function format_info_to_show($info){
+		// format Time&Date
+		$info = self::format_time_to_show($info);
+
+		// format Region
+		$region = F3::get("REGION");
+		foreach($region as $k => $v)
+			if($info['region'] == $k){
+				$info['region'] = $v;
+				break;
+			}
+
+		$info['label'] = explode(" ", $info['label']);
+
+		return $info;
+	}
+
 	static function format_infos_to_show($data){
 		$d = array();
 		foreach($data as $info)
@@ -105,29 +120,16 @@ class SECommon{
 		return $d;
 	}
 
-	static function format_info_to_show($info){
-
-		// format Time&Date
-		$info = self::format_time_to_show($info);
-
-		// format Region
-		$region = F3::get("REGION");
-
-		$info['label'] = explode(" ", $info['label']);
-
-		foreach($region as $k => $v)
-			if($info['region'] == $k){
-				$info['region'] = $v;
-				break;
-			}
-		
-		return $info;
-	}
-
-	static function show_by($url, $con = "1"){
-
+	/**
+	 * 根据条件直接设置经过处理的结果,同时设置分页
+	 * @param $url : 分页的url
+	 * @param $con : SQL条件
+	 * @param $data : SQL条件中的值
+	 * @return void
+	 */
+	static function show_by($url, $con = "1", $data = array()){
 		//$con = "`label` LIKE '%AWF%'";
-		$con = '1 ORDER BY `post_time` DESC';
+		//$con = '1 ORDER BY `post_time` DESC';
 		
 		$total_num = Event::get_num($con);
 		if($total_num == 0)
@@ -139,7 +141,7 @@ class SECommon{
 
 		$limit = " LIMIT ".$current_page * $per_page_show.", ".$per_page_show;
 
-		$events = Event::show_by($con.$limit);
+		$events = Event::show_by($con.$limit, $data);
 		$e = self::format_infos_to_show($events);
 
 		self::pagination($current_page, (int)ceil($total_num / $per_page_show), $url);
@@ -148,6 +150,10 @@ class SECommon{
 		return true;
 	}
 
+	/**
+	 * 设置分页
+	 * @return void
+	 */
 	static function pagination($current_page, $total_pages, $url = '', $onclick = false){
 		$html = "";
 		$html .= "<div class='pagination pagination-right'> <ul>";
@@ -182,7 +188,7 @@ class SECommon{
 		else:
 			$next_page = $current_page + 1;
 			$html .= "<li><a href='";
-			$html .= $onclick? "#' onclick='{$onclick}(${next_page}, this)'":"list?page={$next_page}";
+			$html .= $onclick? "#' onclick='{$onclick}(${next_page}, this)'":"{$url}?page={$next_page}";
 			$html .= "'>下一页</a></li>";
 		endif;
 

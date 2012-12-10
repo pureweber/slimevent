@@ -8,24 +8,48 @@
 class Event{
 
 	/**
-	 * 根据eid得到活动信息
+	 * 根据eid和得到基本的活动信息
+	 * @param $eid : SQL查询条件
+	 * @return array 关联数组
+	 */
+	static function get_basic_info($eid)
+	{
+		$sql = "SELECT eid, begin_time, end_time, organizer_id, 
+				category_id, status, sign_up, post_time FROM `event`
+				WHERE eid = :eid";
+
+		$r = DB::sql($sql, array(":eid"=>$eid));
+
+		if(count($r) == 0)
+			Sys::error(F3::get('EVENT_NOT_EXIST_CODE'),-1);
+		else
+			return $r[0];
+	}
+
+	/**
+	 * 根据eid得到详细的活动信息
 	 * @param $eid : 活动id
+	 * @param $status : 活动状态
 	 * @return array 返回关联数组
 	 */
-	static function show($eid)
+	static function show($eid, $status = '')
 	{
-		$e = self::get("`eid` = {$eid}");
+		$status = $status == '' ? F3::get("EVENT_PASSED_STATUS") : $status;
+
+		$e = self::get("`eid` = :eid AND status = :status",
+			array(":eid"=>$eid,":status"=>$status));
 		return $e[0];
 	}
 
 	/**
-	 * 根据eid和查询条件得到活动信息
+	 * 根据eid和查询条件得到详细的活动信息
 	 * @param $con : SQL查询条件
+	 * @param $data : SQL查询条件值
 	 * @return array 返回多维关联数组
 	 */
-	static function show_by($con)
+	static function show_by($con, $data)
 	{
-		return self::get($con);
+		return self::get($con, $data);
 	}
 
 	/**
@@ -33,11 +57,11 @@ class Event{
 	 * @param $con : SQL查询条件
 	 * @return int
 	 */
-	static function get_num($con = "`status` = 'passed'")
+	static function get_num($con = "`status` = 'passed'", $data = array())
 	{
 		$sql = "SELECT COUNT(*) FROM `event` WHERE {$con}";
 
-		$r = DB::sql($sql);
+		$r = DB::sql($sql, $data);
 		//Code::dump($r);
 
 		return $r[0]["COUNT(*)"];
@@ -46,14 +70,15 @@ class Event{
 	/**
 	 * 根据eid和查询条件得到活动信息，供show()和show_by()调用
 	 * @param $con : SQL查询条件
+	 * @param $data : SQL查询条件的值
 	 * @return array 返回多维关联数组
 	 */
-	private static function get($con)
+	private static function get($con, $data = array())
 	{
 		$sql = "SELECT `event`.*, `category`.`name` AS 'category' FROM `event`,`category` 
 					WHERE `category`.id = `event`.`category_id` AND {$con}";
 
-		$r = DB::sql($sql);
+		$r = DB::sql($sql, $data);
 
 		if(count($r) == 0)
 			Sys::error(F3::get('EVENT_NOT_EXIST_CODE'),$con);
@@ -65,7 +90,7 @@ class Event{
 			$organizer = Account::get_user($row['organizer_id']);
 			$row['organizer'] = $organizer[1]['name'];
 			$row['joiners'] = 10;
-			$row['parisers'] = 18;
+			$row['praisers'] = 18;
 		}
 
 		return $r;
@@ -90,7 +115,7 @@ class Event{
 	 */
 	static function update($eid, $data)
 	{
-		self::show($eid);
+		//self::show($eid);
 			
 		$r = EDB::update('event',$data,'eid',$eid);
 
