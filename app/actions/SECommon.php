@@ -127,7 +127,9 @@ class SECommon{
 	 * @param $data : SQL条件中的值
 	 * @return void
 	 */
-	static function show_by($url, $con = "1", $data = array()){
+	static function show_by($url, $con = "`status` = :status", $data = array()){
+		if(count($data)==0)// 默认只选择passed的
+			$data = array(":status"=>F3::get("EVENT_PASSED_STATUS"));
 		//$con = "`label` LIKE '%AWF%'";
 		//$con = '1 ORDER BY `post_time` DESC';
 		
