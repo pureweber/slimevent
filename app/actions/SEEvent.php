@@ -63,7 +63,7 @@ class SEEvent{
 			$eid = Account::create_event($d);
 		}
 
-		return $eid;
+		echo $eid;
 	}
 
 	private function get_eid_if_exist(&$d){
@@ -122,7 +122,10 @@ class SEEvent{
 	}
 
 	function preview(){
-		$this->show(false);
+		if(Account::preview_event())
+			$this->show(false);
+		else
+			Sys::error(F3::get("101", $this->eid));
 	}
 
 	function photos(){
