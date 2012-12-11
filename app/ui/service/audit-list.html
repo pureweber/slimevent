@@ -25,12 +25,14 @@
 
 {{@pagination}}
 
+<button onclick="reload_list();" class="btn">刷新</button>
+
 <script type="text/javascript">
+	function reload_list(){
+		$("#event-list").load("{{@WEB_ROOT}}audit #event-list");
+	}
 	function audit(eid, op){
-		$.post("{{@WEB_ROOT}}audit/"+op, {eid : eid}, function(result){
-				//alert(result);
-				$("#event-list").load("{{@WEB_ROOT}}audit #event-list");
-			});
+		$.post("{{@WEB_ROOT}}audit/"+op, {eid : eid},reload_list);
 	}
 </script>
 

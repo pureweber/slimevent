@@ -80,7 +80,7 @@ class SECommon{
 		$d['label'] = F3::get("POST.label");
 		$d['introduction'] = F3::get("POST.introduction");
 
-		$d['post_time'] = time();
+		//$d['post_time'] = time();
 		$d['begin_time'] = mktime($begin_time[0], $begin_time[1], 0, $month, $day, $year);
 		$d['end_time'] = mktime($end_time[0], $end_time[1], 0, $month, $day, $year);
 

@@ -16,7 +16,15 @@
 <F3:include href="event/event-form.html" />
 
 <div class="pull-right">
-	<button onclick="audite()" type="button" class="btn btn-success btn-large"><i class="icon-ok-sign"></i> 提交审核</button>
+<F3:check if="{{@POST.status == @EVENT_DRAFT_STATUS}}">
+	<F3:true>
+		<button onclick="publish()" type="button" class="btn btn-success btn-large"><i class="icon-ok-sign"></i> 发布</button>
+		<button onclick="saveDraft()" type="button" class="btn btn-large"><i class="icon-file"></i> 保存草稿 </button>
+	</F3:true>
+	<F3:false>
+		<button onclick="publish()" type="button" class="btn btn-success btn-large"><i class="icon-ok-sign"></i> 提交修改</button>
+	</F3:false>
+</F3:check>
 </div>
 
 </article>
@@ -24,18 +32,21 @@
 </div><!-- row -->
 </div><!-- Container -->
 <script type="text/javascript">
-	function audite(){
+	function publish(){
 		//alert("提示：提交后需审核通过才能在网站中更新");
-		/*
+		getIntroduction();
+		$("#create-form").attr('action', '{{@WEB_ROOT}}publish').submit();
+	}
+
+	function saveDraft(){
+		getIntroduction();
 		var options = {
 			target : '#tip',
-			url : "{{@WEB_ROOT}}audit",
-			type : 'POST'
+			url : "{{@WEB_ROOT}}draft",
+			type : 'POST',
+			success : function(eid){alert("保存成功"+eid);updateForm(eid);}
 		}
 		$("#create-form").ajaxSubmit(options);
-		*/
-		getIntroduction();
-		$("#create-form").attr('action', '{{@WEB_ROOT}}audit').submit();
 	}
 </script>
 

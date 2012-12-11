@@ -39,22 +39,45 @@ class SEEvent{
 		F3::reroute('/club');
 	}
 
-	function audit(){
-		$this->save('auditing');
+	function publish(){
+		$d = SECommon::get_create_form_value();
+		$eid = $this->get_eid_if_exist($d);
+
+		if($eid !== false){
+			Account::edit_event($eid, $d);
+		} else {
+			$eid = Account::create_event($d);
+		}
+		Account::publish_event($eid);
+
 		F3::reroute('/club');
 	}
 
 
 	function draft(){
-		$eid = $this->save('draft');
+		$d = SECommon::get_create_form_value();
+		$eid = $this->get_eid_if_exist($d);
 		if($eid !== false){
-			echo $eid;
-		}else{
+			Account::edit_event($eid, $d);
+		} else {
+			$eid = Account::create_event($d);
 		}
+
+		return $eid;
+	}
+
+	private function get_eid_if_exist(&$d){
+		if($d['eid'] != 0)
+			$eid = $d['eid'];
+		else
+			$eid = false;
+		
+		unset($d['eid']);
+
+		return $eid;
 	}
 
 	private function save($status){
-		$d = SECommon::get_create_form_value();
 		if(!is_array($d)){
 			$this->show_create();
 			return;
@@ -64,13 +87,6 @@ class SEEvent{
 
 		$d['status'] = $status;
 
-		if($d['eid'] != 0){
-			$has_exist= true;
-			$eid = $d['eid'];
-		}else{
-			$has_exist= false;
-		}
-		unset($d['eid']);
 		
 		if($has_exist){
 			Account::edit_event($eid, $d);
