@@ -271,8 +271,12 @@ class Account{
 		$e = Event::get_basic_info($eid);
 
 		//该活动是我的 且未删除
+		//Code::dump($e);
+		//Code::dump(self::the_user_id());
+		//Code::dump($e);
+		
 
-		if(self::the_user_id() == $e['organizer_id'] && $e['status'] != F3::get('EVENT_DELETED_STATUS')) 		
+		if(self::the_user_id() == $e['organizer_id'] && $e['status'] != F3::get('EVENT_DELETED_STATUS'))
 			return true;
 		else
 			return false;
