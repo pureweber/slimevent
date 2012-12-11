@@ -23,6 +23,7 @@ class PraiseList{
 	 * 新增加一条用户赞活动的记录
 	 * @param $uid 
 	 * @param $eid
+	 * return bool false : 之前赞过 true  : 成功
 	 */
 	static function add($uid, $eid)
 	{
@@ -31,11 +32,12 @@ class PraiseList{
 		$sql = "SELECT * FROM `praise` WHERE `uid` = :uid AND `eid` = :eid";
 		$r = DB::sql($sql, array(':uid' => $uid, ':eid' => $eid));
 		if(count($r) > 0)
-			return;
+			return false;
 			//Sys::error(F3::get('HAVE_PRAISED'),$eid);	//已经赞过
 
 		$sql = 'INSERT INTO `praise` (`uid`, `eid`, `time`) VALUES (:uid, :eid, :time)';
 		DB::sql($sql, array(':uid' => $uid, ':eid' => $eid, ':time' => time()));
+		return true;
 	}
 
 	/**
@@ -62,10 +64,9 @@ class PraiseList{
 		return DB::sql($sql, array(':eid' => $eid));
 	}
 
-	/*
+	/**
 	 * 返回$uid用户赞过的所有活动信息(eid, time)
 	 * @return array 用户赞活动记录关联数组
-	 */
 	 */
 	static function get_praise_event($uid)
 	{

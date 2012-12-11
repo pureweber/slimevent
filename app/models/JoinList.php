@@ -28,6 +28,7 @@ class JoinList{
 	 * 新增加一条用户报名活动的记录
 	 * @param $uid 
 	 * @param $eid
+	 * @return bool true : 保命成功  false: 之前报过名
 	 */
 	static function add($uid, $eid)
 	{
@@ -37,10 +38,12 @@ class JoinList{
 		$r = DB::sql($sql, array(':uid' => $uid, ':eid' => $eid));
 		if(count($r) > 0)
 			//Sys::error(F3::get('HAVE_SIGNED'),$eid);
-			return;
+			return false;
 
 		$sql = 'INSERT INTO `join` (`uid`, `eid`, `time`) VALUES (:uid, :eid, :time)';
 		DB::sql($sql, array(':uid' => $uid, ':eid' => $eid, ':time' => time()));
+
+		return true;
 	}
 
 	/**
