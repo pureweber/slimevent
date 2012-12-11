@@ -77,26 +77,6 @@ class SEEvent{
 		return $eid;
 	}
 
-	private function save($status){
-		if(!is_array($d)){
-			$this->show_create();
-			return;
-		}
-
-		//Code::dump($d);
-
-		$d['status'] = $status;
-
-		
-		if($has_exist){
-			Account::edit_event($eid, $d);
-		} else {
-			$eid = Account::create_event($d);
-		}
-		return $eid;
-		//$this->show_create();
-		//F3::reroute("/event/{$eid}");
-	}
 
 	function joins() 
 	{
@@ -121,10 +101,10 @@ class SEEvent{
 
 	function show_create(){
 		$region = F3::get("REGION");
-		$category = Category::get_all();
+		//$category = Category::get_all();
 
 		SECommon::generate_select_option($region, 'region');
-		SECommon::generate_select_option($category, 'category');
+		//SECommon::generate_select_option($category, 'category');
 
 		echo Template::serve('event/create.html');
 	}

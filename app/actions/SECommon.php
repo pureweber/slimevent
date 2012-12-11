@@ -52,7 +52,7 @@ class SECommon{
 	static function get_create_form_value(){
 		$d = array();
 
-		$date = explode('/', F3::get("POST.date"));
+		$date = explode('-', F3::get("POST.date"));
 		//Code::dump($_POST);
 		$year = $date[0];
 		$month = $date[1];

@@ -11,7 +11,7 @@
 	<!-- Text input-->
 	<label class="control-label" for="input01">标题</label>
 	<div class="controls">
-		<input type="text" placeholder="请输入活动标题" class="span6" name="title" value="{{@POST.title}}">
+		<input type="text" placeholder="请输入活动标题" class="validate-required span6" name="title" value="{{@POST.title}}">
 		<p class="help-block">最长不可超过32个字符</p>
 	</div>
 </div>
@@ -30,7 +30,7 @@
 	<!-- Text input-->
 	<label class="control-label" for="input01">地点</label>
 	<div class="controls">
-		<input type="text" placeholder="请输入活动地点" class="input-xlarge" name="addr" value="{{@POST.addr}}">
+		<input type="text" placeholder="请输入活动地点" class="validate-required input-xlarge" name="addr" value="{{@POST.addr}}">
 		<p class="help-block">请详细到具体教室/房间</p>
 	</div>
 </div>
@@ -39,7 +39,8 @@
 <!-- Appended input-->
 	<label class="control-label">活动日期</label>
 	<div class="controls">
-		<input class="span2 date-picker" placeholder="请点击输入框" type="text" name="date" value="{{@POST.date}}">
+		<input class="validate-date-before-now span2 date-picker" placeholder="请点击输入框" type="text" 
+			name="date" value="{{@POST.date}}">
 		<i class="icon-calendar icon-large" style="margin: 6px 0 0 -24.5px; pointer-events: none; position: relative;"></i>
 		<p class="help-block"></p>
 	</div>
@@ -50,7 +51,7 @@
 <!-- Appended input-->
 	<label class="control-label">开始时间</label>
 	<div class="controls">
-		<input class="span2 begin-time" placeholder="请点击输入框" type="text" name="begin_time" value="{{@POST.begin_time}}">
+		<input class="validate-required span2 begin-time" placeholder="请点击输入框" type="text" name="begin_time" value="{{@POST.begin_time}}">
 		<i class="icon-time icon-large" style="margin: 6px 0 0 -22.5px; pointer-events: none; position: relative;"></i>
 	</div>
 
@@ -60,7 +61,7 @@
 <!-- Appended input-->
 	<label class="control-label">结束时间</label>
 	<div class="controls">
-		<input class="span2 end-time" placeholder="请点击输入框" type="text" name="end_time" value="{{@POST.end_time}}">
+		<input class="validate-required validate-time-order span2 end-time" placeholder="请点击输入框" type="text" name="end_time" value="{{@POST.end_time}}">
 		<i class="icon-time icon-large" style="margin: 6px 0 0 -22.5px; pointer-events: none; position: relative;"></i>
 	</div>
 </div>
@@ -69,7 +70,7 @@
 <!-- Select Basic -->
 	<label class="control-label">活动类型</label>
 	<div class="controls">
-		<select class="input-large" name="category" value="{{@POST.category}}">
+		<select class="validate-required input-large" name="category" value="{{@POST.category}}">
 			{{@select_category}}
 		</select>
 	</div>
@@ -79,7 +80,7 @@
 <!-- Text input-->
 	<label class="control-label">标签</label>
 	<div class="controls">
-		<input type="text" placeholder="" class="input-xlarge" name="label" value="{{@POST.label}}">
+		<input type="text" placeholder="" class="validate-required input-xlarge" name="label" value="{{@POST.label}}">
 		<p class="help-block">多个标签请用空格分隔</p>
 	</div>
 </div>
@@ -92,7 +93,7 @@
 
 <fieldset>
 	<legend>上传海报</legend>
-<div class="control-group">
+<div class="control-group validate-required-upload">
 	<label class="control-label" for="input01"></label>
 	<div class="controls">
 	<div class="fileupload fileupload-{{@POST.eid ? 'exists' : 'new'}}" data-provides="fileupload">
@@ -116,7 +117,7 @@
 
 <fieldset>
 	<legend>活动详情</legend>
-	<textarea id="content" class="input-xlarge" style="width:90%;height:250px;" name="introduction">{{@POST.introduction}}</textarea>
+	<textarea id="content" class="validate-required input-xlarge" style="width:90%;height:250px;" name="introduction">{{@POST.introduction}}</textarea>
 </fieldset>
 
 <!--<fieldset>-->
@@ -135,6 +136,10 @@
 </form>
 
 <script src="{{@WEB_ROOT}}static/js/jquery.form.js" type="text/javascript"></script>
+
+<!--<script src="{{@WEB_ROOT}}static/js/jquery.validform-zh_CN.js" type="text/javascript" charset="utf8"></script>-->
+<script src="{{@WEB_ROOT}}static/js/validform.js" type="text/javascript"></script>
+<!--<link type="text/css" rel="stylesheet" href="{{@WEB_ROOT}}static/css/validform.css" />-->
 
 <script src="{{@WEB_ROOT}}static/js/bootstrap-fileupload.js" type="text/javascript"></script>
 <link type="text/css" rel="stylesheet" href="{{@WEB_ROOT}}static/css/fileupload.css" />
@@ -164,7 +169,7 @@
 
 		//$('.date-picker').datepicker("setFromat", "YYYY-MM-DD");
 		$('.date-picker').datepicker({
-			format:'yyyy/mm/dd',weekStart:1
+			format:'yyyy-mm-dd',weekStart:1
 			});
 
 		$('.end-time').timepicker({
@@ -184,10 +189,12 @@
 
 	});
 
-    function getIntroduction() {
+
+    function getIntroAndValidate() {
 		var sHtml = $('#content').data('liveEdit').getXHTMLBody(); //Use before finishedit()
 		$('#content').data('liveEdit').finishedit();
 		$('#content').html(sHtml);
+		return validate();
 	}
 
 	function updateForm(eid){
@@ -201,9 +208,6 @@
 
 </script>
 
-<F3:check if="{{@POST.eid}}">
-	<F3:true>
-	</F3:true>
-</F3:check>
+<button class="btn btn-danger" onclick="validate()">Check it!</button>
 
 

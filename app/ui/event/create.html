@@ -40,12 +40,12 @@
 		}
 		$("#create-form").ajaxSubmit(options);
 		*/
-		getIntroduction();
+		if(!getIntroAndValidate())	return false;
 		$("#create-form").attr('action', '{{@WEB_ROOT}}publish').submit();
 	}
 
 	function saveDraft(){
-		getIntroduction();
+		if(!getIntroAndValidate())	return false;
 		var options = {
 			target : '#tip',
 			url : "{{@WEB_ROOT}}draft",
