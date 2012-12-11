@@ -30,12 +30,18 @@ class Event{
 	 * @param $status : 活动状态
 	 * @return array 返回关联数组
 	 */
-	static function show($eid, $status = '')
+	static function show($eid, $status = true)
 	{
-		$status = $status == '' ? F3::get("EVENT_PASSED_STATUS") : $status;
+		//$status = $status == '' ? F3::get("EVENT_PASSED_STATUS") : $status;
+		if($status){
+			$con = "`eid` = :eid AND `status` = :status";
+			$d = array(":eid"=>$eid, ":status"=>F3::get("EVENT_PASSED_STATUS"));
+		}else{
+			$con = "`eid` = :eid";
+			$d = array(":eid"=>$eid);
+		}
 
-		$e = self::get("`eid` = :eid AND status = :status",
-			array(":eid"=>$eid,":status"=>$status));
+		$e = self::get($con, $d);
 		return $e[0];
 	}
 

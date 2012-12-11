@@ -12,7 +12,7 @@
 <F3:repeat group="{{@events}}" value="{{@event}}">
 	<tr>
 		<td>{{@event.eid}}</td>
-		<td><a href="{{@WEB_ROOT}}event/{{@event.eid}}">{{@event.title}}</a></td>
+		<td><a href="{{@WEB_ROOT}}event/{{@event.eid}}/preview" target="_blank">{{@event.title}}</a></td>
 		<td>{{@event.post_time}}</td>
 		<td><a href="{{@WEB_ROOT}}{{@event.organizer_id}}">{{@event.organizer}}</a></td>
 		<td><button class="btn btn-danger" onclick="audit({{@event.eid}}, 'fail');">失败</button></td>
@@ -28,7 +28,8 @@
 <script type="text/javascript">
 	function audit(eid, op){
 		$.post("{{@WEB_ROOT}}audit/"+op, {eid : eid}, function(result){
-				alert(result);
+				//alert(result);
+				$("#event-list").load("{{@WEB_ROOT}}audit #event-list");
 			});
 	}
 </script>
