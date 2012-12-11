@@ -14,9 +14,7 @@ class Event{
 	 */
 	static function get_basic_info($eid)
 	{
-		$sql = "SELECT eid, begin_time, end_time, organizer_id, 
-				category_id, status, sign_up, post_time FROM `event`
-				WHERE eid = :eid";
+		$sql = "SELECT * FROM `event` WHERE eid = :eid";
 
 		$r = DB::sql($sql, array(":eid"=>$eid));
 
@@ -116,14 +114,52 @@ class Event{
 	 */
 	static function update($eid, $data)
 	{
-		//self::show($eid);
-			
 		$r = EDB::update('event',$data,'eid',$eid);
 
 		if($r == 0)
 			return false;
 		else
 			return true;
+	}
+
+	/** 
+	 * 根据完整的活动信息关联数组$data生成它的儿子版本
+	 * @param $data array
+	 * @return int 返回它的儿子eid
+	 */
+	static function backup($data)
+	{
+		$data['old_id'] = $data['eid'];
+		$data['post_time'] = time();
+		unset($data['eid']);
+		return Event::create($data);
+	}
+
+	/**
+	 * 根据eid返回它的儿子版本eid
+	 * @param int $eid
+	 * @return int false(没有儿子)
+	 */
+	static function get_backup($eid)
+	{
+		$sql = "SELECT * FROM `event` WHERE `old_eid` = :eid";
+		$r = DB::sql($sql, array(':eid' => $eid));
+
+		if(count($r) == 0)
+			return false;
+		else if(count($r) == 1)
+			return $r['eid'];
+		else
+			Sys::error(F3::get('EVENT_HAS_MORE_BACKUP'),$eid);
+	}
+
+	/**
+	 * 删除eid活动
+	 */
+	static function deleted($eid)
+	{
+		$sql = "DELETE FROM `event` WHERE `eid` = :eid";
+		DB::sql($sql, array(':eid' => $eid));
 	}
 
 
