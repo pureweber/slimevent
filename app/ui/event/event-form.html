@@ -191,16 +191,26 @@
 	});
 
 
+	//把编辑器中的内容放到表单项中，然后验证表单正确性
     function getIntroAndValidate() {
 		var sHtml = $('#content').data('liveEdit').getXHTMLBody(); //Use before finishedit()
 		$('#content').data('liveEdit').finishedit();
 		$('#content').html(sHtml);
 		if(validate() == false){
-			scroll(0, 100);// 返回页首
+			//scroll(0, 100);// 跳回页首
+			pageScroll();
 			return false;
 		}else{
 			return true;
 		}
+	}
+	
+	//平滑滚动
+	function pageScroll() {
+		window.scrollBy(0,-99);
+		scrolldelay = setTimeout('pageScroll()',10);
+		if($(document).scrollTop() == 0)
+			clearTimeout(scrolldelay);
 	}
 
 
