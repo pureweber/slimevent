@@ -145,6 +145,43 @@ class SEHome{
 		F3::reroute('/');
 	}
 
+	function get_praise_info()
+	{
+		$uid = trim(F3::get("POST.uid"));
+		$eid = trim(F3::get("POST.eid"));
+		$num = count(PraiseList::get_praise_user($eid));
+
+		if($uid == "")  //当前属于没有登录
+			echo "推一下($num)";
+		else if($uid == Account::the_user_id())  //合法登录用户
+		{
+			if(PraiseList::is_user_praise_event($uid, $eid) === true)
+				echo "已推($num)";
+			else
+				echo "推一下($num)";
+		}
+		else
+			echo "非法登录";
+	}
+
+	function get_join_info()
+	{
+		$uid = trim(F3::get("POST.uid"));
+		$eid = trim(F3::get("POST.eid"));
+		$num = count(JoinList::get_join_user($eid));
+
+		if($uid == "")  //当前属于没有登录
+			echo "我要报名($num)";
+		else if($uid == Account::the_user_id())  //合法登录用户
+		{
+			if(JoinList::is_user_join_event($uid, $eid) === true)
+				echo "取消报名($num)";
+			else
+				echo "我要报名($num)";
+		}
+		else
+			echo "非法登录";
+	}
 };
 
 ?>

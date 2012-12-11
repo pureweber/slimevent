@@ -78,6 +78,17 @@ class JoinList{
 		$sql = "SELECT `eid`, `time` FROM `join` WHERE `uid` = :uid";
 		return DB::sql($sql, array(':uid' => $uid));
 	}
+
+	static function is_user_join_event($uid, $eid)
+	{
+		$sql = "SELECT * FROM `join` WHERE `uid` = :uid AND `eid` = :eid";
+		$r = DB::sql($sql, array(':uid' => $uid, ':eid' => $eid));
+
+		if(count($r) > 0)
+			return true;
+		else
+			return false;
+	}
 };
 
 ?>

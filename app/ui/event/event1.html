@@ -1,18 +1,31 @@
 <F3:include href="common/header.html" />
 
 <script type="text/javascript">
+
+		var uid="{{@COOKIE.se_user_id}}";
+
 		function praise_event()
 		{
-			$.post('{{@WEB_ROOT}}event/praise',{eid:{{@e.eid}}},function(data){
-				$("#praise_info").html(data);
-			});
+			if(uid === "")
+				alert("请登录");
+			else
+			{
+				$.post('{{@WEB_ROOT}}event/praise',{eid:{{@e.eid}}},function(data){
+					$("#praise_info").html(data);
+				});
+			}
 		}
 
 		function join_event()
 		{
-			$.post('{{@WEB_ROOT}}event/join',{eid:{{@e.eid}}},function(data){
-				$("#join_info").html(data);
-			});
+			if(uid === "")
+				alert("请登录");
+			else
+			{
+				$.post('{{@WEB_ROOT}}event/join',{eid:{{@e.eid}}},function(data){
+					$("#join_info").html(data);
+				});
+			}
 		}
 
 </script>
@@ -39,7 +52,7 @@
 					</div>
 
 					<div id="event-feature">
-						<a class="btn btn-primary" href="#" onclick="praise_event();return false" style="float:right; margin-right:20px"><i class="icon-thumbs-up"></i> <span id="praise_info">推一下(3)</span></a>
+						<a class="btn btn-primary" href="#" onclick="praise_event();return false" style="float:right; margin-right:20px"><i class="icon-thumbs-up"></i> <span id="praise_info"></span></a>
 					</div>
 
 					<div id="event-items">
@@ -84,7 +97,7 @@
 				</div>
 			<F3:check if="{{@e.sign_up==@EVENT_NEED_SIGN}}">
 				<F3:true>
-					<a class="btn btn-danger" id="event-join" href="#" onclick="join_event();"><i class="icon-thumbs-up"></i> <span id="join_info">我要报名(3)</span></a>
+					<a class="btn btn-danger" id="event-join" href="#" onclick="join_event();"><i class="icon-thumbs-up"></i> <span id="join_info"></span></a>
 				</F3:true>
 			</F3:check>
 				<!-- JiaThis Button END -->
@@ -108,6 +121,27 @@
 		</div><!-- event span10 -->
 	</div><!-- row -->
 </div><!-- Container -->
+
+		<!-- Ajax get praise and join info BEGIN -->
+
+		<script type="text/javascript">
+			(function() {
+				$.post('{{@WEB_ROOT}}event/get_praise_info',
+						{eid:"{{@e.eid}}", uid:"{{@COOKIE.se_user_id}}"},
+						function(data){
+							$("#praise_info").html(data);
+						});
+				
+				if("{{@e.sign_up}}" === "{{@EVENT_NEED_SIGN}}")
+					$.post('{{@WEB_ROOT}}event/get_join_info',
+						{eid:"{{@e.eid}}", uid:"{{@COOKIE.se_user_id}}"},
+						function(data){
+							$("#join_info").html(data);
+						});
+			})();
+		</script>
+
+		<!-- Ajax get praise_info END -->
 
 		<!-- Duoshuo Comment BEGIN -->
 		<script type="text/javascript">
