@@ -14,7 +14,7 @@ class Service extends Account{
 	{
 		$e = Event::get_basic_info($eid);
 
-		if($e['status'] == F3::get('EVENT_PASSED_STATUS');
+		if($e['status'] == F3::get('EVENT_PASSED_STATUS'))
 			return;
 
 		//能把等待审核 未通过审核的 改变为审核通过
@@ -52,13 +52,12 @@ class Service extends Account{
 	{
 		$e = Event::get_basic_info($eid);
 
-		if($e['status'] == F3::get('EVENT_FAILED_STATUS');
+		if($e['status'] == F3::get('EVENT_FAILED_STATUS'))
 			return;
 
 		//能把等待审核 通过审核的 改变为未审核通过
 		if($e['status'] === F3::get('EVENT_AUDIT_STATUS') || $e['status'] === F3::get('EVENT_PASSED_STATUS'))
 			Event::update($eid, array('status' => F3::get('EVENT_FAILED_STATUS')));
-);
 		else
 			Sys::error(F3::get('FAIL_AUDIT_CODE'), $eid);
 	}

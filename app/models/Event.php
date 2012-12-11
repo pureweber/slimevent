@@ -93,7 +93,7 @@ class Event{
 			//Sys::error(F3::get('DB_EVENT_EID_SAME_CODE'),$eid);
 		foreach($r as &$row){
 			$organizer = Account::get_user($row['organizer_id']);
-			$row['organizer'] = $organizer[1]['name'];
+			$row['organizer'] = $organizer['nickname'];
 			$row['joiners'] = 10;
 			$row['praisers'] = 18;
 		}

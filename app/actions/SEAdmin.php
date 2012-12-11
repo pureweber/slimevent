@@ -18,4 +18,18 @@ class SEAdmin{
 		echo Template::serve("admin/audit.html");
 	}
 
+	function show_add_user()
+	{
+		echo Template::serve('admin/add_user.html');
+	}
+	function add_user()
+	{
+		$name = F3::get('POST.name');
+		$pwd = F3::get('POST.pwd');
+		$group = F3::get('POST.group');
+		$nickname =  F3::get('POST.nickname');
+		$uid = Admin::add_user($name, $pwd, $group, $nickname);
+		echo $uid;
+	}
+
 }

@@ -90,6 +90,19 @@ class EDB{
 
 		return $r;
 	}
+
+	/**
+	 * 删除table_name里field字段为value的所有记录关联数组
+	 *
+	 */
+	static function deleted($table_name, $field, $value)
+	{
+		$sql = "DELETE FROM `$table_name` WHERE `$field` = :$field";
+
+		$r = DB::sql($sql, array(":$field" => $value));
+
+		return $r;
+	}
 };
 
 ?>

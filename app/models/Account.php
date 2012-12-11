@@ -14,7 +14,7 @@ class Account{
 	protected static function set_cookie($user)
 	{
 		setcookie('se_user_id', $user['id'], time() + F3::get('COOKIE_TIME'), '/');
-		setcookie('se_user_name', $user['name'], time() + F3::get('COOKIE_TIME'), '/');
+		setcookie('se_user_name', $user['nickname'], time() + F3::get('COOKIE_TIME'), '/');
 		setcookie('se_user_group', $user['group'], time() + F3::get('COOKIE_TIME'), '/');
 		setcookie('se_user_token', self::generate_login_token($user), time() + F3::get('COOKIE_TIME'), '/');
 	}
@@ -85,7 +85,7 @@ class Account{
 	 */
 	static function encrypt_pwd($pwd)
 	{
-		return md5(F3::get('PWD_SALT').trim($pwd));
+		return md5(F3::get('PWD_SALT').$pwd);
 	}
 
 	/**
@@ -128,7 +128,7 @@ class Account{
 	 * 得到$uid用户的所有信息
 	 * @return 二维数组 [0]存的是users表里的关联信息 [1]存的是关联的基本信息
 	 */
-	static function get_user($uid)
+	static function get_user_full_info($uid)
 	{
 		$u = EDB::select('users', 'id', $uid);
 
@@ -139,6 +139,18 @@ class Account{
 
 		$u[1] = self::get_user_basic_info($uid, $u[0]['group']);
 		return $u;
+	}
+
+	static function get_user($uid)
+	{
+		$u = EDB::select('users', 'id', $uid);
+
+		if( count($u) == 0 )
+			Sys::error(F3::get('NOT_EXIST_USER_CODE'), $uid);
+		elseif( count($u) > 1 )
+			Sys::error(F3::get('USERS_ID_SAME_CODE'), $uid);
+
+		return $u[0];
 	}
 
 	/**
@@ -155,7 +167,9 @@ class Account{
 			return false;	//用户名或密码不正确
 		elseif($user['status'] == F3::get('NORMAL_STATUS'))
 		{
-			self::set_cookie($user);
+			self::set_cookie($user); 		//设置cookie
+			//更新最后一次登录时间
+			EDB::update('users', array('last_time' => time()), 'id', $user['id']);
 			return true;	//正确登录
 		}
 		elseif($user['status'] == F3::get('BLACK_STATUS'))
@@ -208,20 +222,18 @@ class Account{
 	}
 
 	/**
-	 * 检测用户名name是否存在
-	 * @return 如果存在,返回该用户的关联数组 如果不存在,返回false
+	 * 检测用户名为name 或者昵称为nickname的用户是否存在
+	 * @return 如果存在 true 如果不存在,返回false
 	 */
-	static function exists($name)
+	static function exists($name = "", $nickname = "")
 	{
-		$sql = 'SELECT * FROM `users` WHERE `name` = :name';
-		$r = DB::sql($sql, array(':name' => trim($name)));
+		$sql = 'SELECT * FROM `users` WHERE `name` = :name OR `nickname` = :nickname';
+		$r = DB::sql($sql, array(':name' => trim($name), ':nickname' => trim($nickname)));
 
 		if( count($r) == 0 )
 			return false;
-		else if( count($r) == 1 )
-			return $r[0];
 		else
-			Sys::error(F3::get('USERS_NAME_SAME_CODE'), $name);
+			return true;
 	}
 
 	/**
