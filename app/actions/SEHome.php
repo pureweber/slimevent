@@ -97,18 +97,14 @@ class SEHome{
 		switch(F3::get('GET.auth'))
 		{
 			case F3::get('CAS_AUTH'):
-				$user = CAS::login();
-				$name = trim($user['name']); 
-				if($name  == "")
-					Sys::error(F3::get("NOT_GET_CAS_ID"));
+				$name = CAS::login();
 				$pwd = F3::get('DEFAULT_PWD');
-				$group = F3::get('STUDENT_GROUP');
-				$status = F3::get('NORMAL_STATUS');
-				$data = array(
-						'name' => $user['stu_name'],
-						'sex' => $user['sex']);
 				if(Account::exists($name) === false)  //首次通过CAS登录
-					Admin::add_user($name, $pwd, $group, $status, $data);
+				{
+					$group = F3::get('STUDENT_GROUP');
+					$nickname = "S".$name;
+					Admin::add_user($name, $pwd, $group, $nickname);
+				}
 				break;
 			case F3::get('CLUB_AUTH'):
 				echo Template::serve('club/login.html');

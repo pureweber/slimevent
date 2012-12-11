@@ -1,0 +1,52 @@
+<F3:include href="common/header.html" />
+<div class="container">
+
+<h2> 添加用户 </h2>
+
+<form class="form-horizontal" method="POST">
+
+  <div class="control-group">
+    <label class="control-label" for="inputEmail">用户名</label>
+    <div class="controls">
+      <input type="text" id="inputEmail" name="name">
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="inputPassword">密码</label>
+    <div class="controls">
+      <input type="password" id="inputPassword" name="pwd" placeholder="Password">
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="inputPassword">昵称</label>
+    <div class="controls">
+      <input type="text" id="inputPassword" name="nickname">
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="inputPassword">用户组</label>
+    <div class="controls">
+		<select class="input-large" name="group">
+			<option value="{{@CLUB_GROUP}}">社团</option>
+			<option value="{{@STUDENT_GROUP}}">学生</option>
+			<option value="{{@ORG_GROUP}}">机构</option>
+			<option value="{{@SERVICE_GROUP}}">客服</option>
+		</select>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <div class="controls">
+      <label class="checkbox">
+        <input type="checkbox"> Remember me
+      </label>
+      <button type="submit" class="btn">Sign in</button>
+    </div>
+  </div>
+</form>
+
+</div> <!-- container -->
+<F3:include href="common/footer.html" />
