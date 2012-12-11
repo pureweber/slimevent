@@ -262,6 +262,23 @@ class Account{
 	}
 
 	/**
+	 * 验证当前用户能否查看eid活动
+	 * @param $eid
+	 * @return bool 
+	 */
+	static function preview_event($eid)
+	{
+		$e = Event::get_basic_info($eid);
+
+		//该活动是我的 且未删除
+
+		if(self::the_user_id() == $e['organizer_id'] && $e['status'] != F3::get('EVENT_DELETED_STATUS')) 		
+			return true;
+		else
+			return false;
+	}
+
+	/**
 	 * 验证当前用户是否有发布 编辑 删除$eid活动信息的权利
 	 * @param $eid
 	 * @return 有权力返回 活动基本信息关联数组array  没有权力 false
