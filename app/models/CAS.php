@@ -26,10 +26,10 @@ class CAS{
 		// // and the user's login name can be read with phpCAS::getUser().
 		// for this test, simply print that the authentication was successfull
 
-		$user = Array();
-		$user['name'] = phpCAS::getUser();
-		$user['stu_name'] = "s".phpCAS::getUser();
-		$user['sex'] = "male";
+		$user = trim(phpCAS::getUser());
+
+		if($user == "")
+			Sys::error(F3::get("NOT_GET_CAS_ID"));  //没有获得CAS
 
 		return $user;
 	}

@@ -36,7 +36,7 @@ class Account{
 	 */
 	protected static function generate_login_token($user)
 	{
-		return md5( $user['id'].$user['name'].$user['group'] . F3::get('TOKEN_SALT') );
+		return md5( $user['id'].$user['nickname'].$user['group'] . F3::get('TOKEN_SALT') );
 	}
 
 	/**
@@ -46,7 +46,7 @@ class Account{
 	{
 		$user = array(
 			'id' => F3::get('COOKIE.se_user_id'),
-			'name' => F3::get('COOKIE.se_user_name'),
+			'nickname' => F3::get('COOKIE.se_user_name'),
 			'group' => F3::get('COOKIE.se_user_group')
 			);
 		$token = F3::get('COOKIE.se_user_token');
