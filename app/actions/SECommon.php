@@ -88,10 +88,10 @@ class SECommon{
 	}
 
 	static function format_time_to_show($info){
-		$info['date'] = date("Y/m/d", $info['begin_time']);
+		$info['date'] = date("Y-m-d", $info['begin_time']);
 		$info['begin_time'] = date("H:i", $info['begin_time']);
 		$info['end_time'] = date("H:i", $info['end_time']);
-		$info['post_time'] = date("Y/m/d H:i:s", $info['post_time']);
+		$info['post_time'] = date("Y-m-d H:i:s", $info['post_time']);
 
 		return $info;
 	}
