@@ -16,7 +16,7 @@
 <F3:include href="event/event-form.html" />
 
 <div class="pull-right">
-	<button onclick="audite()" type="button" class="btn btn-success btn-large"><i class="icon-ok-sign"></i> 提交审核</button>
+	<button onclick="publish()" type="button" class="btn btn-success btn-large"><i class="icon-ok-sign"></i> 提交审核</button>
 	<!--<button onclick="saveDraft()" type="button" class="btn btn-large"><i class="icon-file"></i> 存为草稿</button>-->
 	<button onclick="saveDraft()" type="button" class="btn btn-large"><i class="icon-file"></i> 存为草稿</button>
 </div>
@@ -30,7 +30,7 @@
 </div><!-- row -->
 </div><!-- Container -->
 <script type="text/javascript">
-	function audite(){
+	function publish(){
 		/*
 		var options = {
 			target : '#tip',
@@ -41,7 +41,7 @@
 		$("#create-form").ajaxSubmit(options);
 		*/
 		getIntroduction();
-		$("#create-form").attr('action', '{{@WEB_ROOT}}audit').submit();
+		$("#create-form").attr('action', '{{@WEB_ROOT}}publish').submit();
 	}
 
 	function saveDraft(){

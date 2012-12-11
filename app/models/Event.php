@@ -148,7 +148,7 @@ class Event{
 	 */
 	static function get_backup($eid)
 	{
-		$sql = "SELECT * FROM `event` WHERE `old_eid` = :eid";
+		$sql = "SELECT * FROM `event` WHERE `old_id` = :eid";
 		$r = DB::sql($sql, array(':eid' => $eid));
 
 		if(count($r) == 0)

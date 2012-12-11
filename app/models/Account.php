@@ -242,7 +242,7 @@ class Account{
 	static function create_event($data)
 	{
 		$data['organizer_id'] = self::the_user_id();
-		$data['old_eid'] = F3::get('NO_OLD_EID');		//首次创建活动无老板本id
+		$data['old_id'] = F3::get('NO_OLD_ID');		//首次创建活动无老板本id
 		$data['post_time'] = time();
 		$data['status'] = F3::get('EVENT_DRAFT_STATUS');   //默认创建活动是草稿状态
 
@@ -311,12 +311,12 @@ class Account{
 				Event::update($eid, $data);
 				return $eid;
 			case F3::get('EVENT_PASSED_STATUS'):
-				$old_eid = Event::get_backup($eid); //之前已经备份的版本
+				$old_id = Event::get_backup($eid); //之前已经备份的版本
 				$new_eid = Event::backup($e); 	//备份一下活动
 				if(Event::update($new_eid, $data) === true)  //对新备份的作了内容修改
 				{
-					if($old_eid !== false)  //之前已经有老的版本
-						Event::deleted($old_eid);  //删除老的备份版本
+					if($old_id !== false)  //之前已经有老的版本
+						Event::deleted($old_id);  //删除老的备份版本
 					Event::update($new_eid, array('status' => F3::get('EVENT_AUDIT_STATUS')));  //把新备份的状态变为等待审核
 					return $new_eid;
 				}
@@ -346,9 +346,9 @@ class Account{
 			Sys::error(F3::get('ILLEGAL_DELELE_EVENT_CODE'), $eid);
 		else
 		{
-			$old_eid = Event::get_backup($eid); //之前已经备份的版本
-			if($old_eid !== false)
-				Event::deleted($old_eid);		//删除它的儿子版本
+			$old_id = Event::get_backup($eid); //之前已经备份的版本
+			if($old_id !== false)
+				Event::deleted($old_id);		//删除它的儿子版本
 			Event::update($eid, array('status' => F3::get('EVENT_DELETED_STATUS')));
 		}
 	}
