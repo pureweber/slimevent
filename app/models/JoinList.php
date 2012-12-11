@@ -36,7 +36,8 @@ class JoinList{
 		$sql = "SELECT * FROM `join` WHERE `uid` = :uid AND `eid` = :eid";
 		$r = DB::sql($sql, array(':uid' => $uid, ':eid' => $eid));
 		if(count($r) > 0)
-			Sys::error(F3::get('HAVE_SIGNED'),$eid);
+			//Sys::error(F3::get('HAVE_SIGNED'),$eid);
+			return;
 
 		$sql = 'INSERT INTO `join` (`uid`, `eid`, `time`) VALUES (:uid, :eid, :time)';
 		DB::sql($sql, array(':uid' => $uid, ':eid' => $eid, ':time' => time()));

@@ -31,7 +31,8 @@ class PraiseList{
 		$sql = "SELECT * FROM `praise` WHERE `uid` = :uid AND `eid` = :eid";
 		$r = DB::sql($sql, array(':uid' => $uid, ':eid' => $eid));
 		if(count($r) > 0)
-			Sys::error(F3::get('HAVE_PRAISED'),$eid);	//已经赞过
+			return;
+			//Sys::error(F3::get('HAVE_PRAISED'),$eid);	//已经赞过
 
 		$sql = 'INSERT INTO `praise` (`uid`, `eid`, `time`) VALUES (:uid, :eid, :time)';
 		DB::sql($sql, array(':uid' => $uid, ':eid' => $eid, ':time' => time()));

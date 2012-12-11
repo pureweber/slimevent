@@ -242,73 +242,114 @@ class Account{
 	static function create_event($data)
 	{
 		$data['organizer_id'] = self::the_user_id();
+		$data['old_eid'] = F3::get('NO_OLD_EID');		//首次创建活动无老板本id
+		$data['post_time'] = time();
+		$data['status'] = F3::get('EVENT_DRAFT_STATUS');   //默认创建活动是草稿状态
+
 		return Event::create($data);
 	}
 
 	/**
-	 * 验证当前用户是否有修改$eid活动信息的权利
+	 * 验证当前用户是否有发布 编辑 删除$eid活动信息的权利
 	 * @param $eid
-	 * @return bool
+	 * @return 有权力返回 活动基本信息关联数组array  没有权力 false
 	 */
-	private static function verify_edit_event_permission($eid)
+	private static function verify_handle_event_permission($eid)
 	{
-		if(self::the_user_group() == F3::get('ADMIN_GROUP'))   //我是管理员
-			return true;
-//		if(self::the_user_group() == F3::get('SERVICE_GROUP'))  //我是客服
-//			return true;
-
 		$e = Event::get_basic_info($eid);
+
+		if(self::the_user_group() == F3::get('ADMIN_GROUP'))   //我是管理员
+			return $e;
+
+//		if(self::the_user_group() == F3::get('SERVICE_GROUP'))  //我是客服
+//			return $e;
+
 		if(self::the_user_id() == $e['organizer_id']) 		//该活动是我的
-			return true;
+			return $e;
 
 		return false;
+	}
+
+	/**
+	 * 发布一条活动
+	 * 将草稿状态的$eid活动转换为发布状态(等待审核)
+	 * @param $eid 活动id
+	 */
+	static function publish_event($eid)
+	{
+		$e = self::verify_handle_event_permission($eid);
+
+		if($e === false)
+			Sys::error(F3::get('ILLEGAL_PUBLISH_EVENT_CODE'));  //无权操作
+
+		if($e['status'] == F3::get('EVENT_DRAFT_STATUS'))	 //必须草稿状态
+		{
+			$data['status'] = F3::get('EVENT_AUDIT_STATUS');
+			Event::update($eid, $data);
+		}
 	}
 
 	/**
 	 * 根据eid修改活动信息
 	 * @param $eid
 	 * @param $data 需要修改信息的关联数组(请不要包含eid)
-	 * @return true : 更新成功 false : 没有更新
+	 * @return 更新后的eid
 	 */
 	static function edit_event($eid, $data)
 	{
-		if(self::verify_edit_event_permission($eid) === false)
-			Sys::error(F3::get('ILLEGAL_EDIT_EVENT_CODE'), $eid);
-		else
-			return Event::update($eid, $data);
+		$e = self::verify_handle_event_permission($eid);
+
+		if($e === false)   
+			Sys::error(F3::get('ILLEGAL_EDIT_EVENT_CODE'), $eid);  //无权操作
+
+		switch($e['status'])
+		{
+			case F3::get('EVENT_DRAFT_STATUS'):
+				Event::update($eid, $data);
+				return $eid;
+			case F3::get('EVENT_AUDIT_STATUS'):
+				Event::update($eid, $data);
+				return $eid;
+			case F3::get('EVENT_PASSED_STATUS'):
+				$old_eid = Event::get_backup($eid); //之前已经备份的版本
+				$new_eid = Event::backup($e); 	//备份一下活动
+				if(Event::update($new_eid, $data) === true)  //对新备份的作了内容修改
+				{
+					if($old_eid !== false)  //之前已经有老的版本
+						Event::deleted($old_eid);  //删除老的备份版本
+					Event::update($new_eid, array('status' => F3::get('EVENT_AUDIT_STATUS')));  //把新备份的状态变为等待审核
+					return $new_eid;
+				}
+				else
+				{
+					Event::deleted($new_eid);  //没做任何修改 把之前备份的删除
+					return $eid;
+				}
+			case F3::get('EVENT_FAILED_STATUS'):
+				if(Event::update($eid, $data) === true)  //作了内容修改
+					Event::update($eid, array('status' => F3::get('EVENT_AUDIT_STATUS')));  //状态变为等待审核
+				return $eid;
+			default:
+				Sys::error(F3::get('EVENT_HAVE_DELETED_CODE'), $eid);  //活动已被删除
+		}
 	}
 
 	/**
-	 * 验证当前用户是否有删除$eid活动信息的权利
-	 * @param $eid
-	 * @return bool
-	 */
-	private static function verify_del_event_permission($eid)
-	{
-		if(self::the_user_group() == F3::get('ADMIN_GROUP'))  //我是管理员
-			return true;
-		if(self::the_user_group() == F3::get('SERVICE_GROUP'))  //我是客服
-			return true;
-
-		$e = Event::get_basic_info($eid);
-		if(self::the_user_id() == $e['organizer_id'])  //该活动是我的
-			return true;
-
-		return false;
-	}
-
-	/**
-	 * 删除id为eid的活动信息
+	 * 删除id为eid的活动信息 和它关联的子活动
 	 * @param $eid
 	 */
 	static function delete_event($eid)
 	{
-		if(self::verify_del_event_permission($eid) === false)
+		$e = self::verify_handle_event_permission($eid);
+
+		if($e === false)
 			Sys::error(F3::get('ILLEGAL_DELELE_EVENT_CODE'), $eid);
 		else
 		{
-			$data = array('status' => F3::get('EVENT_DELETED_STATUS') );
-			Event::update($eid, $data);
+			$old_eid = Event::get_backup($eid); //之前已经备份的版本
+			if($old_eid !== false)
+				Event::deleted($old_eid);		//删除它的儿子版本
+			Event::update($eid, array('status' => F3::get('EVENT_DELETED_STATUS')));
 		}
 	}
 
