@@ -101,10 +101,10 @@ class SEEvent{
 
 	function show_create(){
 		$region = F3::get("REGION");
-		//$category = Category::get_all();
+		$category = Category::get_all();
 
 		SECommon::generate_select_option($region, 'region');
-		//SECommon::generate_select_option($category, 'category');
+		SECommon::generate_select_option($category, 'category');
 
 		echo Template::serve('event/create.html');
 	}
