@@ -12,7 +12,7 @@
 	<label class="control-label" for="input01">标题</label>
 	<div class="controls">
 		<input type="text" placeholder="请输入活动标题" class="validate-required span6" name="title" value="{{@POST.title}}">
-		<p class="help-block">最长不可超过32个字符</p>
+		<!--<p class="help-block">最长不可超过32个字符</p>-->
 	</div>
 </div>
 
@@ -31,7 +31,7 @@
 	<label class="control-label" for="input01">地点</label>
 	<div class="controls">
 		<input type="text" placeholder="请输入活动地点" class="validate-required input-xlarge" name="addr" value="{{@POST.addr}}">
-		<p class="help-block">请详细到具体教室/房间</p>
+		<!--<p class="help-block">请详细到具体教室/房间</p>-->
 	</div>
 </div>
 
@@ -185,6 +185,7 @@
 			})
 
 		$('#content').data('liveEdit').startedit(); /* Run the Editor */
+
 		$("input[name='title']").focus();
 
 	});
@@ -194,20 +195,26 @@
 		var sHtml = $('#content').data('liveEdit').getXHTMLBody(); //Use before finishedit()
 		$('#content').data('liveEdit').finishedit();
 		$('#content').html(sHtml);
-		return validate();
+		if(validate() == false){
+			scroll(0, 100);// 返回页首
+			return false;
+		}else{
+			return true;
+		}
 	}
 
+
+	// 根据返回的eid更新表单中的隐藏字段
 	function updateForm(eid){
 		$("input[name='eid']").attr('value', eid);
 		$("input[name='poster_change']").attr('value', '0');
 		$.gritter.add({
 			title: '保存成功!',
-			text: "<a href='{{@WEB_ROOT}}event/"+eid+"preview'>点此预览</a>"
+			text: "<a href='{{@WEB_ROOT}}event/"+eid+"/preview'>点此预览</a>"
 		});
 	}
 
 </script>
 
-<button class="btn btn-danger" onclick="validate()">Check it!</button>
 
 

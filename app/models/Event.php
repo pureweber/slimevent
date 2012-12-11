@@ -151,10 +151,12 @@ class Event{
 		$sql = "SELECT * FROM `event` WHERE `old_id` = :eid";
 		$r = DB::sql($sql, array(':eid' => $eid));
 
+		//Code::dump($r);
+
 		if(count($r) == 0)
 			return false;
 		else if(count($r) == 1)
-			return $r['eid'];
+			return $r[0]['eid'];
 		else
 			Sys::error(F3::get('EVENT_HAS_MORE_BACKUP'),$eid);
 	}

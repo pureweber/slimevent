@@ -122,10 +122,10 @@ class SEEvent{
 	}
 
 	function preview(){
-		if(Account::preview_event())
+		if(Account::preview_event($this->eid))
 			$this->show(false);
 		else
-			Sys::error(F3::get("101", $this->eid));
+			Sys::error(F3::get("EVENT_NOT_PREIVEW"), $this->eid);
 	}
 
 	function photos(){
