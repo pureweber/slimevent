@@ -5,32 +5,23 @@
  * @package   Slimevent
  **/
 
-class SEClub{
+class SEClub extends SECommon{
 
 	function __construct(){
 		//if(Accounts::check_group("club") === false)
 			//F3::reroute("/");
-		SECommon::set_unread_msg_num();
+		if(Account::the_user_group() != F3::get("CLUB_GROUP"))
+			Sys::error(F3::get("INVALID_GROUP_CODE"), Account::the_user_id());
+
+		$this->set_unread_msg_num();
 	}
 
-	function show_list(){
+	function my(){
 		F3::set("title", "社团管理");
-		$uid = Account::the_user_id();
-		SECommon::show_by("club", "`organizer_id` = :uid AND  `status` <> :s ORDER BY post_time DESC",
-			array(":uid"=>$uid, ":s"=>F3::get("EVENT_DELETED_STATUS")));
-		echo Template::serve('club/list.html');
+		$this->set_created_event_list();
+		echo Template::serve("club/my.html");
 	}
 
-	function show_join_list(){
-		F3::set("title", "已报名列表");
-		$data = array();
-		$data[] = array(
-			'uid'=>1,
-			'date'=>"2012/12/24",
-			);
-		F3::set('list', $data);
-		echo Template::serve('club/join.html');
-	}
 
 }
 

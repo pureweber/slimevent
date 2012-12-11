@@ -5,13 +5,31 @@
  * @package   Slimevent
  **/
 
-class SEStudent{
+class SEStudent extends SECommon{
 
 	function __construct(){
-		SECommon::set_unread_msg_num();
+		if(Account::the_user_group() != F3::get("STUDENT_GROUP"))
+			Sys::error(F3::get("INVALID_GROUP_CODE"), Account::the_user_id());
+
+		$this->set_unread_msg_num();
+	}
+
+	function my(){
+		F3::set("title", "个人中心");
+		F3::set("time", time());
+
+		$this->set_create_event_list();
+		$this->set_join_event_list();
+
+		echo Template::serve("student/my.html");
 	}
 
 
+	function set_join_event_list(){
+		$uid = Account::the_user_id();
+		$con = " `eid` IN ( SELECT `eid` FROM `join` WHERE `uid` = :uid  ORDER BY `join`.`time` DESC)";
+		$this->show_by("my", $con, array(":uid"=>$uid), "join_events");
+	}
 
 	function praise_event()
 	{
@@ -36,7 +54,7 @@ class SEStudent{
 		$uid = Student::the_user_id();
 		$eid = F3::get('POST.eid');
 
-		if(JoinList::add($uid, $eid) === false) //之前报过名 表示这次要取消保命
+		if(JoinList::add($uid, $eid) === false) //之前报过名 表示这次要取消报名
 		{
 			JoinList::remove($uid, $eid);
 			$num = count(JoinList::get_join_user($eid));

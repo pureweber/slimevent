@@ -5,19 +5,23 @@
  * @package   Slimevent
  **/
 
-class SEService{
+class SEService extends SECommon{
 
 	function __construct(){
-		//SECommon::set_unread_msg_num();
+		//$this->set_unread_msg_num();
 		
 		//$group = Account::the_user_group();
-		//if($group != F3::get("SERVICE_GROUP") 
-			//&& $group != F3::get("ADMIN_GROUP"))
-			//Sys::error(F3::get("INVALID_GROUP_CODE"), Account::the_user_id());
+		if(Account::the_user_group() != F3::get("SERVICE_GROUP") 
+			&& Account::the_user_group() != F3::get("ADMIN_GROUP"))
+			Sys::error(F3::get("INVALID_GROUP_CODE"), Account::the_user_id());
+	}
+
+	function my(){
+		$this->show_audit();
 	}
 
 	function show_audit(){
-		SECommon::show_by("audit", "`status` = :status", array(":status"=>F3::get("EVENT_AUDIT_STATUS")));
+		$this->show_by("audit", "`status` = :status", array(":status"=>F3::get("EVENT_AUDIT_STATUS")));
 		echo Template::serve("service/audit.html");
 	}
 
