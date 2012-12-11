@@ -39,9 +39,9 @@
 					<a class="brand" href="{{@WEB_ROOT}}">SlimEvent</a>
 					<ul class="nav">
 						<li {{ @route[0] == 'home' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}"><i class="icon-home"></i> 首页</a></li>
-						<li {{ @route[0] == 'discover' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}event/1"><i class="icon-search"></i> 发现</a></li>
-						<li {{ @route[0] == 'my' ? 'class="active"' : '' }}><a href="{{@WEB_ROOT}}event/my"><i class="icon-list"></i> 我的活动</a></li>
-						<li {{ @route[0] == 'feed' ? 'class="active"' : '' }}><a href="#"><i class="icon-user"></i> 朋友动态</a></li>
+						<li {{ @route[0] == 'discover' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}find"><i class="icon-search"></i> 发现</a></li>
+						<li {{ @route[0] == 'my' ? 'class="active"' : '' }}><a href="{{@WEB_ROOT}}my"><i class="icon-list"></i> 我的活动</a></li>
+						<li {{ @route[0] == 'feed' ? 'class="active"' : '' }}><a href="{{@WEB_ROOT}}feedback"><i class="icon-comments"></i> 问题反馈</a></li>
 					</ul>
 
 
@@ -50,18 +50,18 @@
 						<F3:true>
 						<li class="dropdown">
 							<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-								<i class="icon-signin"></i> 欢迎 {{@COOKIE.se_user_name}} 
+								<i class="icon-user"></i> 欢迎 {{@COOKIE.se_user_name}} 
 								<b class="caret"></b>
 							</a>
 							<ul class="dropdown-menu">
 								<li>
-									<a href="{{@WEB_ROOT}}club">
+									<a href="{{@WEB_ROOT}}my#msgbox">
 										<i class="icon-envelope-alt" ></i>
 										<span> 消息盒子({{@unread_msg}})</span>
 									</a>
 								</li>
 								<li>
-									<a href="{{@WEB_ROOT}}club">
+									<a href="{{@WEB_ROOT}}my">
 										<i class="icon-cog" ></i>
 										<span> 个人设置</span>
 									</a>

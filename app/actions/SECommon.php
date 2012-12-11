@@ -7,12 +7,31 @@
 
 class SECommon{
 
-	static function set_unread_msg_num(){
+	private function _get_instance(){
+		$group = Account::the_user_group();
+		$class = "SE".ucfirst(strtolower($group));
+
+		return new $class();
+	}
+
+	function my(){
+		$gay = $this->_get_instance();
+		$gay->my();
+	}
+
+	function set_create_event_list(){
+		$uid = Account::the_user_id();
+		$this->show_by("club", "`organizer_id` = :uid AND  `status` <> :s ORDER BY post_time DESC",
+			array(":uid"=>$uid, ":s"=>F3::get("EVENT_DELETED_STATUS")));
+		//echo Template::serve('common/created_event_list.html');
+	}
+
+	 function set_unread_msg_num(){
 		//$unread_msg_num = MsgBox::get_unread_num();
 		F3::set("unread_msg", 3);
 	}
 
-	static function generate_select_option($select, $name = ''){
+	 function generate_select_option($select, $name = ''){
 		$o = "";
 		$n = array();
 
@@ -36,7 +55,7 @@ class SECommon{
 			F3::set("select_".$name, $o);
 	}
 
-	static function upload_img($name){
+	 function upload_img($name){
 		$img = $_FILES[$name];
 		$img_ext = substr(strrchr($img['name'], '.'), 1);
 		$dest_dir = F3::get('UPLOAD_IMG_DIR');
@@ -49,7 +68,7 @@ class SECommon{
 		return $save_path;
 	}
 
-	static function get_create_form_value(){
+	 function get_create_form_value(){
 		$d = array();
 
 		$date = explode('-', F3::get("POST.date"));
@@ -69,7 +88,7 @@ class SECommon{
 		//echo $d['eid'];
 
 		if(F3::get("POST.poster_change") == 1)
-			$d['poster'] = self::upload_img("poster");
+			$d['poster'] = $this->upload_img("poster");
 		//echo $d['poster'];
 		//echo F3::get("POST.upload_change");
 
@@ -87,7 +106,10 @@ class SECommon{
 		return $d;
 	}
 
-	static function format_time_to_show($info){
+	 function format_time_to_show($info){
+		$info['a_begin_time'] = $info['begin_time'];
+		$info['a_end_time'] = $info['end_time'];
+
 		$info['date'] = date("Y-m-d", $info['begin_time']);
 		$info['begin_time'] = date("H:i", $info['begin_time']);
 		$info['end_time'] = date("H:i", $info['end_time']);
@@ -96,9 +118,9 @@ class SECommon{
 		return $info;
 	}
 
-	static function format_info_to_show($info){
+	 function format_info_to_show($info){
 		// format Time&Date
-		$info = self::format_time_to_show($info);
+		$info = $this->format_time_to_show($info);
 
 		// format Region
 		$region = F3::get("REGION");
@@ -113,10 +135,10 @@ class SECommon{
 		return $info;
 	}
 
-	static function format_infos_to_show($data){
+	 function format_infos_to_show($data){
 		$d = array();
 		foreach($data as $info)
-			$d[] = self::format_info_to_show($info);
+			$d[] = $this->format_info_to_show($info);
 		return $d;
 	}
 
@@ -127,7 +149,7 @@ class SECommon{
 	 * @param $data : SQL条件中的值
 	 * @return void
 	 */
-	static function show_by($url, $con = "`status` = :status", $data = array()){
+	 function show_by($url, $con = "`status` = :status", $data = array(), $set_name = "events"){
 		if(count($data)==0)// 默认只选择passed的
 			$data = array(":status"=>F3::get("EVENT_PASSED_STATUS"));
 		//$con = "`label` LIKE '%AWF%'";
@@ -144,10 +166,10 @@ class SECommon{
 		$limit = " LIMIT ".$current_page * $per_page_show.", ".$per_page_show;
 
 		$events = Event::show_by($con.$limit, $data);
-		$e = self::format_infos_to_show($events);
+		$e = $this->format_infos_to_show($events);
 
-		self::pagination($current_page, (int)ceil($total_num / $per_page_show), $url);
-		F3::set("events", $e);
+		$this->pagination($current_page, (int)ceil($total_num / $per_page_show), $url);
+		F3::set($set_name, $e);
 
 		return true;
 	}
@@ -156,7 +178,7 @@ class SECommon{
 	 * 设置分页
 	 * @return void
 	 */
-	static function pagination($current_page, $total_pages, $url = '', $onclick = false){
+	 function pagination($current_page, $total_pages, $url = '', $onclick = false){
 		$html = "";
 		$html .= "<div class='pagination pagination-right'> <ul>";
 		$url = F3::get("WEB_ROOT").$url;

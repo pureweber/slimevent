@@ -72,8 +72,10 @@ class JoinList{
 	 */
 	static function get_join_event($uid)
 	{
-		$sql = "SELECT `eid`, `time` FROM `join` WHERE `uid` = :uid";
-		return DB::sql($sql, array(':uid' => $uid));
+		$con = " `eid` IN ( SELECT `eid` FROM `join` WHERE `uid` = :uid  ORDER BY `join`.`time` DES)";
+		return Event::show_by($con, array(':uid' => $uid));
+		//$sql = "SELECT `eid`, `time` FROM `join` WHERE `uid` = :uid";
+		//return DB::sql($sql, array(':uid' => $uid));
 	}
 };
 

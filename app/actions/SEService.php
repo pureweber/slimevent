@@ -5,10 +5,10 @@
  * @package   Slimevent
  **/
 
-class SEService{
+class SEService extends SECommon{
 
 	function __construct(){
-		//SECommon::set_unread_msg_num();
+		//$this->set_unread_msg_num();
 		
 		//$group = Account::the_user_group();
 		//if($group != F3::get("SERVICE_GROUP") 
@@ -17,7 +17,7 @@ class SEService{
 	}
 
 	function show_audit(){
-		SECommon::show_by("audit", "`status` = :status", array(":status"=>F3::get("EVENT_AUDIT_STATUS")));
+		$this->show_by("audit", "`status` = :status", array(":status"=>F3::get("EVENT_AUDIT_STATUS")));
 		echo Template::serve("service/audit.html");
 	}
 

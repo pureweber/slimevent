@@ -10,10 +10,10 @@
  * Action for Home
  */
 
-class SEOrg{
+class SEOrg extends SECommon{
 
 	function __construct(){
-		SECommon::set_unread_msg_num();
+		$this->set_unread_msg_num();
 	}
 
 }

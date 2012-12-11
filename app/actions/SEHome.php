@@ -9,15 +9,10 @@
  * Action for Home
  */
 
-class SEHome{
+class SEHome extends SECommon{
 
 	function test()
 	{
-		//Admin::add_user("free", "123", "student", "normal");
-		//Admin::add_user("root", "123", "admin", "normal");
-		//Admin::add_user("service", "123", "service", "normal");
-		//Admin::add_user("cslub", "123", "club", "normal");
-		//Admin::add_user("orghit", "123", "org", "normal");
 		$data = array();
 		$event = array();
 		$event['title'] = "bbb";
@@ -33,50 +28,6 @@ class SEHome{
 		$data['avatar'] = "gg121";
 		$data['email'] = "hhaaa@mail";
 		$data['phone'] = "ii2222111";
-		//$data['introduction'] = "luggwoaipin";
-		//Org::edit_basic_info($data);
-//		Student::register(111);
-		//echo Event::create($event);
-		//var_dump(Event::show(20));
-		//var_dump(Event::update(200,$event));
-		//echo EDB::counts('event','eid',7);
-		//Student::add_basic_info($data);
-		//Student::edit_basic_info($data);
-		//Admin::edit_user_info(26,$data);
-		//Event::show(1);
-		//$r = Category::get_all();
-		//Code::dump($r);
-		//Admin::edit_user_info(1,'student',$data);
-	//	Admin::reset_user_pwd(11,2222);
-		//Admin::add_user_to_black_list(10);
-		//Admin::remove_user_from_black_list(10);
-		//Admin::change_user_status(11,"normal");
-		//echo Admin::get_user_group(10);
-		//$r = Account::login("orghit","123");
-		//var_dump($r);
-		//echo Account::the_user_id();
-		//var_dump(Account::exists("kjlmfeaa"));
-		//echo Account::the_user_group();
-		//echo Account::the_user_name();
-		//Account::edit_event(6,$event);
-		//Service::event_audit_fail(5);
-		//Service::event_audit_pass(50);
-		//$r = Service::get_event_to_audit();
-		//var_dump($r);
-//		Service::event_audit_pass(2);
-		//Service::event_audit_fail(2);
-		//echo Admin::add_user("zhukiieaaaiii", "123","admin","normal");
-		//Admin::reset_user_pwd(20,"123");
-
-		//Admin::get_user(18);
-		//Student::join_event(45);
-		//Student::unjoin_event(45);
-		//Student::praise_event(35);
-//		Student::unpraise_event(34);
-		//Student::unjoin_event(34);
-		//$r = JoinList::get_join_user(34);
-		//$r = PraiseList::get_praise_user(2);
-		//$r = PraiseList::get_praise_event(46);
 		$r = JoinList::get_join_event(46);
 		Code::dump($r);
 	}
@@ -84,13 +35,22 @@ class SEHome{
 
 	function run()
 	{
-		SECommon::show_by("");
+		$event = new SEEvent();
+		$event->show_by("");
 		echo Template::serve('index.html');
 		//if(Account::is_login() === TRUE)
 			//echo Template::serve('hello.html');
 		//else
 			//F3::reroute('/accounts/admin/login');
 	}
+
+	function my()
+	{
+		$gay = new SECommon();
+		$gay->my();
+	}
+
+	//functio
 
 	function show_login()
 	{	

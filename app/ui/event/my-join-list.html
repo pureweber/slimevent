@@ -1,0 +1,58 @@
+<table class="table" style="margin-top:20px">
+	<tr>
+		<th width="5%">#</th>
+		<th width="53%">标题</th>
+		<th width="12%">开始时间</th>
+		<th width="10%">参加/赞</th>
+		<th width="20%">操作</th>
+	</tr>
+
+<F3:repeat group="{{@join_events}}" value="{{@event}}" counter="{{@count}}">
+	<tr>
+		<td>{{@count}}</td>
+		<td>
+			<a href="{{@WEB_ROOT}}event/{{@event.eid}}"
+				target="_blank" class="join-event" data-begin-time="{{@event.a_begin_time}}"
+				data-end-time="{{@event.a_end_time}}" data-status="{{@event.status}}">
+				{{@event.title}}
+			</a>
+		</td>
+		<td>{{@event.date}} {{@event.begin_time}}</td>
+		<td>{{@event.joiners}}/{{@event.praisers}}</td>
+		<td>
+			<a href="{{@WEB_ROOT}}event/{{@event.eid}}/join/cancel" class="btn btn-danger" 
+				onclick="return confirm('确定要取消报名活动<<{{@event.title}}>>吗');">取消报名</a>
+		</td>
+	</tr>
+</F3:repeat>
+</table>
+
+{{@pagination}}
+
+<div style="display:none">
+	<span class="label label-warning join-event-ed">已过期</span>
+	<span class="label label-important join-event-ing">正在进行</span>
+	<span class="label label-success join-event-will">即将</span>
+	<span class="label label-important join-event-{{@EVENT_DELETED_STATUS}}">活动已删除</span>
+</div>
+
+<script type="text/javascript">
+	
+	$(document).ready(function () {
+		$(".join-event").each(function(){
+			if($(this).data('begin-time') > {{@time}})
+				$(".join-event-will").clone().first().insertBefore(this);
+			else if($(this).data('end-time') < {{@time}})
+				$(".join-event-ed").clone().first().insertBefore(this);
+			else
+				$(".join-event-ing").clone().first().insertBefore(this);
+
+			if($(this).data('status') == '{{@EVENT_DELETED_STATUS}}')
+				$(".join-event-{{@EVENT_DELETED_STATUS}}").clone().first()
+					.insertBefore(this).parent().children(':first').remove();
+		});
+	});
+
+
+</script>
+

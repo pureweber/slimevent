@@ -10,7 +10,7 @@
 					<li class="nav-header">快速查看</li>
 					<li><a href="#info">社团信息</a></li>
 					<li><a href="#msg-box">站内消息</a></li>
-					<li><a href="#event-list">我创建的活动</a></li>
+					<li><a href="#event-list">活动列表</a></li>
 					<li class="divider"></li>
 					<li><a href="#">帮助</a></li>
 				</ul>
@@ -44,14 +44,14 @@
 
 			<hr>
 
-			<div class="row" id="my-create-list">
+			<div class="row" id="event-list">
 				<div>
-					<h3 style="display:inline">我创建的活动</h3>
+					<h3 style="display:inline">活动列表</h3>
 					<!--<div style="float:right">-->
 					<a href="{{@WEB_ROOT}}create" class="btn btn-large">创建新活动</a>
 					<!--</div>-->
 				</div>
-				<F3:include href="event/my-create-list.html" />
+				<F3:include href="event/my-list.html" />
 			</div> <!-- Row -->
 
 		</div>
