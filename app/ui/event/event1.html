@@ -18,7 +18,7 @@
 				<div class="span7">
 
 					<div id="event-title">
-						<h1>{{@e.title}}</h1>
+						<h1 id="share-event-title">{{@e.title}}</h1>
 					</div>
 
 					<div id="event-feature">
@@ -104,7 +104,10 @@
 
 		<!-- JiaThis Button BEGIN -->
 		<script type="text/javascript">
-			var jiathis_config = {data_track_clickback:true};
+			var jiathis_config = {
+				title:document.getElementById("share-event-title").innerHTML,
+				data_track_clickback:true
+				};
 		</script>
 		<script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js?uid=1592234" charset="utf-8"></script>
 		<!-- JiaThis Button END -->

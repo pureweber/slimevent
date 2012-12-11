@@ -15,14 +15,16 @@ class SEStudent{
 
 	function praise_event($eid)
 	{
-		$uid = Student::the_user_id():
+		$uid = Student::the_user_id();
 		PraiseList::add($uid, $eid);
 	}
 
-	function join_event($eid)
+	function un_praise_event($eid)
 	{
-
+		$uid = Student::the_user_id();
+		PraiseList::remove($uid, $eid);
 	}
+
 }
 
 ?>
