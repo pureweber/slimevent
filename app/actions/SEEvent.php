@@ -66,18 +66,6 @@ class SEEvent extends SECommon{
 		echo $eid;
 	}
 
-	private function get_eid_if_exist(&$d){
-		if($d['eid'] != 0)
-			$eid = $d['eid'];
-		else
-			$eid = false;
-		
-		unset($d['eid']);
-
-		return $eid;
-	}
-
-
 	function joins() 
 	{
 		$uid = Account::the_user_id(); //这个是当前登录用户的id
@@ -152,6 +140,18 @@ class SEEvent extends SECommon{
 
 		echo Template::serve('event/discussion.html');
 	}
+
+	private function get_eid_if_exist(&$d){
+		if($d['eid'] != 0)
+			$eid = $d['eid'];
+		else
+			$eid = false;
+		
+		unset($d['eid']);
+
+		return $eid;
+	}
+
 };
 
 ?>

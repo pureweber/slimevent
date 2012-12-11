@@ -13,23 +13,6 @@ class SEHome extends SECommon{
 
 	function test()
 	{
-		$data = array();
-		$event = array();
-		$event['title'] = "bbb";
-		$event['region'] = "2";
-		$event['category'] = "40";
-		$event['begin_time'] = "119912";
-		$data['name'] = "aaa";
-		$data['no'] = "bb831";
-		$data['sex'] = "ccfemale";
-		$data['class'] = "dd667";
-		$data['college'] = "ffhitaaa";
-		$data['major'] = "eeaa";
-		$data['avatar'] = "gg121";
-		$data['email'] = "hhaaa@mail";
-		$data['phone'] = "ii2222111";
-		$r = JoinList::get_join_event(46);
-		Code::dump($r);
 	}
 
 
@@ -37,6 +20,7 @@ class SEHome extends SECommon{
 	{
 		$event = new SEEvent();
 		$event->show_by("");
+		
 		echo Template::serve('index.html');
 		//if(Account::is_login() === TRUE)
 			//echo Template::serve('hello.html');
