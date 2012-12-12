@@ -18,6 +18,16 @@
 
 <div class="control-group">
 <!-- Select Basic -->
+	<label class="control-label">活动类型</label>
+	<div class="controls">
+		<select class="validate-required input-large" name="category" value="{{@POST.category}}">
+			{{@select_category}}
+		</select>
+	</div>
+</div>
+
+<div class="control-group">
+<!-- Select Basic -->
 	<label class="control-label">校区</label>
 	<div class="controls">
 		<select class="input-large" name="region" value="{{@POST.region}}">
@@ -37,42 +47,56 @@
 
 <div class="control-group">
 <!-- Appended input-->
-	<label class="control-label">活动日期</label>
+	<label class="control-label">开始时间</label>
 	<div class="controls">
-		<input class="validate-date-before-now span2 date-picker" placeholder="请点击输入框" type="text" 
-			name="date" value="{{@POST.date}}">
+		<input class="validate-date-before-now span2 date-picker" placeholder="日期" type="text" 
+			name="begin_date" value="{{@POST.begin_date}}">
 		<i class="icon-calendar icon-large" style="margin: 6px 0 0 -24.5px; pointer-events: none; position: relative;"></i>
+
+		<input class="validate-required span2" placeholder="时间" type="text" name="begin_time"
+			value="{{@POST.begin_time}}" style="margin-left:10px">
+		<i class="icon-time icon-large" style="margin: 6px 0 0 -22.5px; pointer-events: none; position: relative;"></i>
 		<p class="help-block"></p>
 	</div>
 
 </div>
 
-<div class="control-group">
-<!-- Appended input-->
-	<label class="control-label">开始时间</label>
-	<div class="controls">
-		<input class="validate-required span2 begin-time" placeholder="请点击输入框" type="text" name="begin_time" value="{{@POST.begin_time}}">
-		<i class="icon-time icon-large" style="margin: 6px 0 0 -22.5px; pointer-events: none; position: relative;"></i>
-	</div>
-
-</div>
 
 <div class="control-group">
 <!-- Appended input-->
 	<label class="control-label">结束时间</label>
 	<div class="controls">
-		<input class="validate-required validate-time-order span2 end-time" placeholder="请点击输入框" type="text" name="end_time" value="{{@POST.end_time}}">
+		<input class="span2 date-picker" placeholder="日期" type="text" 
+			name="end_date" value="{{@POST.end_date}}">
+		<i class="icon-calendar icon-large" style="margin: 6px 0 0 -24.5px; pointer-events: none; position: relative;"></i>
+
+		<input class="validate-required validate-time-order span2 end-time" placeholder="时间" type="text"
+			name="end_time" value="{{@POST.end_time}}" style="margin-left:10px">
 		<i class="icon-time icon-large" style="margin: 6px 0 0 -22.5px; pointer-events: none; position: relative;"></i>
 	</div>
 </div>
 
+
 <div class="control-group">
 <!-- Select Basic -->
-	<label class="control-label">活动类型</label>
+	<label class="control-label">报名信息</label>
 	<div class="controls">
-		<select class="validate-required input-large" name="category" value="{{@POST.category}}">
-			{{@select_category}}
-		</select>
+		
+		<div class="pull-left">
+		<label class="radio">
+			<input type="radio" name="sign_up" value="{{@EVENT_NOT_NEED_SIGN}}"
+				{{@POST.sign_up == @EVENT_NEED_SIGN ? '':'checked'}}>
+			不需要报名
+		</label>
+		</div>
+
+		<div class="pull-left" style="margin-left:60px">
+		<label class="radio">
+			<input type="radio" name="sign_up" value="{{@EVENT_NEED_SIGN}}"
+				{{@POST.sign_up == @EVENT_NEED_SIGN ? 'checked':''}}>
+			需要报名
+		</label>
+		</div>
 	</div>
 </div>
 
@@ -80,7 +104,7 @@
 <!-- Text input-->
 	<label class="control-label">标签</label>
 	<div class="controls">
-		<input type="text" placeholder="" class="validate-required input-xlarge" name="label" value="{{@POST.label}}">
+		<input type="text" placeholder="" class="input-xlarge" name="label" value="{{@POST.label}}">
 		<p class="help-block">多个标签请用空格分隔</p>
 	</div>
 </div>
@@ -93,7 +117,7 @@
 
 <fieldset>
 	<legend>上传海报</legend>
-<div class="control-group validate-required-upload">
+<div class="control-group">
 	<label class="control-label" for="input01"></label>
 	<div class="controls">
 	<div class="fileupload fileupload-{{@POST.eid ? 'exists' : 'new'}}" data-provides="fileupload">
@@ -154,6 +178,8 @@
 <script src="{{@WEB_ROOT}}static/editor/scripts/innovamanager.js" type="text/javascript"></script>
 
 <script type="text/javascript">
+
+	var hasSaved = false;
 	
 	$(document).ready(function () {
 
@@ -172,11 +198,11 @@
 			format:'yyyy-mm-dd',weekStart:1
 			});
 
-		$('.end-time').timepicker({
+		$("input[name='begin_time']").timepicker({
 			minuteStep:10,showMeridian:false,defaultTime:'value'
 			});
 
-		$('.begin-time').timepicker({
+		$("input[name='end_time']").timepicker({
 			minuteStep:10,showMeridian:false,defaultTime:'value'
 			});
 
@@ -187,6 +213,23 @@
 		$('#content').data('liveEdit').startedit(); /* Run the Editor */
 
 		$("input[name='title']").focus();
+
+		$(window).bind('beforeunload',function(){ 
+			if(!hasSaved)
+				return '您输入的内容尚未保存，确定离开此页面吗？'; 
+			});
+
+		$("input[name='begin_date']").blur(function(){
+				var end = $("input[name='end_date']");
+				if(end.val() === '')
+					end.val($(this).val());
+			});
+
+		$("input[name='begin_time']").blur(function(){
+				var end = $("input[name='end_time']");
+				if(end.val() === '')
+					end.val($(this).val());
+			});
 
 	});
 

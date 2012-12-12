@@ -39,16 +39,17 @@
 		$("#create-form").ajaxSubmit(options);
 		*/
 		if(!getIntroAndValidate())	return false;
+		hasSaved = true;
 		$("#create-form").attr('action', '{{@WEB_ROOT}}publish').submit();
 	}
 
 	function saveDraft(){
 		if(!getIntroAndValidate())	return false;
+		hasSaved = true;
 		var options = {
-			target : '#tip',
 			url : "{{@WEB_ROOT}}draft",
 			type : 'POST',
-			success : function(eid){alert("保存成功"+eid);updateForm(eid);}
+			success : function(eid){updateForm(eid);},
 		}
 		$("#create-form").ajaxSubmit(options);
 	}

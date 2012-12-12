@@ -3,25 +3,21 @@
 <div class="container">
 
 	<div class="row">
-		<div class="span2">
-			<F3:include href="common/sidebar.html" />
+
+		<!-- CONTENT -->
+		<div class="span8">
+			<!-- HOT EVENT -->
+			<F3:include href="index/slide.html" />
+
+			<F3:include href="index/list.html" />
 		</div>
 
-		<div class="span10">
 
-			<div id="myCarousel" class="carousel slide">
-				<!-- Carousel items -->
-				<div class="carousel-inner">
-					<div class="active item">000</div>
-					<div class="item">111</div>
-					<div class="item">222</div>
-				</div>
-				<!-- Carousel nav -->
-				<a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-				<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
-			</div>
-			<F3:include href="event/list.html" />
+		<!-- sidebar -->
+		<div class="span4">
+			<F3:include href="index/sidebar.html" />
 		</div>
+
 	</div>
 
 </div><!-- Container -->
