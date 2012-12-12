@@ -74,6 +74,12 @@ class PraiseList{
 		return DB::sql($sql, array(':uid' => $uid));
 	}
 
+	/**
+	 * 判断用户uid是否赞了eid活动
+	 * @param $uid
+	 * @param $eid
+	 * @return bool
+	 */
 	static function is_user_praise_event($uid, $eid)
 	{
 		$sql = "SELECT * FROM `praise` WHERE `uid` = :uid AND `eid` = :eid";

@@ -76,16 +76,15 @@ class SEHome extends SECommon{
 
 	function logout()
 	{
-		switch(Account::the_user_group())
-		{
-			case F3::get('STUDENT_GROUP'):
-				Account::logout();
-	//			CAS::logout();
-				break;
-			default:
-				Account::logout();
-		}
+		if(Account::is_login() === true)
+			switch(Account::the_user_group())
+			{
+				case F3::get('STUDENT_GROUP'):
+		//			CAS::logout();
+					break;
+			}
 
+		Account::logout();
 		F3::reroute('/');
 	}
 

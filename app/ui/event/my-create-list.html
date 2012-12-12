@@ -11,7 +11,7 @@
 	<tr>
 		<td>{{@count}}</td>
 		<td>
-			<a href="{{@WEB_ROOT}}event/{{@event.eid}}{{@event.status==@EVENT_PASSED_STATUS?'':'/preview'}}" 
+			<a href="{{@WEB_ROOT}}event/{{@event.eid}}" 
 					target="_blank" class="event" data-status="event-{{@event.status}}"
 					data-modified="{{@event.old_id}}">
 				{{@event.title}}

@@ -23,7 +23,7 @@ class Event{
 		else
 			return $r[0];
 	}
-
+	
 	/**
 	 * 根据eid得到详细的活动信息
 	 * @param $eid : 活动id
@@ -34,7 +34,7 @@ class Event{
 	{
 		//$status = $status == '' ? F3::get("EVENT_PASSED_STATUS") : $status;
 		if($status){
-			$con = "`eid` = :eid AND `status` = :status";
+			$con = "`eid` = :eid AND `event`.`status` = :status";
 			$d = array(":eid"=>$eid, ":status"=>F3::get("EVENT_PASSED_STATUS"));
 		}else{
 			$con = "`eid` = :eid";
@@ -42,7 +42,11 @@ class Event{
 		}
 
 		$e = self::get($con, $d);
-		return $e[0];
+
+		if(count($e) == 0)
+			Sys::error(F3::get('EVENT_NOT_EXIST_CODE'),$eid);
+		else
+			return $e[0];
 	}
 
 	/**
@@ -79,8 +83,8 @@ class Event{
 	 */
 	private static function get($con, $data = array())
 	{
-		$sql = "SELECT `event`.*, `category`.`name` AS 'category' FROM `event`,`category` 
-					WHERE `category`.id = `event`.`category_id` AND {$con}";
+		$sql = "SELECT `event`.*, `category`.`name` AS 'category',`users`.`nickname` AS `organizer` FROM `event`,`category`,`users`
+					WHERE `category`.id = `event`.`category_id` AND `users`.`id` = `event`.`organizer_id` AND {$con}";
 
 		$r = DB::sql($sql, $data);
 
@@ -92,8 +96,6 @@ class Event{
 		//else	
 			//Sys::error(F3::get('DB_EVENT_EID_SAME_CODE'),$eid);
 		foreach($r as &$row){
-			$organizer = Account::get_user($row['organizer_id']);
-			$row['organizer'] = $organizer['nickname'];
 			$row['joiners'] = 10;
 			$row['praisers'] = 18;
 		}

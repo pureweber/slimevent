@@ -44,13 +44,13 @@ class SEEvent extends SECommon{
 		$eid = $this->get_eid_if_exist($d);
 
 		if($eid !== false){
-			Account::edit_event($eid, $d);
+			$eid = Account::edit_event($eid, $d);
 		} else {
 			$eid = Account::create_event($d);
 		}
-		Account::publish_event($eid);
+		$eid = Account::publish_event($eid);
 
-		F3::reroute('/my');
+		F3::reroute("/event/$eid");
 	}
 
 
@@ -58,7 +58,7 @@ class SEEvent extends SECommon{
 		$d = $this->get_create_form_value();
 		$eid = $this->get_eid_if_exist($d);
 		if($eid !== false){
-			Account::edit_event($eid, $d);
+			$eid =Account::edit_event($eid, $d);
 		} else {
 			$eid = Account::create_event($d);
 		}
@@ -108,24 +108,21 @@ class SEEvent extends SECommon{
 		echo Template::serve('club/join.html');
 	}
 
-	function show($status = true){
+	function show()
+	{
 		F3::set('subnav', true);
 		F3::set('route', array('discover', 'intro'));
-		$event = Event::show($this->eid, $status);
-		$event = $this->format_info_to_show($event);
-
-		//Code::dump($event);
-		F3::set('e',$event);
-
+		$event = Account::view_one_event($this->eid);
+		F3::set('e',$this->format_info_to_show($event));
 		echo Template::serve('event/event1.html');
 	}
 
-	function preview(){
-		if(Account::preview_event($this->eid))
-			$this->show(false);
-		else
-			Sys::error(F3::get("EVENT_NOT_PREIVEW"), $this->eid);
-	}
+	/*function preview(){*/
+		//if(Account::preview_event($this->eid))
+			//$this->show(false);
+		//else
+			//Sys::error(F3::get("EVENT_NOT_PREIVEW"), $this->eid);
+	/*}*/
 
 	function photos(){
 		F3::set('subnav', true);

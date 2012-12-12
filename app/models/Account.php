@@ -88,6 +88,45 @@ class Account{
 		return md5(F3::get('PWD_SALT').$pwd);
 	}
 
+	static function is_login()
+	{
+		$uid = F3::get('COOKIE.se_user_id');
+
+		if($uid === null)  //没有登录
+			return false;
+		else if($uid == self::the_user_id()) //合法登录
+			return $uid;
+	}
+
+	static function view_one_event($eid)
+	{
+		$e = Event::show($eid, false);
+		$uid = self::is_login();
+
+		if($uid === false)  //未登录用户查阅
+		{
+			if($e['status'] == F3::get('EVENT_PASSED_STATUS'))	//未登录只能查阅审核通过状态
+				return $e;
+		}
+		else  //登录用户
+		{
+			$sta = $e['status'];
+			switch (self::the_user_group())
+			{
+				case F3::get('ADMIN_GROUP'):  //我是管理员 什么都可以看
+					return $e;	
+				case F3::get('SERVICE_GROUP'):  //我是客服 只能看 待审 通过 未通过
+					if($sta == F3::get('EVENT_AUDIT_STATUS') || $sta == F3::get('EVENT_FAILED_STATUS') || $sta == F3::get('EVENT_PASSED_STATUS'))
+						return $e;
+				default:  //学生 社团 机构  (黑名单根本无法登录)  可以查阅别人的通过的活动 以及 自己的未删除的活动
+					if($sta == F3::get('EVENT_PASSED_STATUS') || ($sta !== F3::get('EVENT_DELETED_STATUS') && $uid == $e['organizer_id']))
+						return $e;
+			}
+		}
+
+		Sys::error(F3::get('EVENT_NOT_EXIST_CODE', $eid));
+	}
+
 	/**
 	 * 根据$uid 和 $group得到用户的基本个人信息
 	 * @return array 用户信息关联数组

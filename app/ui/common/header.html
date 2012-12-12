@@ -109,6 +109,9 @@
 						<F3:check if="{{ @route[0] == 'discover' }}">
 				<ul class="nav nav-pills">
 					<li {{ @route[1] == 'intro' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}event/1"><i class="icon-barcode"></i> 活动介绍</a></li>
+				<F3:check if="{{ @COOKIE.se_user_id== @e.organizer_id }}">
+					<li {{ @route[1] == '修改活动' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}event/{{@e.eid}}/edit"><i class="icon-barcode"></i> 修改活动</a></li>
+				</F3:check>
 					<li {{ @route[1] == 'photo' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}event/1/photos"><i class="icon-camera-retro"></i> 照片</a></li>
 					<li {{ @route[1] == 'discussion' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}event/1/discussion"><i class="icon-comments"></i> 讨论</a></li>
 					<li {{ @route[1] == 'participants' ? 'class="participants"' : '' }}><a href="{{@WEB_ROOT}}event/{{@event['id']}}/participants"><i class="icon-group"></i> 参与者</a></li>
