@@ -68,33 +68,45 @@ class SECommon{
 		return $save_path;
 	}
 
+	/**
+	 * 将一个年月日小时分钟 转换为时间戳
+	 * @param $date Y-m-d
+	 * @param $time H:m
+	 * @return timestmp 时间戳
+	 */
+	function change_date_to_timestamp($date, $time)
+	{
+		$date = explode('-', $date);
+		$year = $date[0];
+		$month = $date[1];
+		$day= $sdate[2];
+
+		$time = explode(':', $time);
+		$hour = $time[0];
+		$minute = $time[1];
+
+		return mktime($hour, $minute, 0, $month, $day, $year);
+	}
+
 	 function get_create_form_value(){
 		$d = array();
 
-		$start_date = explode('-', F3::get("POST.start_date"));
-		$start_year = $start_date[0];
-		$start_month = $start_date[1];
-		$start_day= $start_date[2];
+		$begin_date = F3::get("POST.start_date");
+		$end_date = F3::get("POST.end_date");
 
-		$end_date = explode('-', F3::get("POST.end_date"));
-		$end_year = $end_date[0];
-		$end_month = $end_date[1];
-		$end_day= $end_date[2];
+		$begin_time = F3::get("POST.begin_time");
+		$end_time = F3::get("POST.end_time");
 
-		$begin_time = explode(':', F3::get("POST.begin_time"));
-		$end_time = explode(':', F3::get("POST.end_time"));
+		$d['begin_time'] = $this->change_date_to_timestamp($begin_date, $begin_time);
+		$d['end_time'] = $this->change_date_to_timestamp($end_date, $end_time);
 
 		$eid = F3::get("POST.eid");
 		if($eid !== false){
 			$d['eid'] = (int)$eid;
 		}
-		//Code::dump($d);
-		//echo $d['eid'];
 
 		if(F3::get("POST.poster_change") == 1)
 			$d['poster'] = $this->upload_img("poster");
-		//echo $d['poster'];
-		//echo F3::get("POST.upload_change");
 
 		$d['title'] = F3::get("POST.title");
 		$d['region'] = F3::get("POST.region");
@@ -102,10 +114,7 @@ class SECommon{
 		$d['category_id'] = F3::get("POST.category");
 		$d['label'] = F3::get("POST.label");
 		$d['introduction'] = F3::get("POST.introduction");
-
-		//$d['post_time'] = time();
-		$d['begin_time'] = mktime($begin_time[0], $begin_time[1], 0, $start_month, $start_day, $start_year);
-		$d['end_time'] = mktime($end_time[0], $end_time[1], 0, $end_month, $end_day, $end_year);
+		$d['sign_up'] = F3::get("POST.sign_up");
 
 		return $d;
 	}
@@ -115,20 +124,21 @@ class SECommon{
 	 	$remainday = (strtotime($aimdate) - strtotime(date("Y-m-d")))/86400;
 
 		if($remainday < -2)
-			return "已结束";
+			$exinfo = abs($remainday)."天前";
+		else if($remainday == -2)
+			$exinfo = "前天";
+		else if($remainday == -1)
+			$exinfo = "昨天";
+		else if($remainday == 0)
+			$exinfo = "今天";
+		else if($remainday == 1)
+			$exinfo = "明天";
+		else if($remainday == 2)
+			$exinfo = "后天";
+		else 
+			$exinfo = $remainday."天后";
 
-		if($remainday == -2)
-			return "前天";
-		if($remainday == -1)
-			return "昨天";
-		if($remainday == 0)
-			return "今天";
-		if($remainday == 1)
-			return "明天";
-		if($remainday == 2)
-			return "后天";
-
-		return F3::get("WEEKDAY.".date("w",strtotime($aimdate))). " ".$remainday. "天后";
+		return F3::get("WEEKDAY.".date("w",strtotime($aimdate))). " ".$exinfo;
 	 }
 
 	 function format_time_to_show($info){
@@ -140,7 +150,7 @@ class SECommon{
 		$info['begin_date'] = date("Y-m-d ", $info['begin_time']);
 		$info['end_date'] = date("Y-m-d ", $info['end_time']);
 
-		//开始结束星期几 或者 前天  昨天  今天 明天 后天
+		//开始结束星期几 和 额外的于今天时间差信息
 		$info['begin_weekday'] =  $this->get_week_day($info['begin_date']);
 		$info['end_weekday'] =  $this->get_week_day($info['end_date']);
 
