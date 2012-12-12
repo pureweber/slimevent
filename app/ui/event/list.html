@@ -14,7 +14,17 @@
 					<a href="{{@WEB_ROOT}}find/by?label={{@v}}">{{@v}}</a>
 			</F3:repeat>
 				</span></li>
-				<li>{{@e.date}} {{@e.begin_time}} - {{@e.end_time}}</li>
+
+	<F3:check if="{{@e.begin_date == @e.end_date}}">
+		<F3:true>
+		<li>{{@e.begin_date}} ({{@e.begin_weekday}}) {{@e.begin_time}} - {{@e.end_time}}</li>
+		</F3:true>
+
+		<F3:false>
+		<li>{{@e.begin_date}} ({{@e.begin_weekday}}) {{@e.begin_time}} ~ {{@e.end_date}} ({{@e.end_weekday}}) {{@e.end_time}} </li>
+		</F3:false>
+	</F3:check>
+
 				<li>{{@e.region}} {{@e.addr}}</li>
 				<li class="organizer"><a href="{{@WEB_ROOT}}{{@e.organizer_id}}">{{@e.organizer}}</a><span>  主办</span></li>
 			</ul>

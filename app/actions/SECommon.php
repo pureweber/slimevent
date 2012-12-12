@@ -76,22 +76,13 @@ class SECommon{
 	 */
 	function change_date_to_timestamp($date, $time)
 	{
-		$date = explode('-', $date);
-		$year = $date[0];
-		$month = $date[1];
-		$day= $sdate[2];
-
-		$time = explode(':', $time);
-		$hour = $time[0];
-		$minute = $time[1];
-
-		return mktime($hour, $minute, 0, $month, $day, $year);
+		return strtotime($date.' '.$time);
 	}
 
 	 function get_create_form_value(){
 		$d = array();
 
-		$begin_date = F3::get("POST.start_date");
+		$begin_date = F3::get("POST.begin_date");
 		$end_date = F3::get("POST.end_date");
 
 		$begin_time = F3::get("POST.begin_time");
