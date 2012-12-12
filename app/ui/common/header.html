@@ -4,7 +4,11 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>{{@title}} SlimEvent</title>
-	<link type="text/css" rel="stylesheet" href="{{@WEB_ROOT}}static/bootstrap/css/bootstrap.css" />
+
+	<!-- THEME -->
+	<link type="text/css" rel="stylesheet" href="{{@WEB_ROOT}}static/
+		{{@COOKIE.se_theme == 'bootstrap' ? 'bootstrap': 'plusstrap'}}/css/bootstrap.css" />
+
 	<link type="text/css" rel="stylesheet" href="{{@WEB_ROOT}}static/css/font-awesome.css" />
 	<link type="text/css" rel="stylesheet" href="{{@WEB_ROOT}}static/css/event.css" />
 

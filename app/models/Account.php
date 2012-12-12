@@ -17,6 +17,7 @@ class Account{
 		setcookie('se_user_name', $user['nickname'], time() + F3::get('COOKIE_TIME'), '/');
 		setcookie('se_user_group', $user['group'], time() + F3::get('COOKIE_TIME'), '/');
 		setcookie('se_user_token', self::generate_login_token($user), time() + F3::get('COOKIE_TIME'), '/');
+		setcookie('se_theme', $user['theme'], time() + F3::get('COOKIE_TIME'), '/');
 	}
 
 	/**
@@ -28,6 +29,8 @@ class Account{
 		setcookie('se_user_name', '', time() - F3::get('COOKIE_TIME'), '/');
 		setcookie('se_user_group', '', time() - F3::get('COOKIE_TIME'), '/');
 		setcookie('se_user_token', '', time() - F3::get('COOKIE_TIME'), '/');
+		
+		//setcookie('se_theme', '', time() - F3::get('COOKIE_TIME'), '/');
 	}
 
 	/**
