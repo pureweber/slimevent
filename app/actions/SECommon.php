@@ -71,11 +71,15 @@ class SECommon{
 	 function get_create_form_value(){
 		$d = array();
 
-		$date = explode('-', F3::get("POST.date"));
-		//Code::dump($_POST);
-		$year = $date[0];
-		$month = $date[1];
-		$day= $date[2];
+		$start_date = explode('-', F3::get("POST.start_date"));
+		$start_year = $start_date[0];
+		$start_month = $start_date[1];
+		$start_day= $start_date[2];
+
+		$end_date = explode('-', F3::get("POST.end_date"));
+		$end_year = $end_date[0];
+		$end_month = $end_date[1];
+		$end_day= $end_date[2];
 
 		$begin_time = explode(':', F3::get("POST.begin_time"));
 		$end_time = explode(':', F3::get("POST.end_time"));
@@ -100,19 +104,51 @@ class SECommon{
 		$d['introduction'] = F3::get("POST.introduction");
 
 		//$d['post_time'] = time();
-		$d['begin_time'] = mktime($begin_time[0], $begin_time[1], 0, $month, $day, $year);
-		$d['end_time'] = mktime($end_time[0], $end_time[1], 0, $month, $day, $year);
+		$d['begin_time'] = mktime($begin_time[0], $begin_time[1], 0, $start_month, $start_day, $start_year);
+		$d['end_time'] = mktime($end_time[0], $end_time[1], 0, $end_month, $end_day, $end_year);
 
 		return $d;
 	}
 
+	 function get_week_day($aimdate)
+	 {
+	 	$remainday = (strtotime($aimdate) - strtotime(date("Y-m-d")))/86400;
+
+		if($remainday < -2)
+			return "已结束";
+
+		if($remainday == -2)
+			return "前天";
+		if($remainday == -1)
+			return "昨天";
+		if($remainday == 0)
+			return "今天";
+		if($remainday == 1)
+			return "明天";
+		if($remainday == 2)
+			return "后天";
+
+		return F3::get("WEEKDAY.".date("w",strtotime($aimdate))). " ".$remainday. "天后";
+	 }
+
 	 function format_time_to_show($info){
+	 	//开始结束时间戳
 		$info['a_begin_time'] = $info['begin_time'];
 		$info['a_end_time'] = $info['end_time'];
 
-		$info['date'] = date("Y-m-d", $info['begin_time']);
+		//开始结束时间年月日
+		$info['begin_date'] = date("Y-m-d ", $info['begin_time']);
+		$info['end_date'] = date("Y-m-d ", $info['end_time']);
+
+		//开始结束星期几 或者 前天  昨天  今天 明天 后天
+		$info['begin_weekday'] =  $this->get_week_day($info['begin_date']);
+		$info['end_weekday'] =  $this->get_week_day($info['end_date']);
+
+		//开始结束具体时间 小时分钟
 		$info['begin_time'] = date("H:i", $info['begin_time']);
 		$info['end_time'] = date("H:i", $info['end_time']);
+
+		//活动创建时间
 		$info['post_time'] = date("Y-m-d H:i:s", $info['post_time']);
 
 		return $info;

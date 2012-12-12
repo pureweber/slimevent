@@ -76,8 +76,21 @@
 
 					<div id="event-items">
 						<div id="event-time" class="event-item">
-							<span><i class="icon-time"></i> 时间</span> : {{@e.date}} {{@e.begin_time}} - {{@e.end_time}}
+						
+						<F3:check if="{{@e.begin_date == @e.end_date}}">
+							<F3:true>
+							<span><i class="icon-time"></i> 时间</span> : {{@e.begin_date}} ({{@e.begin_weekday}}) {{@e.begin_time}} - {{@e.end_time}} 					
+							</F3:true>
+
+							<F3:false>
+							<span><i class="icon-time"></i> 开始时间</span> : {{@e.begin_date}} ({{@e.begin_weekday}}) {{@e.begin_time}} 
+							<br>
+							<span><i class="icon-time"></i> 结束时间</span> : {{@e.end_date}} ({{@e.end_weekday}}) {{@e.end_time}} 
+							</F3:false>
+						</F3:check>
+
 						</div>
+
 						<div id="event-place" class="event-item">
 							<span><i class="icon-map-marker"></i> 地点</span> : <a href="#">{{@e.region}}</a> {{@e.addr}}
 						</div>

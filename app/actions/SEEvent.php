@@ -113,7 +113,8 @@ class SEEvent extends SECommon{
 		F3::set('subnav', true);
 		F3::set('route', array('discover', 'intro'));
 		$event = Account::view_one_event($this->eid);
-		F3::set('e',$this->format_info_to_show($event));
+		$event = $this->format_info_to_show($event);
+		F3::set('e',$event);
 		echo Template::serve('event/event1.html');
 	}
 
