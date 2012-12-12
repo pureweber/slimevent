@@ -21,7 +21,7 @@ class SECommon{
 
 	function set_create_event_list(){
 		$uid = Account::the_user_id();
-		$this->show_by("club", "`organizer_id` = :uid AND  `status` <> :s ORDER BY post_time DESC",
+		$this->show_by("club", "`organizer_id` = :uid AND  `event`.`status` <> :s ORDER BY post_time DESC",
 			array(":uid"=>$uid, ":s"=>F3::get("EVENT_DELETED_STATUS")));
 		//echo Template::serve('common/created_event_list.html');
 	}
@@ -149,7 +149,7 @@ class SECommon{
 	 * @param $data : SQL条件中的值
 	 * @return void
 	 */
-	 function show_by($url, $con = "`status` = :status", $data = array(), $set_name = "events"){
+	 function show_by($url, $con = "`event`.`status` = :status", $data = array(), $set_name = "events"){
 		if(count($data)==0)// 默认只选择passed的
 			$data = array(":status"=>F3::get("EVENT_PASSED_STATUS"));
 		//$con = "`label` LIKE '%AWF%'";

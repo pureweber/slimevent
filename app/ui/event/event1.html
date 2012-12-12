@@ -53,7 +53,26 @@
 
 					<div id="event-feature">
 						<a class="btn btn-primary" href="#" onclick="praise_event();return false" style="float:right; margin-right:20px"><i class="icon-thumbs-up"></i> <span id="praise_info"></span></a>
-					</div>
+					</div> <!-- event-feature -->
+
+					<div id="event-status">
+					<F3:check if="{{@e.status==@EVENT_AUDIT_STATUS}}">
+						<a class="btn btn-primary" href="#" onclick="return false;" style="float:right; margin-right:20px"><i class="icon-thumbs-up"></i> 审核中</a>
+					</F3:check>
+
+					<F3:check if="{{@e.status==@EVENT_FAILED_STATUS}}">
+						<a class="btn btn-primary" href="#" onclick="return false" style="float:right; margin-right:20px"><i class="icon-thumbs-up"></i> 审核未通过</a>
+					</F3:check>
+
+					<F3:check if="{{@e.status==@EVENT_DRAFT_STATUS}}">
+						<a class="btn btn-primary" href="#" onclick="return false" style="float:right; margin-right:20px"><i class="icon-thumbs-up"></i> 草稿(提交审核)</a>
+					</F3:check>
+
+					<F3:check if="{{@e.status==@EVENT_DELETED_STATUS}}">
+						<a class="btn btn-primary" href="#" onclick="return false" style="float:right; margin-right:20px"><i class="icon-thumbs-up"></i> 已删除</a>
+					</F3:check>
+					</div> <!-- event-status -->
+
 
 					<div id="event-items">
 						<div id="event-time" class="event-item">
@@ -67,7 +86,7 @@
 							<a href="{{@WEB_ROOT}}{{@e.category_id}}">{{@e.category}}</a>
 						</div>
 						<div id="event-owner" class="event-item">
-							<span><i class="icon-user"></i> 组织者</span> : <a href="{{@WEB_ROOT}}{{@e.organizer_id}}">{{@e.organizer}}</a>
+							<span><i class="icon-user"></i> 组织者</span> : <a href="{{@WEB_ROOT}}user/{{@e.organizer_id}}">{{@e.organizer}}</a>
 						</div>
 						<div id="event-category" class="event-item">
 							<span><i class="icon-tags"></i> 标签</span> : 
@@ -95,11 +114,11 @@
 					<a href="http://www.jiathis.com/share?uid=1592234" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
 					<a class="jiathis_counter_style"></a>
 				</div>
-			<F3:check if="{{@e.sign_up==@EVENT_NEED_SIGN}}">
-				<F3:true>
+
+			<F3:check if="{{@e.sign_up==@EVENT_NEED_SIGN}}">  <!-- 需要报名的才显示 我要报名 -->
 					<a class="btn btn-danger" id="event-join" href="#" onclick="join_event();"><i class="icon-thumbs-up"></i> <span id="join_info"></span></a>
-				</F3:true>
 			</F3:check>
+
 				<!-- JiaThis Button END -->
 			</div><!-- event-social -->
 

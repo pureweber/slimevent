@@ -69,7 +69,7 @@ class JoinList{
 		return DB::sql($sql, array(':eid' => $eid));
 	}
 
-	/*
+	/**
 	 * 返回$uid用户报名过的所有活动信息(eid, time)
 	 * @return array 用户的报名活动记录关联数组
 	 */
@@ -81,6 +81,12 @@ class JoinList{
 		//return DB::sql($sql, array(':uid' => $uid));
 	}
 
+	/**
+	 * 判断用户uid是否参加了eid活动
+	 * @param $uid
+	 * @param $eid
+	 * @return bool
+	 */
 	static function is_user_join_event($uid, $eid)
 	{
 		$sql = "SELECT * FROM `join` WHERE `uid` = :uid AND `eid` = :eid";
