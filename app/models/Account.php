@@ -346,6 +346,7 @@ class Account{
 	 * 发布一条活动
 	 * 将草稿状态的$eid活动转换为发布状态(等待审核)
 	 * @param $eid 活动id
+	 * @return $eid
 	 */
 	static function publish_event($eid)
 	{
@@ -359,6 +360,7 @@ class Account{
 			$data['status'] = F3::get('EVENT_AUDIT_STATUS');
 			Event::update($eid, $data);
 		}
+		return $eid;
 	}
 
 	/**
