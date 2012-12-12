@@ -1,0 +1,36 @@
+<F3:include href="common/header.html" />
+
+<div class="container">
+
+	<div class="row">
+		<div class="span2">
+			<F3:include href="common/sidebar.html" />
+		</div>
+
+		<div class="span10">
+			<div class="row">
+				<form method="get" action="{{@WEB_ROOT}}find/by" class="form-inline offset1 span8" >
+					<label for="key"></label>
+					<input name="key" class="span5"  style="line-height:30px;height:30px;font-size:18px" type="text"  placeholder="根据活动名称、介绍、标签搜索" >
+					<button type="submit" class="btn btn-primary btn-large" style="">
+						<i class="icon-search icon-white"></i>&nbsp;&nbsp;&nbsp;搜索
+					</button>
+				</form>
+			</div>
+
+			<div class="row">
+				<h4>所有分类</h4>
+					<ul>
+					<F3:repeat group="{{@category}}" value="{{@c}}">
+						<li><a href="{{@WEB_ROOT}}find/by?category={{@c.id}}">{{@c.name}}</a></li>
+					</F3:repeat>
+					</ul>
+			</div>
+			<!--<F3:include href="event/list.html" />-->
+		</div>
+	</div>
+
+</div><!-- Container -->
+
+
+<F3:include href="common/footer.html" />

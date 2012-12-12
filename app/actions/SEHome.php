@@ -16,16 +16,31 @@ class SEHome extends SECommon{
 	}
 
 
+	function feedback(){
+	}
+
+	function show_feedback(){
+		echo "feedback";
+	}
+
+	function find(){
+		$query = F3::get("GET");
+		Code::dump($query);
+	}
+
+	function show_find(){
+		$category = Category::get_all();
+		F3::set("category", $category);
+		echo Template::serve('find/find.html');
+	}
+
+
 	function run()
 	{
 		$event = new SEEvent();
 		$event->show_by("");
 		
 		echo Template::serve('index.html');
-		//if(Account::is_login() === TRUE)
-			//echo Template::serve('hello.html');
-		//else
-			//F3::reroute('/accounts/admin/login');
 	}
 
 	function my()
