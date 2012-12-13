@@ -7,6 +7,17 @@
 
 class SECommon{
 
+	static $lock = true;	
+
+	function __construct()
+	{
+		if(self::$lock === true)
+		{
+			LogFile::add(); 
+			self::$lock = false;
+		}
+	}
+
 	private function _get_instance(){
 		$group = Account::the_user_group();
 		$class = "SE".ucfirst(strtolower($group));

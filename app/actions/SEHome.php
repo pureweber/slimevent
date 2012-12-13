@@ -11,6 +11,11 @@
 
 class SEHome extends SECommon{
 
+	function __construct()
+	{
+		parent::__construct();
+	}
+
 	function test()
 	{
 	}
@@ -105,13 +110,12 @@ class SEHome extends SECommon{
 
 	function logout()
 	{
-		if(Account::is_login() === true)
-			switch(Account::the_user_group())
-			{
-				case F3::get('STUDENT_GROUP'):
-		//			CAS::logout();
-					break;
-			}
+		//			CAS::logout("http://www.baidu.com");
+		//if(Account::is_login() !== false)
+		//{
+			//if(Account::the_user_group() == F3::get('STUDENT_GROUP'))
+				//echo "bb";
+			//}
 
 		Account::logout();
 		F3::reroute('/');
