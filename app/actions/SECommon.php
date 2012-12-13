@@ -37,6 +37,50 @@ class SECommon{
 		//echo Template::serve('common/created_event_list.html');
 	}
 
+	function ajax_my_event_list()
+	{
+		$uid = Account::the_user_id();
+		$status = F3::get('POST.type');
+
+		if($status == F3::get('EVENT_DELETED_STATUS'))  //个人无法查看自己删除的 
+			echo "非法请求,无法获取";
+		else
+			$this->set_event_list($uid, $status);
+	}
+
+	// echo $uid 用户 $s(tatus) 状态的活动的html
+	function set_event_list($uid, $s)
+	{
+		//草稿 审核中 通过的 未通过的
+		if($s == F3::get("EVENT_DRAFT_STATUS") || $s == F3::get('EVENT_AUDIT_STATUS') || $s == F3::get('EVENT_PASSED_STATUS'))
+		{
+			$con = "`organizer_id` = :uid AND  `event`.`status` = :s ORDER BY post_time DESC";
+			$ui_dir = 'event';
+		}
+		else if($s == F3::get('EVENT_FAILED_STATUS')) //未通过的  多包含一个原因
+		{
+			$con = "`organizer_id` = :uid AND  `event`.`status` = :s ORDER BY post_time DESC";
+			//待完善
+			//$con = " `eid` IN ( SELECT `id` AS 'audit_id',`time` AS 'audit_time',`comments` AS 'audit_comments' FROM `audit` WHERE `eid` = :eid  ORDER BY `$s`.`time` DESC)";
+			$ui_dir = 'event';
+		}
+		else if($s == F3::get("EVENT_JOIN_STATUS"))  //用户参加的 //用户赞过的
+		{
+			$con = " `eid` IN ( SELECT `eid` FROM `join` WHERE `uid` = :uid  ORDER BY `$s`.`time` DESC)";
+			$ui_dir = 'student';
+		}
+		else
+		{
+			echo "非法请求,无法获取";
+			return;
+		}
+
+		$events = Event::show_by($con, array(":uid" => $uid, ":s" => $s));
+		$e = $this->format_infos_to_show($events);
+		F3::set('events', $e);
+		echo Template::serve("$ui_dir/$s"."_list.html");
+	}
+
 	 function set_unread_msg_num(){
 		//$unread_msg_num = MsgBox::get_unread_num();
 		F3::set("unread_msg", 3);

@@ -144,6 +144,7 @@ class SEHome extends SECommon{
 		else
 			echo "非法登录";
 	}
+
 };
 
 ?>

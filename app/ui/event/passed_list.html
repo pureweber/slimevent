@@ -1,0 +1,35 @@
+<table class="table" style="margin-top:20px">
+	<tr>
+		<th width="5%">#</th>
+		<th width="53%">标题</th>
+		<th width="12%">发布时间</th>
+		<th width="10%">参加/赞</th>
+		<th width="20%">操作</th>
+	</tr>
+
+<F3:repeat group="{{@events}}" value="{{@event}}" counter="{{@count}}">
+	<tr id="event_{{@event.eid}}">
+		<td>{{@count}}</td>
+		<td>
+			<a href="{{@WEB_ROOT}}event/{{@event.eid}}" 
+					target="_blank" class="event" data-status="event-{{@event.status}}"
+					data-modified="{{@event.old_id}}">
+					<span class="label label-success label-event-{{@EVENT_PASSED_STATUS}}">正常</span>
+				{{@event.title}}
+			</a>
+		</td>
+		<td>{{@event.post_time}}</td>
+		<td><a href="{{@WEB_ROOT}}event/{{@event.eid}}/join/list">{{@event.joiners}}</a>/{{@event.praisers}}</td>
+		<td>
+			<a href="#" class="btn btn-danger" onclick="ajax_handle_event('{{@event.eid}}','{{@HANDLE_DEL}}'); return false;">删除</a>
+			<a target="_blank" href="{{@WEB_ROOT}}event/{{@event.eid}}/edit" class="btn btn-primary">编辑</a>
+		</td>
+	</tr>
+</F3:repeat>
+</table>
+
+{{@pagination}}
+
+
+
+

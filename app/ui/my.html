@@ -1,63 +1,56 @@
 <F3:include href="common/header.html" />
 
 <div class="container">
-
 	<div class="row">
-		
-		<div class="span3">
-			<div data-spy="affix" data-offset-top="200px">
-				<ul class="nav nav-list">
-					<li class="nav-header">快速查看</li>
-					<li><a href="#info">社团信息</a></li>
-					<li><a href="#msg-box">站内消息</a></li>
-					<li><a href="#event-list">活动列表</a></li>
-					<li class="divider"></li>
-					<li><a href="#">帮助</a></li>
-				</ul>
-			</div>
-		</div>
+		<div class="tabbable tabs-left">
 
-		<div class="span9">
+        	<ul class="nav nav-tabs">
+                <li class="active"><a href="#my_event" data-toggle="tab">我的活动</a></li>
+                <li class=""><a href="#msg_box" data-toggle="tab">站内消息</a></li>
+            	<li class=""><a href="#lB" data-toggle="tab">个人资料</a></li>
+            </ul>
 
-			<div class="row" id="info">
-				<h3>社团信息</h3>
-				<!--<div>-->
-					<!--<table class="table">-->
-						<!--<tr>-->
-							<!--<td>名称</td>-->
-							<!--<td>俱乐部</td>-->
-						<!--</tr>-->
-						<!--<tr>-->
-							<!--<td>即将举行的活动</td>-->
-							<!--<td>2</td>-->
-						<!--</tr>-->
-					<!--</table>-->
-				<!--</div>-->
-			</div>
+       		<div class="tab-content">
 
-			<hr>
+ 				<div class="tab-pane active" id="my_event">
+					<F3:include href="event/my_event.html" />
+                </div><!-- my_event -->
 
-			<div class="row" id="msg-box">
-				<h3>站内消息</h3>
-				<F3:include href="msgbox/list.html" />
-			</div>
+                <div class="tab-pane" id="msg_box">
+					<h3>站内消息</h3>
+					<F3:include href="msgbox/list.html" />
+                </div><!-- msg_box -->
 
-			<hr>
+                <div class="tab-pane" id="my_profile">
+					<h3>个人资料</h3>
+					<F3:include href="{{@COOKIE.se_user_group}}/profile.html" />
+                </div> <!-- my_profile -->
 
-			<div class="row" id="event-list">
-				<div>
-					<h3 style="display:inline">活动列表</h3>
-					<!--<div style="float:right">-->
-					<a href="{{@WEB_ROOT}}create" class="btn btn-large">创建新活动</a>
-					<!--</div>-->
-				</div>
-				<F3:include href="event/my-list.html" />
-			</div> <!-- Row -->
+             </div><!-- tab-content -->
 
-		</div>
-	</div>
-
+		</div><!-- tabbable tabs-left -->
+	</div><!-- row -->
 </div><!-- Container -->
 
+<script type="text/javascript">
+	function ajax_handle_event(eid,type)
+	{
+		$.post('{{@WEB_ROOT}}event/handle',{eid: eid, type : type},function(data){
+			$("#event_"+eid).fadeOut();
+			//$("#event_"+eid).remove();
+		});
+	}
+
+	
+	$(document).ready(function () {
+		$(".event").each(function(){
+			var status = $(this).data('status');
+			$(".label-"+status).clone().first().insertBefore(this);
+			if($(this).data("modified") != {{@NO_OLD_ID}})
+				$(".label-event-modified").clone().first().insertBefore(this);
+		});
+	});
+
+</script>
 
 <F3:include href="common/footer.html" />

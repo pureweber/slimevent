@@ -19,9 +19,9 @@ class SEClub extends SECommon{
 	}
 
 	function my(){
-		F3::set("title", "社团管理");
+		F3::set("title", "个人中心");
 		$this->set_created_event_list();
-		echo Template::serve("club/my.html");
+		echo Template::serve("my.html");
 	}
 
 

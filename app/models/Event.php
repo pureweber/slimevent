@@ -32,7 +32,6 @@ class Event{
 	 */
 	static function show($eid, $status = true)
 	{
-		//$status = $status == '' ? F3::get("EVENT_PASSED_STATUS") : $status;
 		if($status){
 			$con = "`eid` = :eid AND `event`.`status` = :status";
 			$d = array(":eid"=>$eid, ":status"=>F3::get("EVENT_PASSED_STATUS"));
@@ -88,13 +87,6 @@ class Event{
 
 		$r = DB::sql($sql, $data);
 
-		//if(count($r) == 0)
-			//Sys::error(F3::get('EVENT_NOT_EXIST_CODE'),$con);
-			//return array();
-		//else if(count($r) == 1)
-			//$e = $r['0'];
-		//else	
-			//Sys::error(F3::get('DB_EVENT_EID_SAME_CODE'),$eid);
 		foreach($r as &$row){
 			$row['joiners'] = 10;
 			$row['praisers'] = 18;

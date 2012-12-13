@@ -18,12 +18,12 @@ class SEService extends SECommon{
 	}
 
 	function my(){
-		$this->show_audit();
+		echo Template::serve("my.html");
 	}
 
 	function show_audit(){
 		$this->show_by("audit", "`event`.`status` = :status", array(":status"=>F3::get("EVENT_AUDIT_STATUS")));
-		echo Template::serve("service/audit.html");
+		echo Template::serve("audit.html");
 	}
 
 	function pass(){

@@ -40,6 +40,21 @@ class SEEvent extends SECommon{
 		F3::reroute('/my');
 	}
 
+	function ajax_handle_event()
+	{
+		$eid = F3::get('POST.eid');
+		$type = F3::get('POST.type');
+
+		if($type == F3::get('HANDLE_DEL'))
+			Account::delete_event($eid);
+		else if($type == F3::get('HANDLE_PUB'))
+			Account::publish_event($eid);
+		else if($type == F3::get('HANDLE_PAS'))
+			Service::event_audit_pass($eid);
+		else if($type == F3::get('HANDLE_FAIL'))
+			Service::event_audit_fail($eid);
+	}
+
 	function publish(){
 		$d = $this->get_create_form_value();
 		$eid = $this->get_eid_if_exist($d);

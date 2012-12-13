@@ -22,7 +22,7 @@ class SEStudent extends SECommon{
 		$this->set_create_event_list();
 		$this->set_join_event_list();
 
-		echo Template::serve("student/my.html");
+		echo Template::serve("my.html");
 	}
 
 

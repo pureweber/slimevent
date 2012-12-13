@@ -20,6 +20,13 @@ class SEAdmin extends SECommon{
 		echo Template::serve('admin/add_user.html');
 	}
 
+	function my(){
+		F3::set("title", "个人中心");
+		echo "aaa";
+		//$this->set_created_event_list();
+		//echo Template::serve("my.html");
+	}
+
 	function add_user()
 	{
 		$name = F3::get('POST.name');
