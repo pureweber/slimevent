@@ -76,8 +76,8 @@ class LogFile{
 			'data' => $receive_data,
 			'time' => $request_time
 			);
-		echo "日志已经记录";
-		Code::dump($data);
+//		echo "日志已经记录";
+//		Code::dump($data);
 		EDB::insert('logfile', $data);
 	}
 };

@@ -96,15 +96,15 @@ class SEHome extends SECommon{
 
 	function logout()
 	{
-					CAS::logout("http://www.baidu.com");
+		//			CAS::logout("http://www.baidu.com");
 		//if(Account::is_login() !== false)
 		//{
 			//if(Account::the_user_group() == F3::get('STUDENT_GROUP'))
 				//echo "bb";
 			//}
 
-		//Account::logout();
-		//F3::reroute('/');
+		Account::logout();
+		F3::reroute('/');
 	}
 
 	function get_praise_info()
