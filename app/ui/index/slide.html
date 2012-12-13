@@ -1,14 +1,79 @@
-<div id="myCarousel" class="carousel slide">
+<div id="index-carousel" class="carousel slide">
 	<!-- Carousel items -->
 	<div class="carousel-inner">
-		<div class="active item">
-			<F3:include href="index/slide-hero.html" />
+
+		<div class="item">
+			<div class="title">
+				<!--<h4></h4>-->
+			</div>
+			<div class="content" style="padding:15px">
+				<h1>第一版低调测试中...</h1>
+				<h1>第一版低调测试中...</h1>
+				<h1>第一版低调测试中...</h1>
+				<F3:include href="index/slide-hero.html" />
+			</div>
 		</div>
-		<div class="item">000</div>
-		<div class="item">111</div>
-		<div class="item">222</div>
+
+		<!--<F3:include href="index/slide-items.html" />-->
+
+	<!-- items -->
+	<F3:repeat group="{{@hot_events}}" value="{{@e}}" counter="{{@c}}">
+		<F3:check if="{{@c % @SLIDE.PER_PAGE_SHOW == 1}}"> 
+			<div class='active item'>
+				<div class="title">
+					<h4>热门活动</h4>
+				</div>
+				<div class="content">
+		</F3:check>
+		
+				<div class="item-item">
+					<img src="{{@e.poster}}" style="width:110px;height:150px">
+					<div class="e-title">
+						<a href="{{@WEB_ROOT}}event/{{@e.eid}}">{{@e.title}}</a>
+					</div>
+				</div>
+
+		<F3:check if="{{@c % @SLIDE.PER_PAGE_SHOW == 0}}">
+				</div>
+			</div>
+		</F3:check>
+	</F3:repeat>
+
 	</div>
 	<!-- Carousel nav -->
-	<a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-	<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+	<a class="carousel-control left" href="#index-carousel" style="top:50%" data-slide="prev">&lsaquo;</a>
+	<a class="carousel-control right" href="#index-carousel" style="top:50%" data-slide="next">&rsaquo;</a>
 </div>
+
+<script type="text/javascript">
+
+	var numOfChar = 24;
+	var slice = 0;
+
+	$(document).ready(function () {
+		$(".e-title a").each(function(){
+			var str = $(this).html();
+			if(countCharacters(str))
+				$(this).html(str.substr(0, slice)+"...");
+		});
+	});
+	function countCharacters(str){
+		var totalCount = 0;
+		slice = 0;
+		for (var i=0; i<str.length; i++) {
+			if(totalCount >= numOfChar)
+				return true;
+			var c = str.charCodeAt(i);
+			if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)) {
+				totalCount++;
+			} else {
+				totalCount+=2;
+			}
+			slice++;
+		}
+		// alert(totalCount);
+		return false;
+	}
+
+</script>
+

@@ -43,7 +43,21 @@ class SEHome extends SECommon{
 	function run()
 	{
 		$event = new SEEvent();
-		$event->show_by("");
+
+		$event->show_by("", '', array(), 'hot_events', 4);
+
+		$event->show_by("", '`category_id` = :c', array(':c' => F3::get("INDEX_BLOCK.1.id")),
+			'event.'.F3::get("INDEX_BLOCK.1.name"), 4);
+
+		$event->show_by("", '`category_id` = :c', array(':c' => F3::get("INDEX_BLOCK.2.id")),
+			'event.'.F3::get("INDEX_BLOCK.2.name"), 4);
+
+		//$event->show_by("", '`category_id` = :c', array(':c' => F3::get("INDEX_BLOCK.3.id")),
+			//'event.'.F3::get("INDEX_BLOCK.3.name"), 4);
+
+		//$event->show_by("", '`category_id` = :c', array(':c' => F3::get("INDEX_BLOCK.4.id")),
+			//'event.'.F3::get("INDEX_BLOCK.4.name"), 4);
+		//Code::dump(F3::get('INDEX_BLOCK'));
 		
 		echo Template::serve('index.html');
 	}

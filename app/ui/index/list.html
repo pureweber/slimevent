@@ -1,31 +1,59 @@
-<F3:repeat group="{{@events}}" value="{{@e}}">
+<F3:repeat group="{{@INDEX_BLOCK}}" value="{{@block}}">
+	<F3:repeat group="{{@event}}" value="{{@es}}" key="{{@k}}">
+		<F3:check if="{{@k == @block.name}}">
 
-	<div class="row">
+		<div class="index-block">
+			<div class="category-title">
+				<h4>{{@block.title}}</h4>
+				<span>
+					<a href="{{@WEB_ROO}}find/by?category={{@block.id}}">>>查看更多</a>
+				</span>
+			</div>
+			<div class="content">
+				<ul>
+			<F3:repeat group="{{@es}}" value="{{@e}}">
+					<li class="li-item">
+						<div class="poster">
+							<a href="{{@WEB_ROOT}}event/{{@e.eid}}">
+								<img src="{{@e.poster}}" onerror="javascript:this.src='{{@DEFAULT_IMG}}'" />
+							</a>
+						</div>
 
-		<div class="poster">
-			<img src="{{@e.poster}}" onerror="javascript:this.src='{{@DEFAULT_IMG}}'" />
+						<div class="info">
+							<div class="title">
+								<a href="{{@WEB_ROOT}}event/{{@e.eid}}">{{@e.title}}</a>
+							</div>
+							<ul>
+							<F3:check if="{{@e.begin_date == @e.end_date}}">
+								<F3:true>
+								<li>{{@e.begin_date}} {{@e.begin_time}} - {{@e.end_time}}</li>
+								</F3:true>
+								<F3:false>
+								<li>{{@e.begin_date}} ~ {{@e.end_date}} </li>
+								</F3:false>
+							</F3:check>
+								<li class="addr">
+									<span>{{@e.region}}</span>
+									<a href="{{@WEB_ROOT}}{{@e.organizer_id}}">{{@e.organizer}}</a>
+									<span>  主办</span>
+								</li>
+							</ul>
+							<p>{{@e.praisers}}人感兴趣</p>
+						</div>
+
+
+					</li>
+
+				</F3:repeat>
+				</ul>
+			</div>
 		</div>
-
-		<div class="info">
-			<h4><a href="{{@WEB_ROOT}}event/{{@e.eid}}">{{@e.title}}</a></h4>
-			<ul>
-				<li class="event-label"><span>
-			<F3:repeat group="{{@e.label}}" value="{{@v}}">
-					<a href="{{@WEB_ROOT}}find/by?label={{@v}}">{{@v}}</a>
-			</F3:repeat>
-				</span></li>
-				<li>{{@e.date}} {{@e.begin_time}} - {{@e.end_time}}</li>
-				<li>{{@e.region}} {{@e.addr}}</li>
-				<li class="organizer"><a href="{{@WEB_ROOT}}{{@e.organizer_id}}">{{@e.organizer}}</a><span>  主办</span></li>
-			</ul>
-			<p style="margin-left:25px">已有<strong>{{@e.joiners}}</strong>人报名参加，<strong>{{@e.praisers}}</strong>人感兴趣</p>
-		</div>
-
-	</div>
-
-	<hr>
+			
+		</F3:check>
+	</F3:repeat>
+			<div style="clear:both"></div>
+		<hr>
 
 </F3:repeat>
 
-{{@pagination}}
 

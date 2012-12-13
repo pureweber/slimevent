@@ -17,6 +17,82 @@ body{
 	text-align:right
 }
 
+#index-carousel{
+	width:600px;
+	height:260px;
+}
+
+#index-carousel .item{
+}
+
+#index-carousel .item-item{
+	float:left;
+	width:110px;
+	/*height:200px;*/
+	margin:10px 20px;
+}
+#index-carousel .item-item .e-title{
+	margin-top:8px;
+	text-align:center;
+}
+
+#index-carousel .item-item .e-title a{
+	font-size:14px;
+	line-height:18px;
+}
+
+.index-block {
+	/*border-bottom:1px solid #ccc;*/
+}
+
+.index-block .category-title{
+	position:relative;
+}
+.index-block .category-title span{
+	position:absolute;
+	right:10px;
+	top:12px;
+}
+
+.index-block .content{
+	width:620px;
+	height:100%;
+}
+
+.index-block .content ul{
+	margin:0px;
+	list-style:none;
+	height:100%;
+}
+
+.index-block .content ul .li-item{
+	width:300px;
+	height:150px;
+	float:left;
+}
+
+.index-block .content .poster{
+	float:left;
+}
+
+.index-block .content .poster img{
+	width:70px;
+	height:90px;
+}
+
+.index-block .content .info{
+	font-size:12px;
+}
+
+
+.index-block .content .info .title{
+	font-size:13px;
+	width:180px;
+}
+
+
+
+
 .banner{
 	margin-left:30px;
 }

@@ -2,28 +2,6 @@
 
 <script type="text/javascript">
 
-		var uid="{{@COOKIE.se_user_id}}";
-
-		function praise_event()
-		{
-			if(uid === "")
-				alert("请登录");
-			else
-				$.post('{{@WEB_ROOT}}event/praise',{eid:{{@e.eid}}},function(data){
-					$("#praise_info").html(data);
-				});
-		}
-
-		function join_event()
-		{
-			if(uid === "")
-				alert("请登录");
-			else
-				$.post('{{@WEB_ROOT}}event/join',{eid:{{@e.eid}}},function(data){
-					$("#join_info").html(data);
-				});
-		}
-
 </script>
 
 <div class="container">
@@ -33,7 +11,7 @@
 			<F3:include href="common/sidebar.html" />
 		</div>
 
-		<div class="span10" id="event">
+		<div class="span10" id="event" data-spy="scroll" data-target="#plusstrap-subnav-fixed">
 
 			<div id="event-info" class="row">
 
@@ -153,6 +131,43 @@
 		<!-- Ajax get praise and join info BEGIN -->
 
 		<script type="text/javascript">
+
+			$(function(){
+				$body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');// 这行是 Opera 的补丁, 少了它 Opera 是直接用跳的而且画面闪烁 by willin
+
+				$(".subnav li a").click(function(){
+					var id = $(this).attr("href");
+					var top = $(id).offset().top;
+					$body.animate({scrollTop:top - 80}, 100);
+					return false;
+				});
+
+				$(window).scroll(function(){
+					//sleep(100);
+					var scrollTop = $(document).scrollTop();
+					//alert(scrollTop);
+					//if(
+				})
+			});
+
+			var uid="{{@COOKIE.se_user_id}}";
+
+			function praise_event() {
+				if(uid === "") alert("请登录");
+				else
+					$.post('{{@WEB_ROOT}}event/praise',{eid:{{@e.eid}}},function(data){
+						$("#praise_info").html(data);
+					});
+			}
+
+			function join_event() {
+				if(uid === "") alert("请登录");
+				else
+					$.post('{{@WEB_ROOT}}event/join',{eid:{{@e.eid}}},function(data){
+						$("#join_info").html(data);
+					});
+			}
+
 			(function() {
 				$.post('{{@WEB_ROOT}}event/get_praise_info',
 						{eid:"{{@e.eid}}", uid:"{{@COOKIE.se_user_id}}"},
@@ -167,6 +182,7 @@
 							$("#join_info").html(data);
 						});
 			})();
+
 		</script>
 
 		<!-- Ajax get praise_info END -->
