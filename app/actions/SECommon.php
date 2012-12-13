@@ -181,31 +181,44 @@ class SECommon{
 
 	/**
 	 * 根据条件直接设置经过处理的结果,同时设置分页
-	 * @param $url : 分页的url
+	 * @param $url : 分页的基础url
 	 * @param $con : SQL条件
 	 * @param $data : SQL条件中的值
+	 * @param $set_name : 在模板中的名字
+	 * @param $result_num : 返回结果的数量,如果为false(默认)则自动进行分页
 	 * @return void
 	 */
-	 function show_by($url, $con = "`event`.`status` = :status", $data = array(), $set_name = "events"){
-		if(count($data)==0)// 默认只选择passed的
+	 function show_by($url, $con = "`event`.`status` = :status", $data = array(),
+			 $set_name = "events", $result_num = false){
+
+		if($con == '' && count($data)==0){// 默认只选择passed的
+			$con = "`event`.`status` = :status";
 			$data = array(":status"=>F3::get("EVENT_PASSED_STATUS"));
+		}
 		//$con = "`label` LIKE '%AWF%'";
 		//$con = '1 ORDER BY `post_time` DESC';
-		
-		$total_num = Event::get_num($con, $data);
-		if($total_num == 0)
-			return false;
 
-		$get_page = F3::get("GET.page");
-		$per_page_show = F3::get("PER_PAGE_SHOW");
-		$current_page = $get_page == NULL ? 0 : $get_page;
+		if($result_num){
+			$num = $result_num - 1;
+			$limit = " LIMIT 0, $result_num";
+		}else{
+			$total_num = Event::get_num($con, $data);
+			if($total_num == 0)
+				return false;
 
-		$limit = " LIMIT ".$current_page * $per_page_show.", ".$per_page_show;
+			$get_page = F3::get("GET.page");
+			$per_page_show = F3::get("PER_PAGE_SHOW");
+			$current_page = $get_page == NULL ? 0 : $get_page;
+			$limit = " LIMIT ".$current_page * $per_page_show.", ".$per_page_show;
+		}
+
 
 		$events = Event::show_by($con.$limit, $data);
 		$e = $this->format_infos_to_show($events);
 
-		$this->pagination($current_page, (int)ceil($total_num / $per_page_show), $url);
+		if(!$result_num)
+			$this->pagination($current_page, (int)ceil($total_num / $per_page_show), $url);
+
 		F3::set($set_name, $e);
 
 		return true;
