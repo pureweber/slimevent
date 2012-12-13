@@ -22,7 +22,7 @@ class SEService extends SECommon{
 	}
 
 	function show_audit(){
-		$this->show_by("audit", "`status` = :status", array(":status"=>F3::get("EVENT_AUDIT_STATUS")));
+		$this->show_by("audit", "`event`.`status` = :status", array(":status"=>F3::get("EVENT_AUDIT_STATUS")));
 		echo Template::serve("service/audit.html");
 	}
 

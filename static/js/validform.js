@@ -1,7 +1,7 @@
 $(document).ready(function () {
 	$(".validate-required").blur(resetErrorMsg);
 	$(".validate-time-order").blur(resetErrorMsg);
-	$(".validate-date-before-now").blur(resetErrorMsg);
+	//$(".validate-date-before-now").blur(resetErrorMsg);
 	$(".validate-required-upload").click(resetErrorBtn);
 });
 
@@ -20,7 +20,7 @@ function validate(){
 	});
 
 	$(".validate-time-order").each(function(){
-		if(checkTime("begin_time", "end_time"))
+		if(checkTime("begin", "end"))
 			$(this).parentsUntil(".contorl-group").removeClass("error");
 		else{
 			$(this).parentsUntil(".contorl-group").addClass("error");
@@ -28,14 +28,14 @@ function validate(){
 		}
 	});
 
-	$(".validate-date-before-now").each(function(){
-		if(checkDateBeforeNow("date"))
-			$(this).parentsUntil(".contorl-group").removeClass("error");
-		else{
-			$(this).parentsUntil(".contorl-group").addClass("error");
-			success = false;
-		}
-	});
+	//$(".validate-date-after-now").each(function(){
+		//if(checkDateAfterNow(""))
+			//$(this).parentsUntil(".contorl-group").removeClass("error");
+		//else{
+			//$(this).parentsUntil(".contorl-group").addClass("error");
+			//success = false;
+		//}
+	//});
 
 	$(".validate-required-upload").each(function(){
 		if($(this).find(".fileupload").hasClass("fileupload-exists"))
@@ -61,21 +61,33 @@ function checkDateBeforeNow(dateClass){
 		return false;
 }
 
-
+// 判断开始时间小于结束时间，同时均大于当前时间
 function checkTime(begin, end){
-	var begin_time = $("input[name='"+begin+"']").val();
-	var end_time = $("input[name='"+end+"']").val();
+	var begin_time = $("input[name='"+begin+"_time']").val();
+	var begin_date = $("input[name='"+begin+"_date']").val();
 
-	if(getMinutes(begin_time) < getMinutes(end_time))
+	var end_time = $("input[name='"+end+"_time']").val();
+	var end_date = $("input[name='"+end+"_date']").val();
+
+	var now = new Date();
+	var begin = getTime(begin_date, begin_time);
+
+	if(begin < getTime(end_date, end_time)
+			&& now.getTime() < begin)
 		return true;
 	else
 		return false;
 }
 
-function getMinutes(time){
+function getTime(date, time){
 	var d = new Date();
+
 	var t = time.split(':');
-	d.setHours(t[0], t[1]);
+	d.setHours(t[0], t[1], 0, 0);
+
+	var a = date.split('-');
+	d.setFullYear(a[0], a[1] - 1, a[2]);
+	
 	return d.getTime();
 }
 

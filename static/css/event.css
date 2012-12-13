@@ -22,13 +22,18 @@ body{
 }
 
 .poster{
+	float:left;
 }
 
 .poster img{
 	padding-top:20px;
 	width:110px;
 	height:165px;
-	float:right;
+}
+
+.info{
+	float:left;
+	margin-left:15px;
 }
 
 .info ul{

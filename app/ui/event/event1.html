@@ -9,11 +9,9 @@
 			if(uid === "")
 				alert("请登录");
 			else
-			{
 				$.post('{{@WEB_ROOT}}event/praise',{eid:{{@e.eid}}},function(data){
 					$("#praise_info").html(data);
 				});
-			}
 		}
 
 		function join_event()
@@ -21,11 +19,9 @@
 			if(uid === "")
 				alert("请登录");
 			else
-			{
 				$.post('{{@WEB_ROOT}}event/join',{eid:{{@e.eid}}},function(data){
 					$("#join_info").html(data);
 				});
-			}
 		}
 
 </script>
