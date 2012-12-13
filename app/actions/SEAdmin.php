@@ -8,6 +8,7 @@
 class SEAdmin extends SECommon{
 
 	function __construct(){
+		parent::__construct();
 		//$this->set_unread_msg_num();
 		
 		if(Account::the_user_group() != F3::get("ADMIN_GROUP"))

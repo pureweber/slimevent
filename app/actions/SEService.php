@@ -8,6 +8,7 @@
 class SEService extends SECommon{
 
 	function __construct(){
+		parent::__construct();
 		//$this->set_unread_msg_num();
 		
 		//$group = Account::the_user_group();

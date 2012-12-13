@@ -14,6 +14,7 @@ class SEEvent extends SECommon{
 
 	function __construct()
 	{
+		parent::__construct();
 		$this->set_unread_msg_num();
 		$this->eid = F3::get('PARAMS.eventID');  //活动id
 	}
