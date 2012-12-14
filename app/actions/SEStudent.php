@@ -17,12 +17,7 @@ class SEStudent extends SECommon{
 
 	function my(){
 		F3::set("title", "个人中心");
-		F3::set("time", time());
-
-		$this->set_create_event_list();
-		$this->set_join_event_list();
-
-		echo Template::serve("my.html");
+		echo Template::serve("student/my.html");
 	}
 
 

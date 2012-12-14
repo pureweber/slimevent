@@ -15,7 +15,7 @@ class Club extends Account{
 		self::get_user($uid);
 		EDB::update('club', $data, 'uid', $uid);
 	}
-	
+
 };
 
 ?>

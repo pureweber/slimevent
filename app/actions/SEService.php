@@ -18,7 +18,8 @@ class SEService extends SECommon{
 	}
 
 	function my(){
-		echo Template::serve("my.html");
+		F3::set("title", "个人中心");
+		echo Template::serve("service/my.html");
 	}
 
 	function show_audit(){

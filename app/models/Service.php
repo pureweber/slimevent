@@ -72,6 +72,7 @@ class Service extends Account{
 		$r = EDB::select('event','status',$status);
 		return $r;
 	}
+
 };
 
 ?>

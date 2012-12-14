@@ -21,4 +21,9 @@ class SEOrg extends SECommon{
 		$this->set_unread_msg_num();
 	}
 
+	function my(){
+		F3::set("title", "个人中心");
+		echo Template::serve("org/my.html");
+	}
+
 }

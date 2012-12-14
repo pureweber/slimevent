@@ -22,9 +22,7 @@ class SEAdmin extends SECommon{
 
 	function my(){
 		F3::set("title", "个人中心");
-		echo "aaa";
-		//$this->set_created_event_list();
-		//echo Template::serve("my.html");
+		echo Template::serve("admin/my.html");
 	}
 
 	function add_user()

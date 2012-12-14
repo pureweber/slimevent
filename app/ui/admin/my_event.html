@@ -1,0 +1,42 @@
+<script type="text/javascript">
+	function ajax_my_event_list(event_status)
+	{
+		var pane_id = "#"+event_status+"_status"
+		$(pane_id).html("正在努力的获取数据中...");
+		$.post('{{@WEB_ROOT}}my/event/list',{type: event_status},function(data){
+				$(pane_id).html(data);
+		});
+	}
+</script>
+
+<div class="tabbable"> 
+
+	<ul class="nav nav-tabs">
+    	<li class="acvite"><a href="#{{@EVENT_DRAFT_STATUS}}_status" onclick="ajax_my_event_list('{{@EVENT_DRAFT_STATUS}}');" data-toggle="tab">草稿</a></li>
+    	<li><a href="#{{@EVENT_AUDIT_STATUS}}_status" onclick="ajax_my_event_list('{{@EVENT_AUDIT_STATUS}}');" data-toggle="tab">待审核</a></li>
+    	<li><a href="#{{@EVENT_PASSED_STATUS}}_status" onclick="ajax_my_event_list('{{@EVENT_PASSED_STATUS}}');" data-toggle="tab">已通过</a></li>
+    	<li><a href="#{{@EVENT_FAILED_STATUS}}_status" onclick="ajax_my_event_list('{{@EVENT_FAILED_STATUS}}');" data-toggle="tab">未通过</a></li>
+    	<li><a href="#{{@EVENT_DELETED_STATUS}}_status" onclick="ajax_my_event_list('{{@EVENT_DELETED_STATUS}}');" data-toggle="tab">删除的</a></li>
+  	</ul>
+
+  	<div class="tab-content">
+
+    	<div class="tab-pane active" id="draft_status">
+    	</div>
+
+   		<div class="tab-pane" id="passed_status">
+  		</div>
+
+		<div class="tab-pane" id="failed_status">
+  		</div>
+
+   		<div class="tab-pane" id="auditing_status">
+  		</div>
+
+   		<div class="tab-pane" id="deleted_status">
+  		</div>
+
+	</div> <!-- tab-content -->
+
+</div><!-- tabbable -->
+

@@ -53,6 +53,49 @@ class SEEvent extends SECommon{
 			Service::event_audit_pass($eid);
 		else if($type == F3::get('HANDLE_FAIL'))
 			Service::event_audit_fail($eid);
+		else if($type == F3::get('HANDLE_UNJOIN'))  //取消参加
+			JoinList::remove(Account::the_user_id(), $eid);
+		else if($type == F3::get('HANDLE_UNPRAISE'))  //取消推
+			PraiseList::remove(Account::the_user_id(), $eid);
+	}
+
+	function ajax_my_event_list()
+	{
+		$uid = Account::the_user_id();
+		$status = F3::get('POST.type');
+		$group = Account::the_user_group();
+
+		switch($status)
+		{
+			case F3::get('EVENT_DRAFT_STATUS'):
+				$events = Event::get_draft_event_list($uid);
+				break;
+			case F3::get('EVENT_AUDIT_STATUS'):
+				$events = Event::get_auditing_event_list($uid);
+				break;
+			case F3::get('EVENT_PASSED_STATUS'):
+				$events = Event::get_passed_event_list($uid);
+				break;
+			case F3::get('EVENT_FAILED_STATUS'):
+				$events = Event::get_failed_event_list($uid);
+				break;
+			case F3::get('EVENT_DELETED_STATUS'):
+				$events = Event::get_delete_event_list($uid);
+				break;
+			case F3::get('EVENT_JOIN_STATUS'):
+				$events = Event::get_join_event_list($uid);
+				break;
+			case F3::get('EVENT_PRAISE_STATUS'):
+				$events = Event::get_praise_event_list($uid);
+				break;
+			default:
+				$events = array();
+		}
+
+		$e = $this->format_infos_to_show($events);
+		F3::set('events', $e);
+//		Code::dump($e);
+		echo Template::serve("$group/$status"."_list.html");
 	}
 
 	function publish(){

@@ -68,7 +68,6 @@ class SEHome extends SECommon{
 		$gay->my();
 	}
 
-	//functio
 
 	function show_login()
 	{	

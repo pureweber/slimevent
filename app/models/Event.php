@@ -54,7 +54,7 @@ class Event{
 	 * @param $data : SQL查询条件值
 	 * @return array 返回多维关联数组
 	 */
-	static function show_by($con, $data)
+	static function show_by($con, $data = array())
 	{
 		return self::get($con, $data);
 	}
@@ -164,6 +164,165 @@ class Event{
 		DB::sql($sql, array(':eid' => $eid));
 	}
 
+	/**
+	 * 获取用户$uid 对应的草稿活动列表
+	 * @param $uid 
+	 * @return array 活动信息的二维关联数组
+	 */
+	static function get_draft_event_list($uid)
+	{
+		$user =  Account::get_user($uid);
+		$group = $user['group'];
+
+		//学生 社团 机构 对应的是自己的草稿
+		if($group == F3::get('STUDENT_GROUP') || $group == F3::get('CLUB_GROUP') || $group == F3::get('ORG_GROUP'))
+			$con = "`organizer_id` = '$uid' AND `event`.`status` = '".F3::get('EVENT_DRAFT_STATUS') ."' ORDER BY post_time DESC"; 
+		//管理员对应的是系统内的所有草稿
+		else if($group == F3::get('ADMIN_GROUP'))
+			$con = "`event`.`status` = '".F3::get('EVENT_DRAFT_STATUS') ."' ORDER BY post_time DESC"; 
+		//客服其他人员 没有对应草稿类别
+		else
+			return array();
+
+		return Event::show_by($con);
+	}
+
+	/**
+	 * 获取用户$uid 对应的待审核活动列表
+	 * @param $uid 
+	 * @return array 活动信息的二维关联数组
+	 */
+	static function get_auditing_event_list($uid)
+	{
+		$user =  Account::get_user($uid);
+		$group = $user['group'];
+
+		//学生 社团 机构 对应的是自己的待审核的活动 
+		if($group == F3::get('STUDENT_GROUP') || $group == F3::get('CLUB_GROUP') || $group == F3::get('ORG_GROUP'))
+			$con = "`organizer_id` = '$uid' AND  `event`.`status` = '".F3::get('EVENT_AUDIT_STATUS') ."' ORDER BY post_time DESC"; 
+		//客服 管理员 对应的是系统内所有待审核的列表
+		else if($group == F3::get('ADMIN_GROUP') || $group == F3::get('SERVICE_GROUP'))
+			$con = "`event`.`status` = '".F3::get('EVENT_AUDIT_STATUS') ."' ORDER BY post_time DESC"; 
+		//其他人员 无对应待审核列表
+		else
+			return array();
+
+		return Event::show_by($con);
+	}
+
+	/**
+	 * 获取用户$uid 对应的审核通过活动列表
+	 * @param $uid 
+	 * @return array 活动信息的二维关联数组
+	 */
+	static function get_passed_event_list($uid)
+	{
+		$user =  Account::get_user($uid);
+		$group = $user['group'];
+
+		//学生 社团  机构 对应的是自己被通过的活动列表
+		if($group == F3::get('STUDENT_GROUP') || $group == F3::get('CLUB_GROUP') || $group == F3::get('ORG_GROUP'))
+			$con = "`organizer_id` = '$uid' AND  `event`.`status` = '".F3::get('EVENT_PASSED_STATUS') ."' ORDER BY post_time DESC"; 
+		//客服 对应的是自己批准的活动列表
+		else if( $group == F3::get('SERVICE_GROUP'))
+			//----------------------------代写-----//
+			$con = "`event`.`status` = '".F3::get('EVENT_PASSED_STATUS') ."' ORDER BY post_time DESC"; 
+		//管理员 对应的是系统内所有被批准的活动列表
+		else if($group == F3::get('ADMIN_GROUP'))
+			$con = "`event`.`status` = '".F3::get('EVENT_PASSED_STATUS') ."' ORDER BY post_time DESC"; 
+		else
+			return array();
+
+		return Event::show_by($con);
+	}
+
+	/**
+	 * 获取用户$uid 对应的未通过审核的活动列表
+	 * @param $uid 
+	 * @return array 活动信息的二维关联数组
+	 */
+	static function get_failed_event_list($uid)
+	{
+		$user =  Account::get_user($uid);
+		$group = $user['group'];
+
+		//学生 社团 机构 对应的是自己被未通过的活动列表
+		if($group == F3::get('STUDENT_GROUP') || $group == F3::get('CLUB_GROUP') || $group == F3::get('ORG_GROUP'))
+				//---- 代写提取出未通过原因 --------------//
+			$con = "`organizer_id` = '$uid' AND  `event`.`status` = '".F3::get('EVENT_FAILED_STATUS') ."' ORDER BY post_time DESC"; 
+		//客服 对应的是自己不批准的活动列表
+		else if( $group == F3::get('SERVICE_GROUP'))
+			//----------------------------代写-----//
+			$con = "`event`.`status` = '".F3::get('EVENT_FAILED_STATUS') ."' ORDER BY post_time DESC"; 
+		//管理员 对应的是系统内所有未通过审核的活动列表
+		else if($group == F3::get('ADMIN_GROUP'))
+			$con = "`event`.`status` = '".F3::get('EVENT_FAILED_STATUS') ."' ORDER BY post_time DESC"; 
+		else
+			return array();
+		
+		return Event::show_by($con);
+	}
+
+	/**
+	 * 获取用户$uid 对应的删除的活动列表
+	 * @param $uid 
+	 * @return array 活动信息的二维关联数组
+	 */
+	static function get_delete_event_list($uid)
+	{
+		$user =  Account::get_user($uid);
+		$group = $user['group'];
+
+		//管理员 对应的是系统内所有删除的活动列表
+		if($group == F3::get('ADMIN_GROUP'))
+			$con = "`event`.`status` = '".F3::get('EVENT_DELETED_STATUS') ."' ORDER BY post_time DESC"; 
+		//其他用户 没有对应的删除列表
+		else
+			return array();
+
+		return Event::show_by($con);
+	}
+
+	/**
+	 * 获取用户$uid 对应的参加的活动列表
+	 * @param $uid 
+	 * @return array 活动信息的二维关联数组
+	 */
+	static function get_join_event_list($uid)
+	{
+		$user =  Account::get_user($uid);
+		$group = $user['group'];
+
+		//学生 对应的是自己参加的活动列表
+		if($group == F3::get('STUDENT_GROUP'))
+			$con = "`event`.`status` = '".F3::get('EVENT_PASSED_STATUS')."' AND `event`.`eid` IN ( SELECT `eid` FROM `join` WHERE `uid` = '$uid')"; 
+		//其他用户 没有对应的参加活动的列表
+		else
+			return array();
+
+		return Event::show_by($con);
+
+	}
+
+	/**
+	 * 获取用户$uid 对应的赞的活动列表
+	 * @param $uid 
+	 * @return array 活动信息的二维关联数组
+	 */
+	static function get_praise_event_list($uid)
+	{
+		$user =  Account::get_user($uid);
+		$group = $user['group'];
+
+		//学生 对应的是自己赞的活动列表
+		if($group == F3::get('STUDENT_GROUP'))
+			$con = "`event`.`status` = '".F3::get('EVENT_PASSED_STATUS')."' AND `event`.`eid` IN ( SELECT `eid` FROM `praise` WHERE `uid` = '$uid')"; 
+		//其他用户 没有对应的赞活动的列表
+		else
+			return array();
+
+		return Event::show_by($con);
+	}
 
 };
 ?>
