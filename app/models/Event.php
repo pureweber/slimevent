@@ -96,8 +96,8 @@ class Event{
 		//else	
 			//Sys::error(F3::get('DB_EVENT_EID_SAME_CODE'),$eid);
 		foreach($r as &$row){
-			$row['joiners'] = 10;
-			$row['praisers'] = 18;
+			$row['joiners'] = count(JoinList::get_join_user($row['eid']));
+			$row['praisers'] = count(PraiseList::get_praise_user($row['eid']));
 		}
 
 		return $r;

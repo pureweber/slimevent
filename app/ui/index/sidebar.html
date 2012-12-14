@@ -1,15 +1,83 @@
-<h3>快速导航</h3>
-<ul class="nav nav-tabs nav-stacked">
-	<li><a href="#"><i class="icon-trophy"></i> 推荐活动</a></li>
-	<li><a href="#"><i class="icon-fire"></i> 热门活动</a></li>
-	<li><a href="#"><i class="icon-time"></i> 近期活动</a></li>
-	<li><a href="#"><i class="icon-signal"></i> 校园动态</a></li>
-</ul>
-<h3>常用标签</h3>
-<ul class="nav nav-tabs nav-stacked">
-	<li><a href="#"><i class="icon-tag"></i> 技术</a></li>
-	<li><a href="#"><i class="icon-tag"></i> 公益</a></li>
-	<li><a href="#"><i class="icon-tag"></i> 讲座</a></li>
-	<li><a href="#"><i class="icon-tag"></i> 科普</a></li>
-	<li><a href="#"><i class="icon-tag"></i> 招聘</a></li>
-</ul>
+<div class=" index-sidebar">
+
+<div class="entry" id="i-want-create">
+	<a href="{{@WEB_ROOT}}create" class="btn btn-large"><i class="icon-bullhorn" style="margin-right:10px"></i>我要发起活动</a>
+</div>
+
+<div class="entry">
+	<div class="title">
+		<h4>最新发布的活动</h4>
+		<span>
+			<a href="{{@WEB_ROO}}find/by?=">>>更多</a>
+		</span>
+	</div>
+	<div class="content">
+		<ul>
+		<F3:repeat group="{{@newst_events}}" value="{{@e}}">
+			<li>
+				<span class="title"><a href="{{@WEB_ROOT}}event/{{@e.eid}}">{{@e.title}}</a></span>
+				<span class="organizer pull-right">{{@e.organizer}}</span>
+			</li>
+		</F3:repeat>
+		</ul>
+	</div>
+</div>
+
+<div class="entry">
+	<div class="title">
+		<h4>最活跃的社团</h4>
+		<span>
+			<a href="{{@WEB_ROO}}find/by?category={{@block.id}}">>>更多</a>
+		</span>
+	</div>
+	<div class="content">
+		<ul>
+		<F3:repeat group="{{@events}}" value="{{@e}}">
+			<li>
+				<span class="title"><a href="{{@WEB_ROOT}}event/{{@e.eid}}">{{@e.title}}</a></span>
+				<span class="organizer pull-right">{{@e.organizer}}</span>
+			</li>
+		</F3:repeat>
+		</ul>
+	</div>
+</div>
+
+
+<div class="entry">
+	<div class="title">
+		<h4>可能喜欢的活动</h4>
+		<span>
+			<a href="{{@WEB_ROO}}find/by?category={{@block.id}}">>>更多</a>
+		</span>
+	</div>
+	<div class="content">
+		<ul>
+		<F3:repeat group="{{@guess_events}}" value="{{@e}}">
+			<li>
+				<span class="title"><a href="{{@WEB_ROOT}}event/{{@e.eid}}">{{@e.title}}</a></span>
+				<span class="organizer pull-right">{{@e.organizer}}</span>
+			</li>
+		</F3:repeat>
+		</ul>
+	</div>
+</div>
+
+</div>
+
+<script type="text/javascript">
+
+	var sidebarNumOfChar = 42;
+	var append = 0;
+
+	$(document).ready(function () {
+
+		$(".index-sidebar .entry .content li .title a").each(function(){
+			var str = $(this).html();
+			append = $(this).parent("span").next().html().length * 2;
+			if(countCharacters(str, sidebarNumOfChar))
+				$(this).html(str.substr(0, slice)+"...");
+		});
+	});
+
+</script>
+

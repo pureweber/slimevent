@@ -47,21 +47,24 @@
 
 <script type="text/javascript">
 
-	var numOfChar = 24;
+	var slideNumOfChar = 24;
+	var sidebarNumOfChar = 24;
 	var slice = 0;
 
 	$(document).ready(function () {
 		$(".e-title a").each(function(){
 			var str = $(this).html();
-			if(countCharacters(str))
+			if(countCharacters(str, slideNumOfChar))
 				$(this).html(str.substr(0, slice)+"...");
 		});
 	});
-	function countCharacters(str){
+
+	function countCharacters(str, num){
+		num -= append;
 		var totalCount = 0;
 		slice = 0;
 		for (var i=0; i<str.length; i++) {
-			if(totalCount >= numOfChar)
+			if(totalCount >= num)
 				return true;
 			var c = str.charCodeAt(i);
 			if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)) {
