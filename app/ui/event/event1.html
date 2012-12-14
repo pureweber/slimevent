@@ -128,25 +128,39 @@
 	</div><!-- row -->
 </div><!-- Container -->
 
+<div id="event-end">
+</div>
+
 		<!-- Ajax get praise and join info BEGIN -->
 
 		<script type="text/javascript">
 
 			$(function(){
-				$body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');// 这行是 Opera 的补丁, 少了它 Opera 是直接用跳的而且画面闪烁 by willin
+				$body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');
 
 				$(".subnav li a").click(function(){
 					var id = $(this).attr("href");
 					var top = $(id).offset().top;
-					$body.animate({scrollTop:top - 80}, 100);
+					$body.animate({scrollTop:top - 79}, 100);
 					return false;
 				});
 
 				$(window).scroll(function(){
-					//sleep(100);
+					var ids = new Array("info", "social", "details", "discuss", "end");
+					var numOfIds = ids.length;
+
 					var scrollTop = $(document).scrollTop();
-					//alert(scrollTop);
-					//if(
+					for(var i = 0; i < numOfIds - 1; i++){
+						if((scrollTop + $(window).height()) == $(document).height()){
+							$(".subnav li").removeClass("active").eq(numOfIds - 2).addClass("active");
+							break;
+						}
+						var sTop = (scrollTop + 80);
+						if(sTop >= $("#event-"+ids[i]).offset().top && sTop <= $("#event-"+ids[i+1]).offset().top){
+							$(".subnav li").removeClass("active").eq(i).addClass("active");
+							break;
+						}
+					}
 				})
 			});
 

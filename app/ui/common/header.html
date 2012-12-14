@@ -61,8 +61,7 @@
 								<li>
 									<a href="{{@WEB_ROOT}}my#msgbox">
 										<i class="icon-envelope-alt" ></i>
-										<span> 消息盒子({{@unread_msg}})</span>
-									</a>
+										<span> 消息盒子({{@unread_msg}})</span> </a>
 								</li>
 								<li>
 									<a href="{{@WEB_ROOT}}my">
@@ -110,18 +109,18 @@
 				<div class="row">
 					<div class="span2"><i>&nbsp;</i></div>
 					<div class="span10">
-						<F3:check if="{{ @route[0] == 'discover' }}">
-				<ul class="nav nav-pills">
-					<li><a href="#event-info"><i class="icon-barcode"></i> 活动信息</a></li>
-					<li><a href="#event-social"><i class="icon-camera-retro"></i> 分享好友</a></li>
-					<li><a href="#event-details"><i class=""></i> 活动详情</a></li>
-					<li><a href="#event-discuss"><i class="icon-comments"></i> 活动咨询</a></li>
+					{{*<F3:check if="{{ @route[0] == 'event' }}">*}}
+						<ul class="nav nav-pills">
+							<li class="active"><a href="#event-info"><i class="icon-list-ul"></i> 活动信息</a></li>
+							<li><a href="#event-social"><i class="icon-share"></i> 分享好友</a></li>
+							<li><a href="#event-details"><i class="icon-credit-card"></i> 活动详情</a></li>
+							<li><a href="#event-discuss"><i class="icon-comments"></i> 活动咨询</a></li>
 
-				<F3:check if="{{ @COOKIE.se_user_id== @e.organizer_id }}">
-					<li><a href="{{@WEB_ROOT}}event/{{@e.eid}}/edit"><i class="icon-barcode"></i> 修改活动</a></li>
-				</F3:check>
-				</ul>
+						<F3:check if="{{ @COOKIE.se_user_id== @e.organizer_id }}">
+							<li><a href="{{@WEB_ROOT}}event/{{@e.eid}}/edit"><i class="icon-pencil"></i> 修改活动</a></li>
 						</F3:check>
+						</ul>
+					{{*</F3:check>*}}
 					</div>
 				</div><!-- row -->
 			</div>
