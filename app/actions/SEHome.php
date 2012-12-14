@@ -46,18 +46,16 @@ class SEHome extends SECommon{
 
 		$event->show_by("", '', array(), 'hot_events', 4);
 
-		$event->show_by("", '`category_id` = :c', array(':c' => F3::get("INDEX_BLOCK.1.id")),
-			'event.'.F3::get("INDEX_BLOCK.1.name"), 4);
+		foreach(F3::get("INDEX_BLOCK") as $b){
+			$event->show_by("", $b['con'].' = :c AND `event`.`status` = :e',
+				array(':c' => $b['value'], ':e' => F3::get("EVENT_PASSED_STATUS")), 'event.'.$b["name"], 4);
+		}
 
-		$event->show_by("", '`category_id` = :c', array(':c' => F3::get("INDEX_BLOCK.2.id")),
-			'event.'.F3::get("INDEX_BLOCK.2.name"), 4);
+		$event->show_by("", '`event`.`status` = :e ORDER BY RAND() DESC',
+			array(':e' => F3::get("EVENT_PASSED_STATUS")), 'guess_events', 5);
 
-		//$event->show_by("", '`category_id` = :c', array(':c' => F3::get("INDEX_BLOCK.3.id")),
-			//'event.'.F3::get("INDEX_BLOCK.3.name"), 4);
-
-		//$event->show_by("", '`category_id` = :c', array(':c' => F3::get("INDEX_BLOCK.4.id")),
-			//'event.'.F3::get("INDEX_BLOCK.4.name"), 4);
-		//Code::dump(F3::get('INDEX_BLOCK'));
+		$event->show_by("", '`event`.`status` = :e ORDER BY `post_time` DESC',
+			array(':e' => F3::get("EVENT_PASSED_STATUS")), 'newst_events', 5);
 		
 		echo Template::serve('index.html');
 	}

@@ -6,7 +6,7 @@
 			<div class="category-title">
 				<h4>{{@block.title}}</h4>
 				<span>
-					<a href="{{@WEB_ROO}}find/by?category={{@block.id}}">>>查看更多</a>
+					<a href="{{@WEB_ROO}}find/by?{{@block.con}}={{@block.value}}">>>查看更多</a>
 				</span>
 			</div>
 			<div class="content">
@@ -55,5 +55,22 @@
 		<hr>
 
 </F3:repeat>
+
+
+<script type="text/javascript">
+
+	var sidebarNumOfChar = 50;
+	var append = 0;
+
+	$(document).ready(function () {
+
+		$(".index-block .li-item .info .title a").each(function(){
+			var str = $(this).html();
+			if(countCharacters(str, sidebarNumOfChar))
+				$(this).html(str.substr(0, slice)+"...");
+		});
+	});
+
+</script>
 
 

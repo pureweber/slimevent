@@ -67,7 +67,8 @@ body{
 
 .index-block .content ul .li-item{
 	width:300px;
-	height:150px;
+	/*height:150px;*/
+	margin-top:12px;
 	float:left;
 }
 
@@ -78,6 +79,7 @@ body{
 .index-block .content .poster img{
 	width:70px;
 	height:90px;
+	padding:0;
 }
 
 .index-block .content .info{
@@ -90,8 +92,35 @@ body{
 	width:180px;
 }
 
+.index-sidebar .entry{
+	margin-left:10px;
+	font-size:12px;
+	border-bottom:1px dotted #ccc;
+}
 
+.index-sidebar .entry ul{
+	list-style:none;
+	margin-left:10px;
+}
 
+.index-sidebar .entry ul li{
+	line-height:22px;
+}
+
+.index-sidebar .entry .title{
+	position:relative;
+}
+
+.index-sidebar .entry .title span{
+	position:absolute;
+	right:10px;
+	top:8px;
+}
+
+#i-want-create{
+	border:none;
+	margin:25px 10px;
+}
 
 .banner{
 	margin-left:30px;

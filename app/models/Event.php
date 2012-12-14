@@ -88,8 +88,8 @@ class Event{
 		$r = DB::sql($sql, $data);
 
 		foreach($r as &$row){
-			$row['joiners'] = 10;
-			$row['praisers'] = 18;
+			$row['joiners'] = count(JoinList::get_join_user($row['eid']));
+			$row['praisers'] = count(PraiseList::get_praise_user($row['eid']));
 		}
 
 		return $r;
