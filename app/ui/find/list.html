@@ -1,0 +1,40 @@
+<F3:repeat group="{{@events}}" value="{{@e}}">
+
+	<div class="row">
+
+		<div class="poster">
+			<img src="{{@e.poster}}" onerror="javascript:this.src='{{@DEFAULT_IMG}}'" />
+		</div>
+
+		<div class="info">
+			<h4><a href="{{@WEB_ROOT}}event/{{@e.eid}}">{{@e.title}}</a></h4>
+			<ul>
+				<li class="event-label"><span>
+			<F3:repeat group="{{@e.label}}" value="{{@v}}">
+					<a href="{{@WEB_ROOT}}find/by?key=label&word={{@v}}">{{@v}}</a>
+			</F3:repeat>
+				</span></li>
+
+	<F3:check if="{{@e.begin_date == @e.end_date}}">
+		<F3:true>
+		<li>{{@e.begin_date}} ({{@e.begin_weekday}}) {{@e.begin_time}} - {{@e.end_time}}</li>
+		</F3:true>
+
+		<F3:false>
+		<li>{{@e.begin_date}} ({{@e.begin_weekday}}) {{@e.begin_time}} ~ {{@e.end_date}} ({{@e.end_weekday}}) {{@e.end_time}} </li>
+		</F3:false>
+	</F3:check>
+
+				<li>{{@e.region}} {{@e.addr}}</li>
+				<li class="organizer"><a href="{{@WEB_ROOT}}find/by?key=organizer&word={{@e.organizer_id}}">{{@e.organizer}}</a><span>  主办</span></li>
+			</ul>
+			<p style="margin-left:25px">已有<strong>{{@e.joiners}}</strong>人报名参加，<strong>{{@e.praisers}}</strong>人感兴趣</p>
+		</div>
+
+	</div>
+
+
+</F3:repeat>
+
+{{@pagination}}
+

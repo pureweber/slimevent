@@ -6,7 +6,7 @@
 			<div class="category-title">
 				<h4>{{@block.title}}</h4>
 				<span>
-					<a href="{{@WEB_ROO}}find/by?{{@block.con}}={{@block.value}}">>>查看更多</a>
+					<a href="{{@WEB_ROO}}find/by?key={{@block.con}}&word={{@block.value}}">>>查看更多</a>
 				</span>
 			</div>
 			<div class="content">
@@ -34,7 +34,7 @@
 							</F3:check>
 								<li class="addr">
 									<span>{{@e.region}}</span>
-									<a href="{{@WEB_ROOT}}{{@e.organizer_id}}">{{@e.organizer}}</a>
+									<a href="{{@WEB_ROOT}}find/by?key=organizer&key={{@e.organizer_id}}">{{@e.organizer}}</a>
 									<span>  主办</span>
 								</li>
 							</ul>

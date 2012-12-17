@@ -339,3 +339,20 @@ section.meta p{
 .create-event fieldset{
 	margin:20px 0;
 }
+
+/**********FIND*************/
+#find-result-list .info{
+	font-size:13px;
+}
+
+#find-result-list .info h4{
+	font-size:16px;
+}
+
+#find-result-list .row{
+	margin-left:10px;
+	border-bottom:1px dotted #ccc;
+	padding-bottom:20px;
+	padding-left:20px;
+}
+

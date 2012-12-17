@@ -222,12 +222,16 @@ class SECommon{
 	 * @param $result_num : 返回结果的数量,如果为false(默认)则自动进行分页
 	 * @return void
 	 */
-	 function show_by($url, $con = "`event`.`status` = :status", $data = array(),
+	 function show_by($url, $con = "", $data = array(),
 			 $set_name = "events", $result_num = false){
 
-		if($con == '' && count($data)==0){// 默认只选择passed的
+		if($con == '' && count($data) == 0){// 默认只选择passed的
 			$con = "`event`.`status` = :status";
-			$data = array(":status"=>F3::get("EVENT_PASSED_STATUS"));
+			$data[':status'] = F3::get("EVENT_PASSED_STATUS");
+		} else if(stripos($con, 'status') === false){
+			// 如果原语句没有判断状态，则默认为只选择passed
+			$con .= " AND `event`.`status` = :status";
+			$data[':status'] = F3::get("EVENT_PASSED_STATUS");
 		}
 		//$con = "`label` LIKE '%AWF%'";
 		//$con = '1 ORDER BY `post_time` DESC';

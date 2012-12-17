@@ -28,22 +28,67 @@ class SEHome extends SECommon{
 		echo "feedback";
 	}
 
+	function find_by($key, $word){
+		$data = array(':a' => $word);
+		$note = "您正在查看";
+		switch($key)
+		{
+			case 'keyword':
+				$note .= "活动信息中包含关键词<strong>{$word}</strong>的活动";
+				$con = "title LIKE :a OR label LIKE :b OR introduction LIKE :c ";
+				$word = '%'.$word.'%';
+				$data = array(':a'=>$word, ':b'=>$word, ':c'=>$word);
+				break;
+			case 'category_id':
+			case 'category':
+				$con = "category_id = :a ";
+				$c = Category::get_name($word);
+				$note .= "类别为<strong>{$c}</strong>的活动";
+				break;
+			case 'organizer_id':
+			case 'organizer':
+				$con = "organizer_id = :a ";
+				$info = Account::get_user($word);
+				$note .= "由<strong>{$info['nickname']}</strong>主办(发起)的活动";
+				break;
+			case 'region':
+				$con = "region = :a ";
+				$region = F3::get("REGION");
+				$note .= "在<strong>{$region[$word]}</strong>举办的活动";
+				break;
+			case '':
+				$con = "eid = :a ";
+				break;
+			default:
+				$con = "eid = :a ";
+		}
+		return array('con'=>$con,'array'=>$data, 'note'=>$note);
+	}
+
 	function find(){
-		$query = F3::get("GET");
+		$key = F3::get("GET.key");
+		$word = F3::get("GET.word");
+
+		$data = $this->find_by($key, $word);
+		$url = "find/by?key={$key}&word={$word}";
+
+
 		//Code::dump($query);
 		$event = new SEEvent();
+		$event->show_by($url, $data['con'], $data['array'], 'events');
 
-		$event->show_by("find/by", '', array(), 'events');
+		$event->show_by("", '`event`.`status` = :e ORDER BY RAND() DESC',
+			array(':e' => F3::get("EVENT_PASSED_STATUS")), 'guess_events', 5);
+
+		F3::set('note', $data['note']);
 		echo Template::serve('find/result.html');
+		//Code::dump(F3::get('events'));
 	}
 
 	function show_find(){
 		$category = Category::get_all();
 		F3::set("category", $category);
 		echo Template::serve('find/find.html');
-	}
-
-	function find_by(){
 	}
 
 

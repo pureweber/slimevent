@@ -7,7 +7,14 @@
 		<!-- CONTENT -->
 		<div class="span8">
 
-			<F3:include href="event/list.html" />
+			<F3:include href="find/summary.html" />
+			<div class="row">
+				<p>{{@note}}</p>
+			</div>
+
+			<div id="find-result-list">
+				<F3:include href="find/list.html" />
+			</div>
 
 		</div>
 

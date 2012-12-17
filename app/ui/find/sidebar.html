@@ -5,6 +5,27 @@
 		<h4>更多最新发布的活动</h4>
 </div>
 
+<div class="entry">
+	<div class="title">
+		<h4>可能喜欢的活动</h4>
+		<span>
+			<a href="{{@WEB_ROO}}find/by?category={{@block.id}}">>>更多</a>
+		</span>
+	</div>
+	<div class="content">
+		<ul>
+		<F3:repeat group="{{@guess_events}}" value="{{@e}}">
+			<li>
+				<span class="title"><a href="{{@WEB_ROOT}}event/{{@e.eid}}">{{@e.title}}</a></span>
+				<span class="organizer pull-right">{{@e.organizer}}</span>
+			</li>
+		</F3:repeat>
+		</ul>
+	</div>
+</div>
+
+
+
 </div>
 
 
