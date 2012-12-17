@@ -94,7 +94,6 @@ class SEEvent extends SECommon{
 
 		$e = $this->format_infos_to_show($events);
 		F3::set('events', $e);
-//		Code::dump($e);
 		echo Template::serve("$group/$status"."_list.html");
 	}
 

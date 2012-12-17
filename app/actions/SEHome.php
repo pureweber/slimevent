@@ -30,13 +30,20 @@ class SEHome extends SECommon{
 
 	function find(){
 		$query = F3::get("GET");
-		Code::dump($query);
+		//Code::dump($query);
+		$event = new SEEvent();
+
+		$event->show_by("find/by", '', array(), 'events');
+		echo Template::serve('find/result.html');
 	}
 
 	function show_find(){
 		$category = Category::get_all();
 		F3::set("category", $category);
 		echo Template::serve('find/find.html');
+	}
+
+	function find_by(){
 	}
 
 

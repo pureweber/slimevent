@@ -5,6 +5,9 @@ date_default_timezone_set('Asia/Harbin');
 require __DIR__.'/app/lib/base.php';
 
 F3::config('app/cfg/setup.cfg');
+F3::config('app/cfg/constant.cfg');
+F3::config('app/cfg/index.cfg');
+F3::config('app/cfg/errno.cfg');
 F3::config('app/cfg/routes.cfg');
 
 F3::set('DB', new DB(

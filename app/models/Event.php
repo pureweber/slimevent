@@ -184,7 +184,7 @@ class Event{
 		else
 			return array();
 
-		return Event::show_by($con);
+		return self::get($con);
 	}
 
 	/**
@@ -207,7 +207,7 @@ class Event{
 		else
 			return array();
 
-		return Event::show_by($con);
+		return self::get($con);
 	}
 
 	/**
@@ -233,7 +233,7 @@ class Event{
 		else
 			return array();
 
-		return Event::show_by($con);
+		return self::get($con);
 	}
 
 	/**
@@ -260,7 +260,7 @@ class Event{
 		else
 			return array();
 		
-		return Event::show_by($con);
+		return self::get($con);
 	}
 
 	/**
@@ -280,7 +280,7 @@ class Event{
 		else
 			return array();
 
-		return Event::show_by($con);
+		return self::get($con);
 	}
 
 	/**
@@ -300,7 +300,7 @@ class Event{
 		else
 			return array();
 
-		return Event::show_by($con);
+		return self::get($con);
 
 	}
 
@@ -321,7 +321,7 @@ class Event{
 		else
 			return array();
 
-		return Event::show_by($con);
+		return self::get($con);
 	}
 
 };
