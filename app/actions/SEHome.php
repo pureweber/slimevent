@@ -221,6 +221,11 @@ class SEHome extends SECommon{
 	{
 		$info = F3::get('POST');
 		$uid = Account::the_user_id();
+		$group = Account::the_user_group();
+
+		//社团 机构 客服 无法修改自己的名称
+		if($group == F3::get("CLUB_GROUP") || $group == F3::get("ORG_GROUP") || $group == ("SERVICE_GROUP"))
+			$info['nickname'] = Account::the_user_name();
 
 		if(Account::update_user_info($uid, $info) === true) //false 昵称重复或者为空  true 更新成功
 			echo "1";
