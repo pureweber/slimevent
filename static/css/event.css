@@ -67,7 +67,7 @@ body{
 
 .index-block .content ul .li-item{
 	width:300px;
-	/*height:150px;*/
+	height:110px;
 	margin-top:12px;
 	float:left;
 }
@@ -92,26 +92,26 @@ body{
 	width:180px;
 }
 
-.index-sidebar .entry{
+.sidebar .entry{
 	margin-left:10px;
 	font-size:12px;
 	border-bottom:1px dotted #ccc;
 }
 
-.index-sidebar .entry ul{
+.sidebar .entry ul{
 	list-style:none;
 	margin-left:10px;
 }
 
-.index-sidebar .entry ul li{
+.sidebar .entry ul li{
 	line-height:22px;
 }
 
-.index-sidebar .entry .title{
+.sidebar .entry .title{
 	position:relative;
 }
 
-.index-sidebar .entry .title span{
+.sidebar .entry .title span{
 	position:absolute;
 	right:10px;
 	top:8px;
@@ -139,6 +139,10 @@ body{
 .info{
 	float:left;
 	margin-left:15px;
+}
+
+.info > h4{
+	width:450px;
 }
 
 .info ul{
@@ -356,3 +360,46 @@ section.meta p{
 	padding-left:20px;
 }
 
+#find-sidebar .entry{
+	border:none;
+}
+
+#search-box{
+	margin-left:20px;
+}
+
+#result-note{
+	margin-left:0px;
+	border-bottom:2px dotted #ddd;
+}
+
+#result-note #note{
+	margin-left:45px;
+}
+
+#result-note p{
+	font-size:13px;
+}
+
+#order, #num{
+	float:right;
+}
+
+#order{
+	margin-left:10px;
+}
+
+#order-by-list{
+	display:none;
+	position:absolute;
+	top:0;
+	left:0;
+	background-color:#fff;
+	border:1px solid #ccc;
+	padding:10px;
+}
+
+#order-by-list ul{
+	list-style:none;
+	margin-left:0px;
+}

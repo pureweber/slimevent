@@ -1,15 +1,59 @@
 <F3:include href="common/header.html" />
 
-<div class="container" style="margin-top:-45px">
+<div class="container" style="margin-top:0px">
 
 	<div class="row">
 
 		<!-- CONTENT -->
-		<div class="span8">
+		<div class="span8" id="result-content">
 
 			<F3:include href="find/summary.html" />
-			<div class="row">
-				<p>{{@note}}</p>
+
+			<div class="row" id="search-box">
+				<form method="get" action="{{@WEB_ROOT}}find/by" class="form-inline span8" >
+					<label for="word"></label>
+					<input name="word" class="span5"  style="line-height:20px;height:20px;font-size:15px"
+						type="text"  placeholder="根据活动名称、介绍、标签搜索" >
+					<button type="submit" class="btn btn-primary" style="">
+						<i class="icon-search icon-white"></i>&nbsp;&nbsp;&nbsp;搜索
+					</button>
+					<input type="hidden" name="key" value="keyword">
+				</form>
+			</div>
+
+			<div class="row" id="result-note">
+				<div>
+					<p id="note">{{@note}}</p>
+				</div>
+
+				<div id="order">
+					<a href="#">对结果排序<i class="icon-chevron-down"></a></i>
+					<div id="order-by-list">
+						<ul>
+							<li><a href="#begin">开始时间</a></li>
+							<li><a href="#post">发布时间</a></li>
+							<li><a href="#praiser">感兴趣人数</a></li>
+							<li><a href="#joiner">参加人数</a></li>
+						</ul>
+					</div>
+				</div>
+
+				<div id="num">
+					<p style="text-align:right">共找到
+						<span class="badge badge-info">{{@result_num}}</span>
+					个符合条件的活动
+					<F3:check if="{{@result_num != 0}}">
+						<span id="current-count">
+							，下面是第
+							<span>{{(@current_page * @PER_PAGE_SHOW) + 1}} ~
+								{{(@current_page + 1) * @PER_PAGE_SHOW > @result_num ?
+								@result_num : (@current_page + 1) * @PER_PAGE_SHOW}}</span>
+							个结果
+						</span>
+					</F3:check>
+
+					</p>
+				</div>
 			</div>
 
 			<div id="find-result-list">
@@ -27,6 +71,43 @@
 	</div>
 
 </div><!-- Container -->
+
+
+<script type="text/javascript">
+
+	$(document).ready(function () {
+		$("#order").mouseenter(function(){
+			var top = $(this).offset().top + $(this).height();
+			var left = $(this).offset().left;
+			$("#order-by-list").css('top',top).css('left', left).slideDown(200);
+		});
+		$("#order").mouseleave(function(){
+			$("#order-by-list").slideUp(200);
+		});
+		$("#order a").click(function(){
+			var order = $(this).attr("href").substr(1);
+			if(order == '') return false;
+			var loc = document.location;
+			var search = loc.search.replace(/page=\d+/, 'page=0');
+			var url = loc.origin + loc.pathname + search + "&order=" + order;
+			$("#find-result-list").load(url + " #find-result-list");
+			$("#current-count").hide();
+			$("#order>a").html("按"+$(this).html()+"排序");
+			return false;
+		});
+		//updatePagination(order);
+	});
+
+	//no use
+	function updatePagination(order){
+		$("#find-result-list .pagination ul li a[href!='#']").each(function(){
+			var url = $(this).attr('href');
+			$(this).attr("href", url + "&order=" + order);
+		});
+	}
+
+</script>
+
 
 
 <F3:include href="common/footer.html" />

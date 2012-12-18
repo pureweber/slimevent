@@ -28,7 +28,7 @@
 			</a>
 		</td>
 		<td>{{@event.post_time}}</td>
-		<td><a href="{{@WEB_ROOT}}event/{{@event.eid}}/join/list">{{@event.joiners}}</a>/{{@event.praisers}}</td>
+		<td><a href="{{@WEB_ROOT}}event/{{@event.eid}}/join/list">{{@event.joiner_num}}</a>/{{@event.praiser_num}}</td>
 		<td>
 			<a href="#" class="btn btn-danger" onclick="ajax_handle_event('{{@event.eid}}','{{@HANDLE_DEL}}'); return false;">删除</a>
 			<a target="_blank" href="{{@WEB_ROOT}}event/{{@event.eid}}/edit" class="btn btn-primary">编辑</a>

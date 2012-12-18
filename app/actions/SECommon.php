@@ -235,8 +235,6 @@ class SECommon{
 			$con .= " AND `event`.`status` = :status";
 			$data[':status'] = F3::get("EVENT_PASSED_STATUS");
 		}
-		//$con = "`label` LIKE '%AWF%'";
-		//$con = '1 ORDER BY `post_time` DESC';
 
 		if($result_num){
 			$num = $result_num - 1;
@@ -252,16 +250,18 @@ class SECommon{
 			$limit = " LIMIT ".$current_page * $per_page_show.", ".$per_page_show;
 		}
 
-
 		$events = Event::show_by($con.$limit, $data);
 		$e = $this->format_infos_to_show($events);
 
 		if(!$result_num)
 			$this->pagination($current_page, (int)ceil($total_num / $per_page_show), $url);
 
+		//$result_num = count($e);
+
 		F3::set($set_name, $e);
 
-		return true;
+		return isset($total_num)?$total_num:$result_num;
+
 	}
 
 	/**
@@ -270,6 +270,7 @@ class SECommon{
 	 */
 	 function pagination($current_page, $total_pages, $url = '', $onclick = false){
 		$html = "";
+		$and = strpos($url, '?') === false ? "?" : "&";
 		$html .= "<div class='pagination pagination-right'> <ul>";
 		$url = F3::get("WEB_ROOT").$url;
 		//$current_page = $current_page == NULL ? 0 : $current_page;
@@ -280,7 +281,7 @@ class SECommon{
 		else:
 			$prev_page = $current_page - 1;
 			$html .= "<li><a href='";
-			$html .= $onclick? "#' onclick='{$onclick}(${prev_page}, this)":"{$url}?page={$prev_page}";
+			$html .= $onclick? "#' onclick='{$onclick}(${prev_page}, this)":"{$url}{$and}page={$prev_page}";
 			$html .= "'>上一页</a></li>";
 		endif;
 
@@ -291,7 +292,7 @@ class SECommon{
 				$html .= "<li class='active'><a href='#'>{$j}</a></li>";
 			else:
 				$html .= "<li><a href='";
-				$html .= $onclick? "#' onclick='{$onclick}(${i}, this)":"{$url}?page={$i}";
+				$html .= $onclick? "#' onclick='{$onclick}(${i}, this)":"{$url}{$and}page={$i}";
 				$html .= "'>{$j}</a></li>";
 			endif;
 		endfor;
@@ -302,7 +303,7 @@ class SECommon{
 		else:
 			$next_page = $current_page + 1;
 			$html .= "<li><a href='";
-			$html .= $onclick? "#' onclick='{$onclick}(${next_page}, this)'":"{$url}?page={$next_page}";
+			$html .= $onclick? "#' onclick='{$onclick}(${next_page}, this)'":"{$url}{$and}page={$next_page}";
 			$html .= "'>下一页</a></li>";
 		endif;
 

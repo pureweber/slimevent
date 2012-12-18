@@ -27,7 +27,7 @@
 		</td>
 		<td>{{@event.begin_date}} {{@event.begin_weekday}} {{@event.begin_time}} <span class="label">{{@event.begin_remain_day}}</span></td>
 		<td>
-			<a href="#" class="btn btn-danger" onclick="ajax_handle_event('{{@event.eid}}','{{@HANDLE_UNPRAISE}}'); return false;">已推({{@event.praisers}})</a>
+			<a href="#" class="btn btn-danger" onclick="ajax_handle_event('{{@event.eid}}','{{@HANDLE_UNPRAISE}}'); return false;">已推({{@event.praiser_num}})</a>
 		</td>
 	</tr>
 </F3:repeat>
