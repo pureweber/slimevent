@@ -347,11 +347,11 @@ class Account{
 	}
 
 	/**
-	 * 验证当前用户是否有发布 编辑 删除$eid活动信息的权利
+	 * 验证当前用户是否有发布 编辑 删除 查看活动报名名单$eid活动信息的权利
 	 * @param $eid
 	 * @return 有权力返回 活动基本信息关联数组array  没有权力 false
 	 */
-	private static function verify_handle_event_permission($eid)
+	static function verify_handle_event_permission($eid)
 	{
 		$e = Event::get_basic_info($eid);
 
