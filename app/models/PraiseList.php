@@ -37,6 +37,9 @@ class PraiseList{
 
 		$sql = 'INSERT INTO `praise` (`uid`, `eid`, `time`) VALUES (:uid, :eid, :time)';
 		DB::sql($sql, array(':uid' => $uid, ':eid' => $eid, ':time' => time()));
+
+		$sql = 'UPDATE `event` SET praiser_num=praiser_num+1 WHERE eid = :eid';
+		DB::sql($sql, array(':eid' => $eid));
 		return true;
 	}
 
@@ -51,6 +54,9 @@ class PraiseList{
 
 		$sql = "DELETE FROM `praise` WHERE `uid` = :uid AND `eid` = :eid";
 		DB::sql($sql, array(':uid' => $uid, ':eid' => $eid));
+
+		$sql = 'UPDATE `event` SET praiser_num=praiser_num-1 WHERE eid = :eid AND praiser_num >= 0';
+		DB::sql($sql, array(':eid' => $eid));
 	}
 
 	/**

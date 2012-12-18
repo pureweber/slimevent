@@ -71,7 +71,10 @@ class Event{
 		$r = DB::sql($sql, $data);
 		//Code::dump($r);
 
-		return $r[0]["COUNT(*)"];
+		if(stripos($con, 'group by') === false)// 不包含group by
+			return $r[0]["COUNT(*)"];
+		else
+			return count($r);
 	}
 
 	/**
@@ -82,15 +85,14 @@ class Event{
 	 */
 	private static function get($con, $data = array())
 	{
-		$sql = "SELECT `event`.*, `category`.`name` AS 'category',`users`.`nickname` AS `organizer` FROM `event`,`category`,`users`
-					WHERE `category`.id = `event`.`category_id` AND `users`.`id` = `event`.`organizer_id` AND {$con}";
+		$sql = "SELECT `event`.`eid`, `event`.*, `category`.`name` AS 'category',`users`.`nickname` AS 'organizer'
+					FROM `event`,`category`,`users`
+					WHERE `category`.id = `event`.`category_id` AND `users`.`id` = `event`.`organizer_id`
+					AND {$con}";
 
 		$r = DB::sql($sql, $data);
 
-		foreach($r as &$row){
-			$row['joiners'] = count(JoinList::get_join_user($row['eid']));
-			$row['praisers'] = count(PraiseList::get_praise_user($row['eid']));
-		}
+			//$row['praisers'] = count(PraiseList::get_praise_user($row['eid']));
 
 		return $r;
 	}

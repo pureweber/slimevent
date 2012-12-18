@@ -28,22 +28,23 @@ class SEHome extends SECommon{
 		echo "feedback";
 	}
 
-	function find_by($key, $word){
+	function find_by($key, $word, $order){
 		$data = array(':a' => $word);
-		$note = "您正在查看";
+		$note = "您正在查找";
 		switch($key)
 		{
 			case 'keyword':
 				$note .= "活动信息中包含关键词<strong>{$word}</strong>的活动";
-				$con = "title LIKE :a OR label LIKE :b OR introduction LIKE :c ";
+				$con = "title LIKE :a OR label LIKE :b OR introduction LIKE :c
+					AND `event`.`status` = :s GROUP BY(`event`.`eid`) ";
 				$word = '%'.$word.'%';
-				$data = array(':a'=>$word, ':b'=>$word, ':c'=>$word);
+				$data = array(':a'=>$word, ':b'=>$word, ':c'=>$word, ':s'=>F3::get("EVENT_PASSED_STATUS"));
 				break;
 			case 'category_id':
 			case 'category':
 				$con = "category_id = :a ";
 				$c = Category::get_name($word);
-				$note .= "类别为<strong>{$c}</strong>的活动";
+				$note .= "类别为<span class='label label-inverse'>{$c}</span>的活动";
 				break;
 			case 'organizer_id':
 			case 'organizer':
@@ -73,25 +74,56 @@ class SEHome extends SECommon{
 			default:
 				$con = "eid = :a ";
 		}
+
+		if($order != null && stripos($con, 'status') === false){
+			$con .= "AND event.status = :s ";
+			$data[':s'] = F3::get("EVENT_PASSED_STATUS");
+		}
+
+		switch($order){
+			case "begin":
+				$con .= " ORDER BY event.begin_time DESC";
+				break;
+			case "post":
+				$con .= " ORDER BY event.post_time DESC";
+				break;
+			case "praiser":
+				$con .= " ORDER BY event.praiser_num DESC";
+				break;
+			case "joiner":
+				$con .= " ORDER BY event.joiner_num DESC";
+				break;
+			default:
+				break;
+		}
+
 		return array('con'=>$con,'array'=>$data, 'note'=>$note);
 	}
 
 	function find(){
 		$key = F3::get("GET.key");
 		$word = F3::get("GET.word");
+		$order = F3::get("GET.order");
 
-		$data = $this->find_by($key, $word);
+		$data = $this->find_by($key, $word, $order);
+
 		$url = "find/by?key={$key}&word={$word}";
-
+		if($order != null)
+			$url .= "&order={$order}";
 
 		//Code::dump($query);
 		$event = new SEEvent();
-		$event->show_by($url, $data['con'], $data['array'], 'events');
+		$result_num = $event->show_by($url, $data['con'], $data['array'], 'events');
 
 		$event->show_by("", '`event`.`status` = :e ORDER BY RAND() DESC',
 			array(':e' => F3::get("EVENT_PASSED_STATUS")), 'guess_events', 5);
 
 		F3::set('note', $data['note']);
+		F3::set('result_num', $result_num);
+		//$per_page_show = F3::get('PER_PAGE_SHOW');
+		$current_page = F3::get('GET.page') == null ? 0 : (F3::get('GET.page'));
+		F3::set('current_page', $current_page);
+		//$page_note = $
 		echo Template::serve('find/result.html');
 		//Code::dump(F3::get('events'));
 	}

@@ -32,6 +32,36 @@
 			});
 		});
 
+	function sliceSidebarCharacters(it, numOfChar){
+		append = it.parent("span").next().html().length * 2;
+		sliceCharacters(it, sidebarNumOfChar - append);
+	}
+
+	function sliceCharacters(it, numOfChar){
+		var str = it.html();
+		var slice = countCharacters(str, numOfChar);
+		if(slice !== false)
+			it.html(str.substr(0, slice)+"...");
+	}
+
+	function countCharacters(str, num){
+		var totalCount = 0;
+		var slice = 0;
+		for (var i=0; i<str.length; i++) {
+			if(totalCount >= num)
+				return slice;
+			var c = str.charCodeAt(i);
+			if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)) {
+				totalCount++;
+			} else {
+				totalCount+=2;
+			}
+			slice++;
+		}
+		// alert(totalCount);
+		return false;
+	}
+
 		//var noty = noty({layout:'topRight',text: 'LOOK AT ME!!!!!!!!!!!'});
 	</script>
 </head>

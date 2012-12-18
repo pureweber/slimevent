@@ -1,9 +1,4 @@
-<div class="find-sidebar">
-
-<div class="entry">
-	<div class="title">
-		<h4>更多最新发布的活动</h4>
-</div>
+<div id="find-sidebar" class="sidebar">
 
 <div class="entry">
 	<div class="title">
@@ -27,5 +22,17 @@
 
 
 </div>
+
+<script type="text/javascript">
+
+	var sidebarNumOfChar = 42;
+
+	$(document).ready(function () {
+		$("#find-sidebar .entry .content li .title a").each(function(){
+			sliceSidebarCharacters($(this), sidebarNumOfChar);
+		});
+	});
+
+</script>
 
 
