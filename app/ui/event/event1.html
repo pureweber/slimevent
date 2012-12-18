@@ -22,7 +22,11 @@
 				<div class="span7">
 
 					<div id="event-title">
-						<h1 id="share-event-title">{{@e.title}}</h1>
+						<h1 id="share-event-title">{{@e.title}}
+					<F3:check if="{{@e.old_id != @NO_OLD_ID}}">
+						<a href="{{@WEB_ROOT}}event/{{@e.old_id}}">(原)
+					</F3:check>
+						</h1>
 					</div>
 
 					<div id="event-feature">

@@ -264,13 +264,13 @@ class Account{
 	}
 
 	/**
-	 * 检测用户名为name 或者昵称为nickname的用户是否存在
+	 * 检测用户名为name 或者昵称为nickname的用户(排除uid用户）是否存在
 	 * @return 如果存在 true 如果不存在,返回false
 	 */
-	static function exists($name = "", $nickname = "")
+	static function exists($name = "", $nickname = "", $uid = -1)
 	{
-		$sql = 'SELECT * FROM `users` WHERE `name` = :name OR `nickname` = :nickname';
-		$r = DB::sql($sql, array(':name' => trim($name), ':nickname' => trim($nickname)));
+		$sql = "SELECT * FROM `users` WHERE (`name` = :name OR `nickname` = :nickname) AND `id` != :uid";
+		$r = DB::sql($sql, array(':name' => trim($name), ':nickname' => trim($nickname), ':uid' => trim($uid)));
 
 		if( count($r) == 0 )
 			return false;
@@ -279,13 +279,35 @@ class Account{
 	}
 
 	/**
-	 * 编辑基本信息 虚构函数
-	 * @param $info : 基本信息关联数组
-	 * @return bool 修改成功返回true  失败返回false
+	 * 更新用户uid的昵称为nickname
+	 * @return true 更新成功 false 更新失败 昵称重复或者昵称为空
 	 */
-	static function edit_basic_info($info)
+	static function update_user_nickname($uid, $nickname)
 	{
+		if(trim($nickname) == "" || self::exists("", $nickname, $uid))
+			return false;
 
+		$sql = "UPDATE `users` SET `nickname` = :nickname WHERE `id` = :uid";
+		DB::sql($sql, array(':nickname' => trim($nickname), ':uid' => $uid));
+		return true;
+	}
+
+	/**
+	 * 更新用户uid的个人信息
+	 * @param $info : 信息关联数组
+	 * @return true 更新成功 false 更新失败 昵称重复或者昵称为空
+	 */
+	static function update_user_info($uid, $info)
+	{
+		$u = self::get_user($uid);
+		$group = $u['group'];
+
+		if(self::update_user_nickname($uid, $info['nickname']) === false)
+			return false;
+
+		unset($info['nickname']);
+		EDB::update($group, $info, 'uid', $uid);
+		return true;
 	}
 
 	/**
