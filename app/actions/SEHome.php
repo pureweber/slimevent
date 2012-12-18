@@ -56,6 +56,17 @@ class SEHome extends SECommon{
 				$region = F3::get("REGION");
 				$note .= "在<strong>{$region[$word]}</strong>举办的活动";
 				break;
+			case 'time_status':
+				$now = time();
+				if($word == F3::get('EVENT_NOT_BEGIN'))  //尚未开始
+					$con = "`begin_time` > $now ";
+				else if($word == F3::get('EVENT_IS_RUNNING'))   //进行中
+					$con = "`begin_time` < $now AND `end_time` > $now";
+				else  //已结束
+					$con = "`end_time` < $now ";
+				$data = array();
+				$note .= "在<strong>{$word}</strong>举办的活动";
+				break;
 			case '':
 				$con = "eid = :a ";
 				break;

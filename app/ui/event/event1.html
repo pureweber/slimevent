@@ -31,11 +31,11 @@
 
 					<div id="event-status">
 					<F3:check if="{{@e.status==@EVENT_AUDIT_STATUS}}">
-						<a class="btn btn-primary" href="#" onclick="return false;" style="float:right; margin-right:20px"><i class="icon-thumbs-up"></i> 审核中</a>
+						<span class="label label-warning">审核中</span>
 					</F3:check>
 
 					<F3:check if="{{@e.status==@EVENT_FAILED_STATUS}}">
-						<a class="btn btn-primary" href="#" onclick="return false" style="float:right; margin-right:20px"><i class="icon-thumbs-up"></i> 审核未通过</a>
+						<span class="label label-important">未通过审核</span>
 					</F3:check>
 
 					<F3:check if="{{@e.status==@EVENT_DRAFT_STATUS}}">
@@ -43,42 +43,70 @@
 					</F3:check>
 
 					<F3:check if="{{@e.status==@EVENT_DELETED_STATUS}}">
-						<a class="btn btn-primary" href="#" onclick="return false" style="float:right; margin-right:20px"><i class="icon-thumbs-up"></i> 已删除</a>
+						<span class="label label-inverse">已删除</span>
 					</F3:check>
+
+					<F3:check if="{{@e.status==@EVENT_PASSED_STATUS}}">
+						<a href="{{@WEB_ROOT}}find/by?key=time_status&word={{@e.time_status}}">
+						<F3:check if="{{@e.time_status==@EVENT_NOT_BEGIN}}">
+							<span class="label label-info">{{@e.time_status}}</span>
+						</F3:check>
+						<F3:check if="{{@e.time_status==@EVENT_IS_RUNNING}}">
+							<span class="label label-success">{{@e.time_status}}</span>
+						</F3:check>
+						<F3:check if="{{@e.time_status==@EVENT_HAVE_END}}">
+							<span class="label label-important">{{@e.time_status}}</span>
+						</F3:check>
+						</a>
+
+					</F3:check>
+
 					</div> <!-- event-status -->
 
 
 					<div id="event-items">
+					
 						<div id="event-time" class="event-item">
-						
+
+					
 						<F3:check if="{{@e.begin_date == @e.end_date}}">
 							<F3:true>
 							<span><i class="icon-time"></i> 时间</span> : {{@e.begin_date}} ({{@e.begin_weekday}}) {{@e.begin_time}} - {{@e.end_time}} 					
+							<span class="label label-default">{{@e.begin_remain_day}}</span>
 							</F3:true>
 
 							<F3:false>
 							<span><i class="icon-time"></i> 开始时间</span> : {{@e.begin_date}} ({{@e.begin_weekday}}) {{@e.begin_time}} 
+							<span class="label label-default">{{@e.begin_remain_day}}</span>
 							<br>
 							<span><i class="icon-time"></i> 结束时间</span> : {{@e.end_date}} ({{@e.end_weekday}}) {{@e.end_time}} 
+							<span class="label label-default">{{@e.end_remain_day}}</span>
 							</F3:false>
 						</F3:check>
 
 						</div>
 
 						<div id="event-place" class="event-item">
-							<span><i class="icon-map-marker"></i> 地点</span> : <a href="#">{{@e.region}}</a> {{@e.addr}}
+							<!-- 一校区 -->
+							<F3:check if="{{@e.region == @REGION.1}}">
+							<span><i class="icon-map-marker"></i> 地点</span> : <a href="{{@WEB_ROOT}}find/by?key=region&word=1">{{@e.region}}</a> {{@e.addr}}
+							</F3:check>
+							<!-- 二校区 -->
+							<F3:check if="{{@e.region == @REGION.2}}">
+							<span><i class="icon-map-marker"></i> 地点</span> : <a href="{{@WEB_ROOT}}find/by?key=region&word=2">{{@e.region}}</a> {{@e.addr}}
+							</F3:check>
 						</div>
 						<div id="event-category" class="event-item">
 							<span><i class="icon-reorder"></i> 类型</span> : 
-							<a href="{{@WEB_ROOT}}{{@e.category_id}}">{{@e.category}}</a>
+							<a href="{{@WEB_ROOT}}find/by?key=category_id&word={{@e.category_id}}">{{@e.category}}</a>
 						</div>
 						<div id="event-owner" class="event-item">
-							<span><i class="icon-user"></i> 组织者</span> : <a href="{{@WEB_ROOT}}user/{{@e.organizer_id}}">{{@e.organizer}}</a>
+							<span><i class="icon-user"></i> 发起者</span> : <a href="{{@WEB_ROOT}}user/{{@e.organizer_id}}">{{@e.organizer}}</a>
 						</div>
 						<div id="event-category" class="event-item">
 							<span><i class="icon-tags"></i> 标签</span> : 
 						<F3:repeat group="{{@e.label}}" value="{{@v}}">
-							<a href="{{@WEB_ROOT}}{{@v}}">{{@v}}</a>
+							<a href="{{@WEB_ROOT}}find/by?key=keyword&word={{@v}}">{{@v}}</a>
 						</F3:repeat>
 						</div>
 					</div><!-- event-items -->
@@ -103,7 +131,7 @@
 				</div>
 
 			<F3:check if="{{@e.sign_up==@EVENT_NEED_SIGN}}">  <!-- 需要报名的才显示 我要报名 -->
-					<a class="btn btn-danger" id="event-join" href="#" onclick="join_event();"><i class="icon-thumbs-up"></i> <span id="join_info"></span></a>
+					<a class="btn btn-danger" id="event-join" href="#" onclick="join_event();"><i class="icon-group"></i> <span id="join_info"></span></a>
 			</F3:check>
 
 				<!-- JiaThis Button END -->
@@ -165,9 +193,12 @@
 			});
 
 			var uid="{{@COOKIE.se_user_id}}";
+			var e_status="{{@e.status}}";
 
 			function praise_event() {
 				if(uid === "") alert("请登录");
+				else if(e_status != "{{@EVENT_PASSED_STATUS}}")
+					alert("操作失败，因为该活动尚未审核通过");
 				else
 					$.post('{{@WEB_ROOT}}event/praise',{eid:{{@e.eid}}},function(data){
 						$("#praise_info").html(data);
@@ -176,6 +207,8 @@
 
 			function join_event() {
 				if(uid === "") alert("请登录");
+				else if(e_status != "{{@EVENT_PASSED_STATUS}}")
+					alert("操作失败，因为该活动尚未审核通过");
 				else
 					$.post('{{@WEB_ROOT}}event/join',{eid:{{@e.eid}}},function(data){
 						$("#join_info").html(data);

@@ -173,6 +173,7 @@ class SEEvent extends SECommon{
 		$event = Account::view_one_event($this->eid);
 		$event = $this->format_info_to_show($event);
 		F3::set('e',$event);
+		//Code::dump($event);
 		echo Template::serve('event/event1.html');
 	}
 

@@ -115,7 +115,7 @@
 							<li><a href="#event-social"><i class="icon-share"></i> 分享好友</a></li>
 							<li><a href="#event-details"><i class="icon-credit-card"></i> 活动详情</a></li>
 							<li><a href="#event-discuss"><i class="icon-comments"></i> 活动咨询</a></li>
-
+						<!-- 自己的活动才显示 修改按钮 -->
 						<F3:check if="{{ @COOKIE.se_user_id== @e.organizer_id }}">
 							<li><a href="{{@WEB_ROOT}}event/{{@e.eid}}/edit"><i class="icon-pencil"></i> 修改活动</a></li>
 						</F3:check>

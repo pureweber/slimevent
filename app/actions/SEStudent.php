@@ -59,7 +59,7 @@ class SEStudent extends SECommon{
 		else
 		{
 			$num = count(JoinList::get_join_user($eid));
-			echo " 取消报名($num)";
+			echo " 已报名($num)";
 		}
 	}
 }

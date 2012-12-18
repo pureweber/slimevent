@@ -200,6 +200,8 @@ class SECommon{
 				$info['region'] = $v;
 				break;
 			}
+		// format label
+		$info['label'] = explode(' ',$info['label']);
 
 		//$info['short_title'] = $this->format_short_title_to_show($info['title']);
 
