@@ -99,6 +99,7 @@ class Admin	extends Service{
 	}
 
 
+
 	/**
 	 * 修改某用户基本信息
 	 * @param $uid : 用户在users表里的id 

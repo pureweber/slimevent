@@ -20,7 +20,6 @@ class SEHome extends SECommon{
 	{
 	}
 
-
 	function feedback(){
 	}
 
@@ -218,7 +217,27 @@ class SEHome extends SECommon{
 		else
 			echo "非法登录";
 	}
+	function ajax_update_my_profile()
+	{
+		$info = F3::get('POST');
+		$uid = Account::the_user_id();
 
+		if(Account::update_user_info($uid, $info) === true) //false 昵称重复或者为空  true 更新成功
+			echo "1";
+		else
+			echo "0";
+	}
+
+	function ajax_get_my_profile()
+	{
+		$uid = Account::the_user_id();
+		$group = Account::the_user_group();
+		$data = Account::get_user_full_info($uid);
+
+		F3::set('u',$data);
+		echo Template::serve("$group/my_profile.html");
+		//Code::dump( $data);
+	}
 };
 
 ?>

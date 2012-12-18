@@ -6,7 +6,7 @@
         	<ul class="nav nav-tabs">
                 <li class="active"><a href="#my_event" data-toggle="tab">我的活动</a></li>
                 <li class=""><a href="#msg_box" data-toggle="tab">站内消息</a></li>
-            	<li class=""><a href="#my_profile" data-toggle="tab">个人资料</a></li>
+            	<li class=""><a href="#my_profile" onclick="ajax_get_my_profile();" data-toggle="tab">个人资料</a></li>
             </ul>
 
        		<div class="tab-content">
@@ -21,8 +21,7 @@
                 </div><!-- msg_box -->
 
                 <div class="tab-pane" id="my_profile">
-					<h3>个人资料</h3>
-					<F3:include href="student/my_profile.html" />
+					<!--<h3>个人资料</h3>-->
                 </div> <!-- my_profile -->
 
              </div><!-- tab-content -->
@@ -31,7 +30,20 @@
 	</div><!-- row -->
 </div><!-- Container -->
 
+<script src="{{@WEB_ROOT}}static/js/jquery.form.js" type="text/javascript"></script>
+
+<!--<script src="/slimevent/static/js/jquery.validform-zh_CN.js" type="text/javascript" charset="utf8"></script>-->
+<script src="{{@WEB_ROOT}}static/js/validform.js" type="text/javascript"></script>
+
 <script type="text/javascript">
+
+	function ajax_get_my_profile()
+	{
+		$.post('{{@WEB_ROOT}}my/profile/get',{},function(data){
+			$("#my_profile").html(data);
+		});
+	}
+
 	function ajax_handle_event(eid,type)
 	{
 		$.post('{{@WEB_ROOT}}event/handle',{eid: eid, type : type},function(data){
@@ -40,14 +52,10 @@
 		});
 	}
 
-	//$(document).ready(function () {
-	//	$(".event").each(function(){
-	//		var status = $(this).data('status');
-	//		$(".label-"+status).clone().first().insertBefore(this);
-	//		if($(this).data("modified") != {{@NO_OLD_ID}})
-	//			$(".label-event-modified").clone().first().insertBefore(this);
-	//	});
-	//});
+	$(document).ready(function () {
+		//自动加载显示草稿
+		ajax_my_event_list('{{@EVENT_DRAFT_STATUS}}');
+	});
 
 </script>
 
