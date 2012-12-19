@@ -41,10 +41,6 @@ class JoinList{
 			return false;
 
 		$sql = 'INSERT INTO `join` (`uid`, `eid`, `time`) VALUES (:uid, :eid, :time)';
-		//$sql = array(
-			//'INSERT INTO `join` (`uid`, `eid`, `time`) VALUES (:uid, :eid, :time)',
-			//'UPDATE `event` SET joiner_num=joiner_num+1 WHERE eid = :eid'
-		//);
 		DB::sql($sql, array(':uid' => $uid, ':eid' => $eid, ':time' => time()));
 
 		$sql = 'UPDATE `event` SET joiner_num=joiner_num+1 WHERE eid = :eid';
