@@ -91,7 +91,7 @@
 			var search = loc.search.replace(/page=\d+/, 'page=0');
 			var url = loc.origin + loc.pathname + search + "&order=" + order;
 			$("#find-result-list").load(url + " #find-result-list");
-			$("#current-count").hide();
+			$("#current-count").html("，下面是第 1 ~ {{@PER_PAGE_SHOW}} 个结果");
 			$("#order>a").html("按"+$(this).html()+"排序");
 			return false;
 		});

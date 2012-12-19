@@ -3,11 +3,8 @@
 <div class="container">
 
 	<div class="row">
-		<div class="span2">
-			<F3:include href="common/sidebar.html" />
-		</div>
 
-		<div class="span10">
+		<div class="span8">
 			<div class="row">
 				<form method="get" action="{{@WEB_ROOT}}find/by" class="form-inline offset1 span8" >
 					<label for="word"></label>
@@ -20,14 +17,18 @@
 			</div>
 
 			<div class="row">
-				<h4>所有分类</h4>
-					<ul>
+				<!--<h4>所有分类</h4>-->
+				<legend>浏览所有分类</legend>
+					<ul style="list-style:none">
 					<F3:repeat group="{{@category}}" value="{{@c}}">
 						<li><a href="{{@WEB_ROOT}}find/by?key=category&word={{@c.id}}">{{@c.name}}</a></li>
 					</F3:repeat>
 					</ul>
 			</div>
-			<!--<F3:include href="event/list.html" />-->
+		</div>
+
+		<div class="span4">
+			<F3:include href="find/sidebar.html" />
 		</div>
 	</div>
 

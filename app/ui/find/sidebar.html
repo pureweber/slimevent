@@ -2,9 +2,32 @@
 
 <div class="entry">
 	<div class="title">
-		<h4>可能喜欢的活动</h4>
+		<!--<h4>最新发布的活动</h4>-->
+		<legend>最新发布的活动</legend>
 		<span>
-			<a href="{{@WEB_ROO}}find/by?category={{@block.id}}">>>更多</a>
+			<!--<a href="{{@WEB_ROO}}find/by?=">>>更多</a>-->
+		</span>
+	</div>
+	<div class="content">
+		<ul>
+		<F3:repeat group="{{@newst_events}}" value="{{@e}}">
+			<li>
+				<span class="title"><a href="{{@WEB_ROOT}}event/{{@e.eid}}">{{@e.title}}</a></span>
+				<span class="organizer pull-right">
+					<a href="{{@WEB_ROOT}}user/{{@e.eid}}">{{@e.organizer}}</a>
+				</span>
+			</li>
+		</F3:repeat>
+		</ul>
+	</div>
+</div>
+
+<div class="entry">
+	<div class="title">
+		<!--<h4>可能喜欢的活动</h4>-->
+		<legend>可能喜欢的活动</legend>
+		<span>
+			<!--<a href="{{@WEB_ROO}}find/by?category={{@block.id}}">>>更多</a>-->
 		</span>
 	</div>
 	<div class="content">
@@ -12,7 +35,9 @@
 		<F3:repeat group="{{@guess_events}}" value="{{@e}}">
 			<li>
 				<span class="title"><a href="{{@WEB_ROOT}}event/{{@e.eid}}">{{@e.title}}</a></span>
-				<span class="organizer pull-right">{{@e.organizer}}</span>
+				<span class="organizer pull-right">
+					<a href="{{@WEB_ROOT}}user/{{@e.eid}}">{{@e.organizer}}</a>
+				</span>
 			</li>
 		</F3:repeat>
 		</ul>
@@ -25,7 +50,6 @@
 
 <script type="text/javascript">
 
-	var sidebarNumOfChar = 42;
 
 	$(document).ready(function () {
 		$("#find-sidebar .entry .content li .title a").each(function(){

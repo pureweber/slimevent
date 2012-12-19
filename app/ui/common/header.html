@@ -32,8 +32,11 @@
 			});
 		});
 
+	var sidebarNumOfChar = 40;
+
+
 	function sliceSidebarCharacters(it, numOfChar){
-		append = it.parent("span").next().html().length * 2;
+		append = count(it.parent("span").next().find("a").html());
 		sliceCharacters(it, sidebarNumOfChar - append);
 	}
 
@@ -62,6 +65,19 @@
 		return false;
 	}
 
+	function count(str){
+		var totalCount = 0;
+		for (var i=0; i<str.length; i++) {
+			var c = str.charCodeAt(i);
+			if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)) {
+				totalCount++;
+			} else {
+				totalCount+=2;
+			}
+		}
+		return totalCount;
+	}
+
 		//var noty = noty({layout:'topRight',text: 'LOOK AT ME!!!!!!!!!!!'});
 	</script>
 </head>
@@ -75,7 +91,7 @@
 						<li {{ @route[0] == 'home' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}"><i class="icon-home"></i> 首页</a></li>
 						<li {{ @route[0] == 'discover' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}find"><i class="icon-search"></i> 发现</a></li>
 						<li {{ @route[0] == 'my' ? 'class="active"' : '' }}><a href="{{@WEB_ROOT}}my"><i class="icon-list"></i> 我的活动</a></li>
-						<li {{ @route[0] == 'feed' ? 'class="active"' : '' }}><a href="{{@WEB_ROOT}}feedback"><i class="icon-comments"></i> 问题反馈</a></li>
+						<li {{ @route[0] == 'feedback' ? 'class="active"' : '' }}><a href="{{@WEB_ROOT}}feedback"><i class="icon-comments"></i> 问题反馈</a></li>
 					</ul>
 
 
@@ -124,8 +140,9 @@
 						</F3:false>
 					</F3:check>
 					</ul>
-					<form class="navbar-search pull-right">
-						  <input type="text" class="span2 search-query" placeholder="Search..." />
+					<form class="navbar-search pull-right" action="{{@WEB_ROOT}}find/by" method="get">
+						  <input type="text" name="word" class="span2 search-query" placeholder="搜索活动..." />
+						  <input type="hidden" name="key" value="keyword"/>
 					  </form>
 
 				</div>

@@ -103,6 +103,9 @@ body{
 	margin-left:10px;
 }
 
+.sidebar .entry ul li .organizer a{
+	color:#333;
+}
 .sidebar .entry ul li{
 	line-height:22px;
 }
