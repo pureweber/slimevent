@@ -18,6 +18,7 @@ class SEHome extends SECommon{
 
 	function test()
 	{
+		echo Template::serve('student/show_profile.html');
 	}
 
 	function feedback(){
@@ -297,6 +298,15 @@ class SEHome extends SECommon{
 		F3::set('u',$data);
 		echo Template::serve("$group/my_profile.html");
 		//Code::dump( $data);
+	}
+
+	function show_user_info()
+	{
+		$uid = F3::get('PARAMS.userID');
+		$u = Account::get_user_full_info($uid);
+	//	Code::dump($u);
+		F3::set('u',$u);
+		echo Template::serve('student/show_profile.html');
 	}
 };
 
