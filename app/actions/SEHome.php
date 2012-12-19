@@ -21,10 +21,12 @@ class SEHome extends SECommon{
 	}
 
 	function feedback(){
+		$content = F3::get("POST.content");
+		Feedback::add($content);
 	}
 
 	function show_feedback(){
-		echo "feedback";
+		echo Template::serve('feedback/feedback.html');
 	}
 
 	function find_by($key, $word, $order){
