@@ -28,40 +28,24 @@
 			</F3:repeat>
 				</span></li>
 
-
-
-	<!--<F3:check if="{{@e.begin_date == @e.end_date}}">-->
-		<!--<F3:true>-->
-		<!--<li>{{@e.begin_date}} ({{@e.begin_weekday}}) {{@e.begin_time}} - {{@e.end_time}}</li>-->
-		<!--</F3:true>-->
-
-		<!--<F3:false>-->
-		<!--<li>{{@e.begin_date}} ({{@e.begin_weekday}}) {{@e.begin_time}} ~ {{@e.end_date}} ({{@e.end_weekday}}) {{@e.end_time}} </li>-->
-		<!--</F3:false>-->
-	<!--</F3:check>-->
-
 						<F3:check if="{{@e.begin_date == @e.end_date}}">
 							<F3:true>
 							<li>
 							<span><i class="icon-time"></i> 时间</span> : {{@e.begin_date}} ({{@e.begin_weekday}}) {{@e.begin_time}} - {{@e.end_time}}
-							<!--<span class="label label-default">{{@e.begin_remain_day}}</span>-->
 							</li>
 							</F3:true>
 
 							<F3:false>
 							<li>
 							<span><i class="icon-time"></i> 开始时间</span> : {{@e.begin_date}} ({{@e.begin_weekday}}) {{@e.begin_time}}
-							<!--<span class="label label-default">{{@e.begin_remain_day}}</span>-->
 </li>
 							<li><span><i class="icon-time"></i> 结束时间</span> : {{@e.end_date}} ({{@e.end_weekday}}) {{@e.end_time}}
-							<!--<span class="label label-default">{{@e.end_remain_day}}</span>-->
 							</li>
 							</F3:false>
 						</F3:check>
 
 
 
-				<!--<li>{{@e.region}} {{@e.addr}}</li>-->
 				<!-- 一校区 -->
 				<li>
 				<F3:check if="{{@e.region == @REGION.1}}">
@@ -75,7 +59,6 @@
 
 				<li class="organizer">
 				<span><i class="icon-user"></i> 发起者</span> : <a href="{{@WEB_ROOT}}user/{{@e.organizer_id}}">{{@e.organizer}}</a>
-				<!--<a href="{{@WEB_ROOT}}find/by?key=organizer&word={{@e.organizer_id}}">{{@e.organizer}}</a><span>  主办</span>-->
 				</li>
 
 			</ul>

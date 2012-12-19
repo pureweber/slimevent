@@ -26,6 +26,7 @@ class SEHome extends SECommon{
 	}
 
 	function show_feedback(){
+		F3::set("route", array("feedback"));
 		echo Template::serve('feedback/feedback.html');
 	}
 
@@ -36,10 +37,16 @@ class SEHome extends SECommon{
 		{
 			case 'keyword':
 				$note .= "活动信息中包含关键词<strong>{$word}</strong>的活动";
-				$con = "title LIKE :a OR label LIKE :b OR introduction LIKE :c
+				$con = "( title LIKE :a OR label LIKE :b OR introduction LIKE :c )
 					AND `event`.`status` = :s GROUP BY(`event`.`eid`) ";
 				$word = '%'.$word.'%';
 				$data = array(':a'=>$word, ':b'=>$word, ':c'=>$word, ':s'=>F3::get("EVENT_PASSED_STATUS"));
+				break;
+			case 'label':
+				$note .= "标签中包含<strong>{$word}</strong>的活动";
+				$con = " label LIKE :b AND `event`.`status` = :s GROUP BY(`event`.`eid`) ";
+				$word = '%'.$word.'%';
+				$data = array(':b'=>$word, ':s'=>F3::get("EVENT_PASSED_STATUS"));
 				break;
 			case 'category_id':
 			case 'category':
@@ -102,6 +109,7 @@ class SEHome extends SECommon{
 	}
 
 	function find(){
+
 		$key = F3::get("GET.key");
 		$word = F3::get("GET.word");
 		$order = F3::get("GET.order");
@@ -119,12 +127,16 @@ class SEHome extends SECommon{
 		$event->show_by("", '`event`.`status` = :e ORDER BY RAND() DESC',
 			array(':e' => F3::get("EVENT_PASSED_STATUS")), 'guess_events', 5);
 
+		$event->show_by("", '`event`.`status` = :e ORDER BY `post_time` DESC',
+			array(':e' => F3::get("EVENT_PASSED_STATUS")), 'newst_events', 5);
+
 		F3::set('note', $data['note']);
 		F3::set('result_num', $result_num);
 		//$per_page_show = F3::get('PER_PAGE_SHOW');
 		$current_page = F3::get('GET.page') == null ? 0 : (F3::get('GET.page'));
 		F3::set('current_page', $current_page);
 		//$page_note = $
+		F3::set("route", array("discover"));
 		echo Template::serve('find/result.html');
 		//Code::dump(F3::get('events'));
 	}
@@ -132,6 +144,14 @@ class SEHome extends SECommon{
 	function show_find(){
 		$category = Category::get_all();
 		F3::set("category", $category);
+		$event = new SEEvent();
+		$event->show_by("", '`event`.`status` = :e ORDER BY RAND() DESC',
+			array(':e' => F3::get("EVENT_PASSED_STATUS")), 'guess_events', 5);
+
+		$event->show_by("", '`event`.`status` = :e ORDER BY `post_time` DESC',
+			array(':e' => F3::get("EVENT_PASSED_STATUS")), 'newst_events', 5);
+		//Code::dump(F3::get('guess_events'));
+		F3::set("route", array("discover"));
 		echo Template::serve('find/find.html');
 	}
 
@@ -158,6 +178,7 @@ class SEHome extends SECommon{
 
 	function my()
 	{
+		F3::set("route", array("my"));
 		$gay = new SECommon();
 		$gay->my();
 	}

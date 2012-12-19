@@ -30,8 +30,9 @@ class SEEvent extends SECommon{
 		$region = F3::get("REGION");
 		$category = Category::get_all();
 		$this->generate_select_option($region, 'region');
-		$this->generate_select_option($category, 'category');
+		$this->generate_select_option($category, 'category_id');
 
+		F3::set("title1", "编辑活动");
 		echo Template::serve('event/edit.html');
 	}
 
@@ -139,19 +140,15 @@ class SEEvent extends SECommon{
 		//显示id为eid活动的所有参与者信息(名字,起始空闲时间)
 	}
 
-	function my_event()
-	{
-		$uid = AccouListItemnt::the_user_id(); //这个是当前登录用户的id
-		echo "当前登录用户的id: ".$uid;
-	}
-
 	function show_create(){
+		F3::set("title", "创建活动");
 		$region = F3::get("REGION");
 		$category = Category::get_all();
 
 		$this->generate_select_option($region, 'region');
 		$this->generate_select_option($category, 'category');
 
+		F3::set("title1", "创建活动");
 		echo Template::serve('event/create.html');
 	}
 

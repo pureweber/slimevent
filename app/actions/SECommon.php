@@ -46,7 +46,6 @@ class SECommon{
 				$n = $select;
 		}
 		//Code::dump($n);
-
 		foreach($n as $k => $v)
 			if(isset($_POST[$name]) && $_POST[$name] == $k)
 				$o .= "<option selected value='{$k}'>{$v}</option>";
