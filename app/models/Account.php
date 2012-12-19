@@ -23,14 +23,14 @@ class Account{
 	/**
 	 * 清除当前用户cookie
 	 */
-	protected static function unset_cookie()
+	static function unset_cookie()
 	{
 		setcookie('se_user_id', '', time() - F3::get('COOKIE_TIME'), '/');
 		setcookie('se_user_name', '', time() - F3::get('COOKIE_TIME'), '/');
 		setcookie('se_user_group', '', time() - F3::get('COOKIE_TIME'), '/');
 		setcookie('se_user_token', '', time() - F3::get('COOKIE_TIME'), '/');
 		
-		//setcookie('se_theme', '', time() - F3::get('COOKIE_TIME'), '/');
+		setcookie('se_theme', '', time() - F3::get('COOKIE_TIME'), '/');
 	}
 
 	/**
