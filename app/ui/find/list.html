@@ -7,11 +7,10 @@
 		</div>
 
 		<div class="info">
-			<h4><a href="{{@WEB_ROOT}}event/{{@e.eid}}">{{@e.title}}</a></h4>
-			<ul>
-				<li class="event-label"><span>
+			<h4>
 
-						<a href="{{@WEB_ROOT}}find/by?key=time_status&word={{@e.time_status}}">
+				<a href="{{@WEB_ROOT}}event/{{@e.eid}}">{{@e.title}}</a>
+						<a href="{{@WEB_ROOT}}find/by?key=time&word={{@e.time_status}}">
 						<F3:check if="{{@e.time_status==@EVENT_NOT_BEGIN}}">
 							<span class="label label-info">{{@e.time_status}}</span>
 						</F3:check>
@@ -22,6 +21,21 @@
 							<span class="label label-important">{{@e.time_status}}</span>
 						</F3:check>
 						</a>
+			</h4>
+			<ul>
+				<li class="event-label"><span>
+
+						<!--<a href="{{@WEB_ROOT}}find/by?key=time&word={{@e.time_status}}">-->
+						<!--<F3:check if="{{@e.time_status==@EVENT_NOT_BEGIN}}">-->
+							<!--<span class="label label-info">{{@e.time_status}}</span>-->
+						<!--</F3:check>-->
+						<!--<F3:check if="{{@e.time_status==@EVENT_IS_RUNNING}}">-->
+							<!--<span class="label label-success">{{@e.time_status}}</span>-->
+						<!--</F3:check>-->
+						<!--<F3:check if="{{@e.time_status==@EVENT_HAVE_END}}">-->
+							<!--<span class="label label-important">{{@e.time_status}}</span>-->
+						<!--</F3:check>-->
+						<!--</a>-->
 
 			<F3:repeat group="{{@e.label}}" value="{{@v}}">
 					<a href="{{@WEB_ROOT}}find/by?key=label&word={{@v}}">{{@v}}</a>

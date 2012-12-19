@@ -10,11 +10,11 @@
 			<F3:include href="find/summary.html" />
 
 			<div class="row" id="search-box">
-				<form method="get" action="{{@WEB_ROOT}}find/by" class="form-inline span8" >
+				<form method="get" action="{{@WEB_ROOT}}find/by" class="form-inline span8" onsubmit="return checkEmpty();" >
 					<label for="word"></label>
 					<input name="word" class="span5"  style="line-height:20px;height:20px;font-size:15px"
 						type="text"  placeholder="根据活动名称、介绍、标签搜索" >
-					<button type="submit" class="btn btn-primary" style="">
+					<button type="submit" class="btn btn-primary">
 						<i class="icon-search icon-white"></i>&nbsp;&nbsp;&nbsp;搜索
 					</button>
 					<input type="hidden" name="key" value="keyword">
@@ -22,27 +22,19 @@
 			</div>
 
 			<div class="row" id="result-note">
-				<div>
-					<p id="note">{{@note}}</p>
-				</div>
-
-				<div id="order">
-					<a href="#">对结果排序<i class="icon-chevron-down"></a></i>
-					<div id="order-by-list">
-						<ul>
-							<li><a href="#begin">开始时间</a></li>
-							<li><a href="#post">发布时间</a></li>
-							<li><a href="#praiser">感兴趣人数</a></li>
-							<li><a href="#joiner">参加人数</a></li>
-						</ul>
-					</div>
-				</div>
 
 				<div id="num">
-					<p style="text-align:right">共找到
+					<p>
+						<span>{{@note==''?'根据条件':@note}}</span> 找到
 						<span class="badge badge-info">{{@result_num}}</span>
-					个符合条件的活动
-					<F3:check if="{{@result_num != 0}}">
+					个活动
+				<F3:check if="{{@result_num == 0}}">
+					<F3:true>
+						<span>，您可以扩大搜索条件或者向我们
+							<a href="{{@WEB_ROOT}}feedback">报告问题</a>
+						</span>
+					</F3:true>
+					<F3:false>
 						<span id="current-count">
 							，下面是第
 							<span>{{(@current_page * @PER_PAGE_SHOW) + 1}} ~
@@ -50,9 +42,73 @@
 								@result_num : (@current_page + 1) * @PER_PAGE_SHOW}}</span>
 							个结果
 						</span>
-					</F3:check>
+					</F3:false>
+				</F3:check>
+					
 
 					</p>
+				</div>
+
+				<div id="filters">
+					<div id="category" class="filter">
+						<a href="#">全部类别</a><i class="icon-chevron-down"></i>
+						<div class="filter-list">
+							<ul>
+								<li><a href="#category-all">全部类别</a></li>
+							<F3:repeat group="{{@category}}" value="{{@c}}">
+								<li><a href="#category-{{@c.id}}">{{@c.name}}</a></li>
+							</F3:repeat>
+							</ul>
+						</div>
+					</div>
+
+					<div id="region" class="filter">
+						<a href="#">全部校区</a><i class="icon-chevron-down"></i>
+						<div class="filter-list">
+							<ul>
+								<li><a href="#region-all">全部校区</a></li>
+								<li><a href="#region-1">一校区</a></li>
+								<li><a href="#region-2">二校区</a></li>
+							</ul>
+						</div>
+					</div>
+
+					<div id="range" class="filter">
+						<a href="#">全部时间</a><i class="icon-chevron-down"></i>
+						<div class="filter-list">
+							<ul>
+								<li><a href="#range-all">全部时间</a></li>
+								<li><a href="#range-today">今天</a></li>
+								<li><a href="#range-tomorrow">明天</a></li>
+								<li><a href="#range-week">最近一周</a></li>
+							</ul>
+						</div>
+					</div>
+
+					<div id="time" class="filter">
+						<a href="#">全部状态</a><i class="icon-chevron-down"></i>
+						<div class="filter-list">
+							<ul>
+								<li><a href="#time-all">全部状态</a></li>
+								<li><a href="#time-{{@EVENT_NOT_BEGIN}}">未开始</a></li>
+								<li><a href="#time-{{@EVENT_IS_RUNNING}}">正在进行</a></li>
+								<li><a href="#time-{{@EVENT_HAVE_END}}">已结束</a></li>
+							</ul>
+						</div>
+					</div>
+
+					<div id="order" class="filter">
+						<a href="#">对结果排序</a><i class="icon-chevron-down"></i>
+						<div class="filter-list">
+							<ul>
+								<li><a href="#order-begin">开始时间</a></li>
+								<li><a href="#order-post">发布时间</a></li>
+								<li><a href="#order-praiser">感兴趣人数</a></li>
+								<li><a href="#order-joiner">报名人数</a></li>
+							</ul>
+						</div>
+					</div>
+
 				</div>
 			</div>
 
@@ -76,33 +132,94 @@
 <script type="text/javascript">
 
 	$(document).ready(function () {
-		$("#order").mouseenter(function(){
+		var key = window.location.search.match(/key=(\w+)/);
+		var word = window.location.search.match(/word=(\w+|(%\w{2})+)/);
+		if(key != null && word !== null){
+			key = key[1].split('_')[0];
+			word = decodeURIComponent(word[1]);
+		}
+
+		console.log(key);
+		console.log(word);
+
+		$(".filter").each(function(){
+			var id = $(this).attr("id");
+			var reg = "/"+id+"=(\\w+|(%\\w{2})+)/" // 匹配"name=value"
+			var u = window.location.search.match(eval(reg));
+
+			if(u != null){
+				var l = decodeURIComponent(u[0]);
+				var href = "#"+l.replace(/=/, '-');
+			}else if(id == key){
+				var href = "#"+key+"-"+word;
+			}else{
+				return;
+			}
+			console.log(href);
+
+			var content = $(this).find("a[href='"+href+"']").html();
+			console.log(content);
+			$(this).children("a").html(content);
+		})
+
+		$(".filter").mouseenter(function(){
 			var top = $(this).offset().top + $(this).height();
 			var left = $(this).offset().left;
-			$("#order-by-list").css('top',top).css('left', left).slideDown(200);
+			$(this).find(".filter-list").css('top',top).css('left', left).slideDown(100);
 		});
-		$("#order").mouseleave(function(){
-			$("#order-by-list").slideUp(200);
+
+		$(".filter").mouseleave(function(){
+			$(".filter-list:animated").hide().stop();
+			$(this).find(".filter-list").slideUp(200);
 		});
-		$("#order a").click(function(){
-			var order = $(this).attr("href").substr(1);
-			if(order == '') return false;
-			var loc = document.location;
-			var search = loc.search.replace(/page=\d+/, 'page=0');
-			var url = loc.origin + loc.pathname + search + "&order=" + order;
+
+		$(".filter .filter-list a").click(function(){
+			var data = $(this).attr("href").substr(1).split("-");
+			if(data.size == 0)return false;
+			var name = data[0];
+			var value = data[1];
+
+			//console.log(data);
+
+			var loc = window.location;
+			var search = loc.search;
+
+			var reg = "/"+name+"=(\\w+|(%\\w{2})+)(&|$)/"; // 匹配"name=value"
+			console.log(reg);
+			if(search.search(eval(reg)) != -1)// 如果原url中存在，则替换
+				search = search.replace(eval(reg), name+"="+value+"&");
+			else // 否则添加
+				search += "&" + name + "=" + value;
+
+			//console.log(search);
+
+			search = search.replace(/page=\d+/, 'page=0');// 跳到结果的第0页
+
+			if(loc.origin == undefined) // Firefox兼容
+				var url = loc.protocol + "//" + loc.host + loc.pathname + search;
+			else // Other
+				var url = loc.origin + loc.pathname + search;
+			//console.log(url);
+			url = url.replace(/&$/, '');
+			//location.href = url;
+			window.location = url;
+
+			/*
 			$("#find-result-list").load(url + " #find-result-list");
 			$("#current-count").html("，下面是第 1 ~ {{@PER_PAGE_SHOW}} 个结果");
 			$("#order>a").html("按"+$(this).html()+"排序");
+			*/
+
 			return false;
 		});
 		//updatePagination(order);
 	});
 
 	//no use
-	function updatePagination(order){
+	function updatePagination(name, value){
 		$("#find-result-list .pagination ul li a[href!='#']").each(function(){
 			var url = $(this).attr('href');
-			$(this).attr("href", url + "&order=" + order);
+			$(this).attr("href", url + "&"+ name+ "=" + value);
 		});
 	}
 

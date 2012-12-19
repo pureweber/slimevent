@@ -92,10 +92,14 @@ body{
 	width:180px;
 }
 
+.sidebar .entry legend{
+	font-size:15px;
+}
+
 .sidebar .entry{
 	margin-left:10px;
 	font-size:12px;
-	border-bottom:1px dotted #ccc;
+	/*border-bottom:1px dotted #ccc;*/
 }
 
 .sidebar .entry ul{
@@ -368,7 +372,7 @@ section.meta p{
 }
 
 #search-box{
-	margin-left:20px;
+	margin-left:0px;
 }
 
 #result-note{
@@ -381,18 +385,28 @@ section.meta p{
 }
 
 #result-note p{
+	font-size:15px;
+}
+
+#num{
+	margin-left:20px;
+}
+
+.filter{
+	float:left;
+	margin-left:20px;
+}
+.filter>a{
+	color:#333;
+}
+.filter a{
 	font-size:13px;
 }
-
-#order, #num{
-	float:right;
+.filter .icon-chevron-down{
+	margin-left:5px;
 }
 
-#order{
-	margin-left:10px;
-}
-
-#order-by-list{
+.filter-list{
 	display:none;
 	position:absolute;
 	top:0;
@@ -402,7 +416,15 @@ section.meta p{
 	padding:10px;
 }
 
-#order-by-list ul{
+.filter-list ul{
 	list-style:none;
 	margin-left:0px;
 }
+
+
+#order{
+	margin-left:10px;
+	float:right;
+}
+
+

@@ -7,7 +7,7 @@
 
 	<!-- THEME -->
 	<link type="text/css" rel="stylesheet" href="{{@WEB_ROOT}}static/
-		{{@COOKIE.se_theme == 'bootstrap' ? 'bootstrap': 'plusstrap'}}/css/bootstrap.css" />
+		{{@COOKIE.se_theme == 'plussstrap' ? 'plusstrap' : 'bootstrap'}}/css/bootstrap.css" />
 
 	<link type="text/css" rel="stylesheet" href="{{@WEB_ROOT}}static/css/font-awesome.css" />
 	<link type="text/css" rel="stylesheet" href="{{@WEB_ROOT}}static/css/event.css" />
@@ -78,6 +78,15 @@
 		return totalCount;
 	}
 
+	//如果搜索框神码都没输入，就在value里面放上"-"作为标识
+	//可以解决很多问题
+	function checkEmpty(){
+		if($("input[name='word']").val() == '')
+			$("input[name='word']").val('-');
+		return true;
+	}
+
+
 		//var noty = noty({layout:'topRight',text: 'LOOK AT ME!!!!!!!!!!!'});
 	</script>
 </head>
@@ -89,7 +98,9 @@
 					<a class="brand" href="{{@WEB_ROOT}}">SlimEvent</a>
 					<ul class="nav">
 						<li {{ @route[0] == 'home' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}"><i class="icon-home"></i> 首页</a></li>
-						<li {{ @route[0] == 'discover' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}find"><i class="icon-search"></i> 发现</a></li>
+						<!--<li {{ @route[0] == 'discover' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}find"><i class="icon-search"></i> 发现活动</a></li>-->
+						<li {{ @route[0] == 'discover' ? 'class="active"' : ''}}>
+							<a href="{{@WEB_ROOT}}find/by?word=-&key=keyword&time=未开始&order=post"><i class="icon-search"></i> 发现活动</a></li>
 						<li {{ @route[0] == 'my' ? 'class="active"' : '' }}><a href="{{@WEB_ROOT}}my"><i class="icon-list"></i> 我的活动</a></li>
 						<li {{ @route[0] == 'feedback' ? 'class="active"' : '' }}><a href="{{@WEB_ROOT}}feedback"><i class="icon-comments"></i> 问题反馈</a></li>
 					</ul>

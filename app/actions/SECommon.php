@@ -226,6 +226,10 @@ class SECommon{
 	 function show_by($url, $con = "", $data = array(),
 			 $set_name = "events", $result_num = false){
 
+		$url = preg_replace("/page=\d+/", "", $url);
+		$url = preg_replace("/&$/", "", $url);
+		//Code::dump($url);
+
 		if($con == '' && count($data) == 0){// 默认只选择passed的
 			$con = "`event`.`status` = :status";
 			$data[':status'] = F3::get("EVENT_PASSED_STATUS");
@@ -241,7 +245,7 @@ class SECommon{
 		}else{
 			$total_num = Event::get_num($con, $data);
 			if($total_num == 0)
-				return false;
+				return 0;
 
 			$get_page = F3::get("GET.page");
 			$per_page_show = F3::get("PER_PAGE_SHOW");
