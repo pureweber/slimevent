@@ -1,10 +1,79 @@
 <F3:include href="common/header.html" />
+
 		<div class="container">
-			<article class="event">
-				<div class="btn-group">
-					<a class="btn btn-large" href="cas.php"><i class="icon-user"></i> 通过统一身份认证登陆</a>
-					<a class="btn btn-large btn-success" href="#"><i class="icon-plus-sign"></i> 发起一个事件</a>
-				</div>
-			</article>
+			<div class="row">
+
+				<div class="span6">
+					<h2> 学生登录 </h3>
+
+					<a class="btn btn-large btn-danger" href="{{@WEB_ROOT}}login/?auth=cas&&backurl={{@GET.backurl}}">
+						<i class="icon-user"></i> 通过哈工大统一身份认证登录
+					</a>
+					<div class="alert alert-block" style="margin-top:10px;">
+						<button type="button" class="close" data-dismiss="alert">Hide</button>
+					  	<h4>温馨提示</h4>
+							为保证登录用户属于哈工大在校学生，目前只支持哈工大统一身份认证登录.
+					</div><!-- alert -->
+				</div><!-- span6 -->
+
+				<div class="span6">
+					<h2> 社团登录 </h2>
+					<form id="login_form" class="form-horizontal" method="POST">
+
+						<F3:check if="{{@show_msg}}">
+							<F3:true>
+						<div class="alert alert-error">
+							{{@msg}}
+						</div>
+							</F3:true>
+						</F3:check>
+
+						<div class="control-group">
+							<label class="control-label" for="inputEmail">账号</label>
+							<div class="controls">
+						  		<input type="text" id="inputEmail" name="user_name" placeholder="帐号">
+							</div>
+					  	</div>
+
+					  	<div class="control-group">
+							<label class="control-label" for="inputPassword">密码</label>
+							<div class="controls">
+						  		<input type="password" id="inputPassword" name="user_pwd" placeholder="密码">
+							</div>
+					  	</div>
+
+					  	<div class="control-group">
+							<div class="controls">
+							  	<button type="button" onclick="ajax_login()" class="btn btn-primary">登录</button>
+							</div>
+					 	</div>
+
+					</form>
+				</div><!-- span6 -->
+
+			</div><!-- row -->
 		</div><!-- Container -->
+
+<script src="{{@WEB_ROOT}}static/js/jquery.form.js" type="text/javascript"></script>
+
+<!--<script src="/slimevent/static/js/jquery.validform-zh_CN.js" type="text/javascript" charset="utf8"></script>-->
+<script src="{{@WEB_ROOT}}static/js/validform.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+	function ajax_login()
+	{
+		var options = {
+			url : "{{@WEB_ROOT}}login",
+			type : 'POST',
+			success : function(data){
+				if(data == 0)
+					window.location.href="{{@WEB_ROOT}}"; 
+				else
+					alert(data);
+			},
+		};
+		$("#login_form").ajaxSubmit(options);
+	}
+</script>
+
 <F3:include href="common/footer.html" />

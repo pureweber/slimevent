@@ -1,0 +1,36 @@
+<F3:include href="common/header.html" />
+
+<div class="container">
+
+	<div style="width: 960px; height:540px;background:url({{@WEB_ROOT}}static/img/{{@u.1.sex}}.jpg);">
+
+		<div class="profile span4 offset7" id="profile_box" style="margin-top:200px; background-color: rgba(0, 0, 0, 0.309804); display: block; margin-top: 88px; border: 1px solid transparent; border-radius-topleft: 3px;
+border-radius-topright: 3px;
+-moz-border-radius-topleft: 3px;
+-moz-border-radius-topright: 3px;
+-webkit-border-top-left-radius: 3px;
+-webkit-border-top-right-radius: 3px;
+border-bottom-left-radius: 3px;
+border-bottom-right-radius: 3px;
+-moz-border-radius-bottomleft: 3px;
+-moz-border-radius-bottomright: 3px;
+-webkit-border-bottom-left-radius: 3px;
+-webkit-border-bottom-right-radius: 3px;">
+			<h2 style="padding:0px; color:white; text-align:center">{{@u.0.nickname}}</h2>
+			<!--<h4 style="color:white; margin-left:100px;">女生一枚</h4>-->
+
+			<div id="profile-bevel" style="height: 0px; background-color: transparent; border-top-width: 1px; border-top-style: solid; border-top-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(255, 255, 255); opacity: 0.06; background-position: initial initial; background-repeat: initial initial;"><hr></div>
+
+			<div class="profile-content" style="color:white; margin-left:10px; width:283px;  word-break:break-all;">
+			关于我:
+			<F3:check if="{{@u.1.introduction == '' }}">
+				<true>这个家伙比较懒，什么也没写。</true>
+				<false>{{@u.1.introduction}}</false>
+			</F3:check>
+			</div>
+
+
+		</div>
+	</div>
+</div> <!-- container -->
+<F3:include href="common/footer.html" />

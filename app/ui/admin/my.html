@@ -1,0 +1,71 @@
+<F3:include href="common/header.html" />
+<div class="container">
+	<div class="row">
+		<div class="tabbable tabs-left">
+
+        	<ul class="nav nav-tabs">
+                <li class="active"><a href="#my_event" data-toggle="tab">活动管理</a></li>
+            	<li class=""><a href="#user_management" data-toggle="tab">用户管理</a></li>
+                <li class=""><a href="#msg_box" data-toggle="tab">站内消息</a></li>
+            	<li class=""><a href="#my_profile" data-toggle="tab">个人资料</a></li>
+            </ul>
+
+       		<div class="tab-content">
+
+ 				<div class="tab-pane active" id="my_event">
+					<F3:include href="admin/my_event.html" />
+                </div><!-- my_event -->
+
+                <div class="tab-pane" id="msg_box">
+					<F3:include href="msgbox/list.html" />
+                </div><!-- msg_box -->
+
+                <div class="tab-pane" id="my_profile">
+					<F3:include href="admin/my_profile.html" />
+                </div> <!-- my_profile -->
+
+                <div class="tab-pane" id="user_management">
+					<F3:include href="admin/user_management.html" />
+                </div> <!-- my_profile -->
+
+
+             </div><!-- tab-content -->
+
+		</div><!-- tabbable tabs-left -->
+	</div><!-- row -->
+</div><!-- Container -->
+
+<script src="{{@WEB_ROOT}}static/js/jquery.form.js" type="text/javascript"></script>
+
+<!--<script src="/slimevent/static/js/jquery.validform-zh_CN.js" type="text/javascript" charset="utf8"></script>-->
+<script src="{{@WEB_ROOT}}static/js/validform.js" type="text/javascript"></script>
+
+
+<script type="text/javascript">
+	function ajax_handle_event(eid,type)
+	{
+		var reason = "";
+		if(type == "{{@HANDLE_FAIL}}")
+		{
+			while(reason == "")
+			{
+				reason = prompt("请输入未通过审核原因");
+				if(reason == null)
+					return;
+			}
+		}
+		//alert(reason);
+		$.post('{{@WEB_ROOT}}event/handle',{eid: eid, type : type, reason: reason},function(data){
+			$("#event_"+eid).fadeOut();
+			//$("#event_"+eid).remove();
+		});
+	}
+
+	$(document).ready(function () {
+		//自动加载显示草稿列表
+		ajax_my_event_list('{{@EVENT_DRAFT_STATUS}}');
+	});
+
+</script>
+
+<F3:include href="common/footer.html" />

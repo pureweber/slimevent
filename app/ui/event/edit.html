@@ -1,0 +1,55 @@
+<F3:include href="common/header.html" />
+
+<div class="container">
+
+<div class="row">
+<div class="span8">
+	<h3>{{@title1}}</h3>
+	<article class="create-event">
+
+	<F3:include href="event/event-form.html" />
+
+	<div class="pull-right">
+	<F3:check if="{{@POST.status == @EVENT_DRAFT_STATUS}}">
+		<F3:true>
+			<button onclick="publish()" type="button" class="btn btn-success btn-large"><i class="icon-ok-sign"></i> 发布</button>
+			<button onclick="saveDraft()" type="button" class="btn btn-large"><i class="icon-file"></i> 保存草稿 </button>
+		</F3:true>
+		<F3:false>
+			<a href="{{@WEB_ROOT}}event/{{@POST.eid}}"  class="btn btn-primary btn-large"><i class="icon-ok-sign"></i> 取消</a>
+			<button onclick="publish()" type="button" class="btn btn-success btn-large"><i class="icon-ok-sign"></i> 提交修改</button>
+		</F3:false>
+	</F3:check>
+	</div>
+
+	</article>
+	</div><!-- span10 -->
+
+	<div class="offset1 span3">
+		<F3:include href="event/event-form-sidebar.html" />
+	</div>
+
+</div><!-- row -->
+</div><!-- Container -->
+<script type="text/javascript">
+	function publish(){
+		//alert("提示：提交后需审核通过才能在网站中更新");
+		if(!getIntroAndValidate())	return false;
+		hasSaved = true;
+		$("#create-form").attr('action', '{{@WEB_ROOT}}publish').submit();
+	}
+
+	function saveDraft(){
+		if(!getIntroAndValidate())	return false;
+		hasSaved = true;
+		var options = {
+			url : "{{@WEB_ROOT}}draft",
+			type : 'POST',
+			success : function(eid){updateForm(eid);}
+		}
+		$("#create-form").ajaxSubmit(options);
+	}
+</script>
+
+
+<F3:include href="common/footer.html" />

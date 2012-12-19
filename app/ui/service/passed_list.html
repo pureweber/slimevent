@@ -1,0 +1,38 @@
+<table class="table table-striped" style="margin-top:20px">
+	<tr>
+		<th width="5%">#</th>
+		<th width="40%">标题</th>
+		<th width="16%">发起者</th>
+		<th width="16%">发布时间</th>
+		<th width="10%">审核时间</th>
+		<th width="12%">操作</th>
+	</tr>
+
+<F3:repeat group="{{@events}}" value="{{@event}}" counter="{{@count}}">
+	<tr id="event_{{@event.eid}}">
+		<td>{{@count}}</td>
+		<td class="add_event_status" data-status="{{@event.time_status}}">
+			<span class="label">{{@event.time_status}}</span>
+			<a class="short_title" href="{{@WEB_ROOT}}event/{{@event.eid}}" 
+					target="_blank">
+				{{@event.title}}
+			</a>
+		</td>
+
+		<td>
+			<a href="{{@WEB_ROOT}}user/{{@event.organizer_id}}" target="_blank" class="event">
+				{{@event.organizer}}
+			</a>
+		</td>
+
+		<td class="date_time">{{@event.post_time}}</td>
+
+		<td>{{@event.audit_time}}</td>
+		<td>
+			<a href="#" class="btn btn-success" onclick="ajax_handle_event('{{@event.eid}}','{{@HANDLE_FAIL}}'); return false;">失败</a>
+		</td>
+	</tr>
+</F3:repeat>
+</table>
+
+{{@pagination}}

@@ -1,0 +1,54 @@
+<table class="table" style="margin-top:20px">
+	<tr>
+		<th width="5%">#</th>
+		<th width="53%">标题</th>
+		<th width="12%">发布时间</th>
+		<th width="10%">参加/赞</th>
+		<th width="20%">操作</th>
+	</tr>
+
+<F3:repeat group="{{@events}}" value="{{@event}}" counter="{{@count}}">
+	<tr>
+		<td>{{@count}}</td>
+		<td>
+			<a href="{{@WEB_ROOT}}event/{{@event.eid}}" 
+					target="_blank" class="event" data-status="event-{{@event.status}}"
+					data-modified="{{@event.old_id}}">
+				{{@event.title}}
+			</a>
+		</td>
+		<td>{{@event.post_time}}</td>
+		<td><a href="{{@WEB_ROOT}}event/{{@event.eid}}/join/list">{{@event.joiner_num}}</a>/{{@event.praiser_num}}</td>
+		<td>
+			<a href="{{@WEB_ROOT}}event/{{@event.eid}}/del" class="btn btn-danger" 
+				onclick="return confirm('确定要删除<<{{@event.title}}>>活动吗');">删除</a>
+			<a href="{{@WEB_ROOT}}event/{{@event.eid}}/edit" class="btn btn-primary">编辑</a>
+		</td>
+	</tr>
+</F3:repeat>
+</table>
+
+{{@pagination}}
+
+<div style="display:none">
+	<span class="label label-warning label-event-{{@EVENT_AUDIT_STATUS}}">审核中</span>
+	<span class="label label-important label-event-{{@EVENT_FAILED_STATUS}}">审核失败</span>
+	<span class="label label-success label-event-{{@EVENT_PASSED_STATUS}}">正常</span>
+	<span class="label label-inverse label-event-modified">修改</span>
+	<span class="label label-event-{{@EVENT_DRAFT_STATUS}}">草稿</span>
+</div>
+
+<script type="text/javascript">
+	
+	$(document).ready(function () {
+		$(".event").each(function(){
+			var status = $(this).data('status');
+			$(".label-"+status).clone().first().insertBefore(this);
+			if($(this).data("modified") != {{@NO_OLD_ID}})
+				$(".label-event-modified").clone().first().insertBefore(this);
+		});
+	});
+
+
+</script>
+

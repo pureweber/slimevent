@@ -1,0 +1,55 @@
+<script type="text/javascript">
+	function ajax_add_user()
+	{
+		var options = {
+			url : "{{@WEB_ROOT}}user/add",
+			type : 'POST',
+			success : function(data){
+					alert(data);
+			},
+		};
+		$("#add_user_form").ajaxSubmit(options);
+	}
+
+</script>
+<form id="add_user_form" class="form-horizontal" method="POST">
+
+  <div class="control-group">
+    <label class="control-label" for="inputEmail">用户名</label>
+    <div class="controls">
+      <input type="text" id="inputEmail" name="name">
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="inputPassword">密码</label>
+    <div class="controls">
+      <input type="password" id="inputPassword" name="pwd">
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="inputPassword">昵称</label>
+    <div class="controls">
+      <input type="text" id="inputPassword" name="nickname">
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="inputPassword">用户组</label>
+    <div class="controls">
+		<select class="input-large" name="group">
+			<option value="{{@CLUB_GROUP}}">社团</option>
+			<option value="{{@STUDENT_GROUP}}">学生</option>
+			<option value="{{@ORG_GROUP}}">机构</option>
+			<option value="{{@SERVICE_GROUP}}">客服</option>
+		</select>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <div class="controls">
+      <button type="button" onclick="ajax_add_user()" class="btn btn-primary">添加</button>
+    </div>
+  </div>
+</form>

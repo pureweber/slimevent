@@ -1,0 +1,56 @@
+<table class="table" style="margin-top:20px">
+	<tr>
+		<th width="2%">#</th>
+		<th width="29%">标题</th>
+		<th width="2%">原稿</th>
+		<th width="7%">发起者</th>
+		<th width="10%">发布时间</th>
+		<th width="10%">审核员</th>
+		<th width="6%">审核时间</th>
+		<th width="27%">原因</th>
+		<th width="7%">操作</th>
+	</tr>
+
+<F3:repeat group="{{@events}}" value="{{@event}}" counter="{{@count}}">
+	<tr id="event_{{@event.eid}}">
+		<td>{{@count}}</td>
+		<td>
+			<a class="short_title" href="{{@WEB_ROOT}}event/{{@event.eid}}" 
+					target="_blank">
+				{{@event.title}}
+			</a>
+		</td>
+
+		<td>
+		<!-- 有对应的原版 -->
+		<F3:check if="{{@event.old_id}} != {{@NO_OLD_ID}}">
+			<a href="{{@WEB_ROOT}}event/{{@event.old_id}}" target="_blank" class="event">
+				原
+			</a>
+		</F3:check>
+		</td>
+
+		<td>
+			<a href="{{@WEB_ROOT}}user/{{@event.organizer_id}}" target="_blank" class="event">
+				{{@event.organizer}}
+			</a>
+		</td>
+
+		<td class="date_time">{{@event.post_time}}</td>
+
+		<td>
+			<a href="{{@WEB_ROOT}}user/{{@event.audit_user}}" target="_blank" class="event">
+				{{@event.audit_user}}审核员
+			</a>
+		</td>
+
+		<td>{{@event.audit_time}}</td>
+		<td>{{@event.comments}}</td>
+		<td>
+			<a href="#" class="btn btn-success" onclick="ajax_handle_event('{{@event.eid}}','{{@HANDLE_PAS}}'); return false;">通过</a>
+		</td>
+	</tr>
+</F3:repeat>
+</table>
+
+{{@pagination}}

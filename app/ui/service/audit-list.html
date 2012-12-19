@@ -1,0 +1,40 @@
+<table class="table table-striped" style="margin-top:20px">
+
+	<tr>
+		<th>#</th>
+		<th width="45%">标题</th>
+		<th>发布时间</th>
+		<th>组织者</th>
+		<th width="12%">失败</th>
+		<th width="12%">通过</th>
+	</tr>
+
+<F3:repeat group="{{@events}}" value="{{@event}}">
+	<tr>
+		<td>{{@event.eid}}</td>
+		<td><a href="{{@WEB_ROOT}}event/{{@event.eid}}/preview" target="_blank">{{@event.title}}</a></td>
+		<td>{{@event.post_time}}</td>
+		<td><a href="{{@WEB_ROOT}}{{@event.organizer_id}}">{{@event.organizer}}</a></td>
+		<td><button class="btn btn-danger" onclick="audit({{@event.eid}}, 'fail');">失败</button></td>
+		<td><button class="btn btn-success" onclick="audit({{@event.eid}}, 'pass');">通过</button></td>
+	</tr>
+</F3:repeat>
+
+</table>
+
+
+{{@pagination}}
+
+<button onclick="reload_list();" class="btn">刷新</button>
+
+<script type="text/javascript">
+	function reload_list(){
+		$("#event-list").load("{{@WEB_ROOT}}audit #event-list");
+	}
+	function audit(eid, op){
+		$.post("{{@WEB_ROOT}}audit/"+op, {eid : eid},reload_list);
+	}
+</script>
+
+
+

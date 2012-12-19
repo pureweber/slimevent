@@ -1,0 +1,44 @@
+<table class="table table-striped" style="margin-top:20px">
+	<tr>
+		<th width="5%">#</th>
+		<th width="53%">标题</th>
+		<th width="12%">发布时间</th>
+		<th width="10%">报名/推</th>
+		<th width="20%">操作</th>
+	</tr>
+
+<F3:repeat group="{{@events}}" value="{{@event}}" counter="{{@count}}">
+	<tr id="event_{{@event.eid}}">
+		<td>{{@count}}</td>
+		<td id="event_status" data-status="{{@event.time_status}}">
+			<F3:check if="{{@event.time_status == @EVENT_NOT_BEGIN}}"> 
+					<span class="label label-info">{{@event.time_status}}</span>
+			</F3:check>
+			<F3:check if="{{@event.time_status == @EVENT_IS_RUNNING}}"> 
+					<span class="label label-success">{{@event.time_status}}</span>
+			</F3:check>
+			<F3:check if="{{@event.time_status == @EVENT_HAVE_END}}"> 
+					<span class="label label-inverse">{{@event.time_status}}</span>
+			</F3:check>
+			<a href="{{@WEB_ROOT}}event/{{@event.eid}}" 
+					target="_blank" class="event" data-status="event-{{@event.status}}"
+					data-modified="{{@event.old_id}}">
+				{{@event.title}}
+
+			</a>
+		</td>
+		<td>{{@event.post_time}}</td>
+		<td><a href="{{@WEB_ROOT}}event/{{@event.eid}}/join/list">{{@event.joiner_num}}</a>/{{@event.praiser_num}}</td>
+		<td>
+			<a href="#" class="btn btn-danger" onclick="ajax_handle_event('{{@event.eid}}','{{@HANDLE_DEL}}'); return false;">删除</a>
+			<a target="_blank" href="{{@WEB_ROOT}}event/{{@event.eid}}/edit" class="btn btn-primary">编辑</a>
+		</td>
+	</tr>
+</F3:repeat>
+</table>
+
+{{@pagination}}
+
+
+
+

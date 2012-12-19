@@ -1,0 +1,45 @@
+<F3:include href="common/header.html" />
+
+<div class="container">
+
+	<div class="row">
+
+		<div class="offset2 span8">
+			<legend>反馈信息</legend>
+			<div class="row offset1 span6">
+				<form id="feedback-form" class="" >
+					<div>
+						<textarea name="content" class="span6" style="height:200px;font-size:16px;" placeholder="请在此输入反馈内容，感谢您的反馈"></textarea>
+					</div>
+					<div>
+						<a class="btn btn-primary btn-large pull-right"
+								data-loading-text="Loading..." style="" onclick="s()">
+							<i class="icon-ok icon-white"></i>&nbsp;&nbsp;&nbsp;提交
+						</a>
+					</div>
+				</form>
+			</div>
+
+			<div class="row" style="height:200px">
+			</div>
+			<!--<F3:include href="event/list.html" />-->
+		</div>
+	</div>
+
+</div><!-- Container -->
+
+<script src="{{@WEB_ROOT}}static/js/jquery.form.js" type="text/javascript"></script>
+<script type="text/javascript">
+	function s(){
+		var options = {
+			url : "{{@WEB_ROOT}}feedback",
+			type : 'POST',
+			success : function(){alert("提交成功，感谢您的反馈！");window.location="{{@WEB_ROOT}}"}
+		};
+		$("#feedback-form").ajaxSubmit(options);
+		//$("input[type='submit']").attr("data-loading-text","正在提交...");
+		return false;
+	}
+</script>
+
+<F3:include href="common/footer.html" />

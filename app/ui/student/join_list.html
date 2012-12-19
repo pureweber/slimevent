@@ -1,0 +1,51 @@
+<table class="table table-striped" style="margin-top:20px">
+	<tr>
+		<th width="5%">#</th>
+		<th width="52%">标题</th>
+		<th width="25%">开始时间</th>
+		<th width="18%">操作</th>
+	</tr>
+
+<F3:repeat group="{{@events}}" value="{{@event}}" counter="{{@count}}">
+	<tr id="event_{{@event.eid}}">
+		<td>{{@count}}</td>
+		<td id="event_status" data-status="{{@event.time_status}}">
+			<F3:check if="{{@event.time_status == @EVENT_NOT_BEGIN}}"> 
+					<span class="label label-info">{{@event.time_status}}</span>
+			</F3:check>
+			<F3:check if="{{@event.time_status == @EVENT_IS_RUNNING}}"> 
+					<span class="label label-success">{{@event.time_status}}</span>
+			</F3:check>
+			<F3:check if="{{@event.time_status == @EVENT_HAVE_END}}"> 
+					<span class="label label-inverse">{{@event.time_status}}</span>
+			</F3:check>
+			<a href="{{@WEB_ROOT}}event/{{@event.eid}}" 
+					target="_blank" class="event" data-status="event-{{@event.status}}"
+					data-modified="{{@event.old_id}}">
+				{{@event.title}}
+			</a>
+		</td>
+		<td>{{@event.begin_date}} {{@event.begin_weekday}} {{@event.begin_time}} <span class="label">{{@event.begin_remain_day}}</span></td>
+		<td>
+			<F3:check if="{{@event.time_status == @EVENT_NOT_BEGIN}}"> 
+
+				<!-- 尚未开始 允许取消报名 其余情况不允许-->
+				<F3:true>
+			<a href="#" class="btn btn-danger" onclick="ajax_handle_event('{{@event.eid}}','{{@HANDLE_UNJOIN}}'); return false;">取消报名({{@event.joiner_num}})</a>
+				</F3:true>
+
+				<F3:false>
+			<a href="#" class="btn btn-primary disabled" onclick="return false;">{{@event.joiner_num}} 人报名</a>
+				</F3:false>
+
+			</F3:check>
+		</td>
+	</tr>
+</F3:repeat>
+</table>
+
+{{@pagination}}
+
+
+
+
