@@ -11,11 +11,9 @@ F3::config('app/cfg/errno.cfg');
 F3::config('app/cfg/routes.cfg');
 
 F3::set('DB', new DB(
-//	'mysql:host=192.168.17.254;port=3306;dbname=slimevent',
 	'mysql:host=localhost;port=3306;dbname=slimevent',
 	'root',
-	//'123'
-	'vpcm'
+	'123'
 ));
 
 F3::run();
