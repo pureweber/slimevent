@@ -29,7 +29,7 @@ class Sys{
 		EDB::insert('errorlog',$data);
 
 		Account::unset_cookie();
-		F3::reroute("/login?auth=club");
+		F3::reroute("/login");
 	}
 
 	static function time_quaters(){

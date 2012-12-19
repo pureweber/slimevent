@@ -18,7 +18,7 @@ class SEHome extends SECommon{
 
 	function test()
 	{
-		echo Template::serve('student/show_profile.html');
+		echo Template::serve('/login.html');
 	}
 
 	function feedback(){
@@ -195,7 +195,7 @@ class SEHome extends SECommon{
 				if(Account::exists($name) === false)  //首次通过CAS登录
 				{
 					$group = F3::get('STUDENT_GROUP');
-					$nickname = "S".$name;
+					$nickname = $name;
 					Admin::add_user($name, $pwd, $group, $nickname);
 				}
 				break;
@@ -203,7 +203,8 @@ class SEHome extends SECommon{
 				echo Template::serve('club/login.html');
 				return;
 			default:
-				F3::reroute('/');
+				echo Template::serve('/login.html');
+				return;
 		}
 
 		Account::login($name, $pwd);
@@ -302,6 +303,7 @@ class SEHome extends SECommon{
 
 	function show_user_info()
 	{
+		Account::the_user_id();
 		$uid = F3::get('PARAMS.userID');
 		$u = Account::get_user_full_info($uid);
 	//	Code::dump($u);

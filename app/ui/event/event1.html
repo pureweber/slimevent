@@ -5,28 +5,25 @@
 </script>
 
 <div class="container">
-	<div class="row">
+	<div class="row" style="margin-top:-10px;">
 
-		<div class="span2">
-			<F3:include href="common/sidebar.html" />
-		</div>
 
-		<div class="span10" id="event" data-spy="scroll" data-target="#plusstrap-subnav-fixed">
+		<div class="span9" id="event" style="margin-top:-26px" data-spy="scroll" data-target="#plusstrap-subnav-fixed">
 
 			<div id="event-info" class="row">
 
 				<div class="span3" id="event-img">
-					<img width="175" height="260" src="{{@e.poster}}" onerror="javascript:this.src='{{@DEFAULT_IMG}}'" />
+					<img style="width:200px; height:270px; margin-top:26px;" src="{{@e.poster}}" onerror="javascript:this.src='{{@DEFAULT_IMG}}'" />
 				</div>
 
-				<div class="span7">
+				<div class="span6">
 
 					<div id="event-title">
-						<h1 id="share-event-title">{{@e.title}}
+						<h3 id="share-event-title">{{@e.title}}
 					<F3:check if="{{@e.old_id != @NO_OLD_ID}}">
 						<a href="{{@WEB_ROOT}}event/{{@e.old_id}}">(原)
 					</F3:check>
-						</h1>
+						</h3>
 					</div>
 
 					<div id="event-feature">
@@ -157,6 +154,11 @@
 			</div> <!-- event-discuss -->
 
 		</div><!-- event span10 -->
+
+		<div class="span3">
+			<F3:include href="event/sidebar.html" />
+		</div>
+
 	</div><!-- row -->
 </div><!-- Container -->
 
@@ -200,7 +202,12 @@
 			var e_status="{{@e.status}}";
 
 			function praise_event() {
-				if(uid === "") alert("请登录");
+				if(uid === "") 
+				{
+					var x = confirm("亲，请先登录！");
+					if( x == true)
+						window.location.href="{{@WEB_ROOT}}login?backurl="+window.location.href; 
+				}
 				else if(e_status != "{{@EVENT_PASSED_STATUS}}")
 					alert("操作失败，因为该活动尚未审核通过");
 				else
@@ -210,7 +217,12 @@
 			}
 
 			function join_event() {
-				if(uid === "") alert("请登录");
+				if(uid === "") 
+				{
+					var x = confirm("亲，请先登录！");
+					if( x == true)
+						window.location.href="{{@WEB_ROOT}}login?backurl="+window.location.href; 
+				}
 				else if(e_status != "{{@EVENT_PASSED_STATUS}}")
 					alert("操作失败，因为该活动尚未审核通过");
 				else

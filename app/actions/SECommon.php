@@ -269,8 +269,7 @@ class SECommon{
 
 		F3::set($set_name, $e);
 
-		return isset($total_num)?$total_num:$result_num;
-
+		return isset($total_num)?$total_num:count($e);
 	}
 
 	/**
