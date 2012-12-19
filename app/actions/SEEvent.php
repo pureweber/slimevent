@@ -52,7 +52,7 @@ class SEEvent extends SECommon{
 		else if($type == F3::get('HANDLE_PAS'))
 			Service::event_audit_pass($eid);
 		else if($type == F3::get('HANDLE_FAIL'))
-			Service::event_audit_fail($eid);
+			Service::event_audit_fail($eid,F3::get('POST.reason'));
 		else if($type == F3::get('HANDLE_UNJOIN'))  //取消参加
 			JoinList::remove(Account::the_user_id(), $eid);
 		else if($type == F3::get('HANDLE_UNPRAISE'))  //取消推

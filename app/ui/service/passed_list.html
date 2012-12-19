@@ -27,7 +27,7 @@
 
 		<td class="date_time">{{@event.post_time}}</td>
 
-		<td>24h</td>
+		<td>{{@event.audit_time}}</td>
 		<td>
 			<a href="#" class="btn btn-success" onclick="ajax_handle_event('{{@event.eid}}','{{@HANDLE_FAIL}}'); return false;">失败</a>
 		</td>

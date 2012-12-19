@@ -38,7 +38,18 @@
 <script type="text/javascript">
 	function ajax_handle_event(eid,type)
 	{
-		$.post('{{@WEB_ROOT}}event/handle',{eid: eid, type : type},function(data){
+		var reason = "";
+		if(type == "{{@HANDLE_FAIL}}")
+		{
+			while(reason == "")
+			{
+				reason = prompt("请输入未通过审核原因");
+				if(reason == null)
+					return;
+			}
+		}
+		//alert(reason);
+		$.post('{{@WEB_ROOT}}event/handle',{eid: eid, type : type, reason: reason},function(data){
 			$("#event_"+eid).fadeOut();
 			//$("#event_"+eid).remove();
 		});

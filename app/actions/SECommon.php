@@ -171,9 +171,19 @@ class SECommon{
 		$info['begin_time'] = date("H:i", $info['begin_time']);
 		$info['end_time'] = date("H:i", $info['end_time']);
 
+		//活动审核时间
+		if(isset($info['audit_time']))
+		{
+			$info['audit_time'] = ($info['audit_time']-$info['post_time'])/60;
+			if($info['audit_time'] >= 60)
+				$info['audit_time'] = (round($info['audit_time']/60,2))."h";
+			else
+				$info['audit_time'] = (round($info['audit_time'],2))."m";
+		}
+
 		//活动创建时间
 		$info['post_time'] = date("Y-m-d H:i:s", $info['post_time']);
-		
+
 		//已结束 未开始 进行中
 		$info['time_status'] = $this->get_time_status($info['a_begin_time'],$info['a_end_time']);
 

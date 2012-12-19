@@ -148,8 +148,10 @@
 						<!-- 自己的活动才显示 修改按钮 -->
 						<F3:check if="{{ @COOKIE.se_user_id== @e.organizer_id }}">
 							<li><a href="{{@WEB_ROOT}}event/{{@e.eid}}/edit"><i class="icon-pencil"></i> 修改活动</a></li>
+							<F3:check if="{{ @e.status == @EVENT_PASSED_STATUS }}">
 							<F3:check if="{{ @e.sign_up == @EVENT_NEED_SIGN}}">
 							<li><a href="{{@WEB_ROOT}}event/{{@e.eid}}/join/list"><i class="icon-list"></i> 报名名单</a></li>
+							</F3:check>
 							</F3:check>
 						</F3:check>
 						</ul>
