@@ -36,7 +36,7 @@
 
 	function sliceSidebarCharacters(it, numOfChar){
 		append = count(it.parent("span").next().find("a").html());
-		sliceCharacters(it, sidebarNumOfChar - append);
+		sliceCharacters(it, numOfChar - append);
 	}
 
 	function sliceCharacters(it, numOfChar){
