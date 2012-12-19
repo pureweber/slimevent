@@ -85,7 +85,7 @@ class Event{
 	 */
 	private static function get($con, $data = array())
 	{
-		$sql = "SELECT `event`.`eid`, `event`.*, `category`.`name` AS 'category',`users`.`nickname` AS 'organizer'
+		$sql = "SELECT `event`.*, `category`.`name` AS 'category',`users`.`nickname` AS 'organizer'
 					FROM `event`,`category`,`users`
 					WHERE `category`.id = `event`.`category_id` AND `users`.`id` = `event`.`organizer_id`
 					AND {$con}";
@@ -227,11 +227,34 @@ class Event{
 			$con = "`organizer_id` = '$uid' AND  `event`.`status` = '".F3::get('EVENT_PASSED_STATUS') ."' ORDER BY post_time DESC"; 
 		//客服 对应的是自己批准的活动列表
 		else if( $group == F3::get('SERVICE_GROUP'))
-			//----------------------------代写-----//
-			$con = "`event`.`status` = '".F3::get('EVENT_PASSED_STATUS') ."' ORDER BY post_time DESC"; 
+		{
+			//$con = "`event`.`status` = '".F3::get('EVENT_PASSED_STATUS') ."' ORDER BY post_time DESC"; 
+			$sql = "SELECT `event`.*,
+						`audit`.`comments`,
+						`audit`.`time` AS 'audit_time', 
+						`users`.`nickname` AS 'organizer'
+					FROM `event`,`users`,`audit` WHERE 
+					`users`.`id` = `event`.`organizer_id` AND
+					`event`.`eid` = `audit`.`eid` AND 
+					`audit`.`uid` = '$uid' AND 
+					`event`.`status` = '".F3::get('EVENT_PASSED_STATUS') ."' ORDER BY post_time DESC"; 
+			return DB::sql($sql);
+		}
 		//管理员 对应的是系统内所有被批准的活动列表
 		else if($group == F3::get('ADMIN_GROUP'))
-			$con = "`event`.`status` = '".F3::get('EVENT_PASSED_STATUS') ."' ORDER BY post_time DESC"; 
+		{
+			$sql = "SELECT `event`.*,
+						`audit`.`uid` AS 'audit_user', 
+						`audit`.`comments`,
+						`audit`.`time` AS 'audit_time', 
+						`users`.`nickname` AS 'organizer'
+					FROM `event`,`users`,`audit` WHERE 
+					`users`.`id` = `event`.`organizer_id` AND
+					`event`.`eid` = `audit`.`eid` AND 
+					`event`.`status` = '".F3::get('EVENT_PASSED_STATUS') ."' ORDER BY post_time DESC"; 
+
+			return DB::sql($sql);
+		}
 		else
 			return array();
 
@@ -250,15 +273,44 @@ class Event{
 
 		//学生 社团 机构 对应的是自己被未通过的活动列表
 		if($group == F3::get('STUDENT_GROUP') || $group == F3::get('CLUB_GROUP') || $group == F3::get('ORG_GROUP'))
-				//---- 代写提取出未通过原因 --------------//
-			$con = "`organizer_id` = '$uid' AND  `event`.`status` = '".F3::get('EVENT_FAILED_STATUS') ."' ORDER BY post_time DESC"; 
+		{
+			//$con = "`organizer_id` = '$uid' AND  `event`.`status` = '".F3::get('EVENT_FAILED_STATUS') ."' ORDER BY post_time DESC"; 
+
+			$sql = "SELECT `event`.*, `audit`.`comments`, `audit`.`time` AS 'audit_time' FROM `event`,`audit` WHERE 
+					`event`.`eid` = `audit`.`eid` AND 
+					`organizer_id` = '$uid' AND 
+					`event`.`status` = '".F3::get('EVENT_FAILED_STATUS') ."' ORDER BY post_time DESC"; 
+			return DB::sql($sql);
+		}
 		//客服 对应的是自己不批准的活动列表
 		else if( $group == F3::get('SERVICE_GROUP'))
-			//----------------------------代写-----//
-			$con = "`event`.`status` = '".F3::get('EVENT_FAILED_STATUS') ."' ORDER BY post_time DESC"; 
+		{
+			$sql = "SELECT `event`.*,
+						`audit`.`comments`,
+						`audit`.`time` AS 'audit_time', 
+						`users`.`nickname` AS 'organizer'
+					FROM `event`,`users`,`audit` WHERE 
+					`users`.`id` = `event`.`organizer_id` AND
+					`event`.`eid` = `audit`.`eid` AND 
+					`audit`.`uid` = '$uid' AND 
+					`event`.`status` = '".F3::get('EVENT_FAILED_STATUS') ."' ORDER BY post_time DESC"; 
+			return DB::sql($sql);
+		}
 		//管理员 对应的是系统内所有未通过审核的活动列表
 		else if($group == F3::get('ADMIN_GROUP'))
-			$con = "`event`.`status` = '".F3::get('EVENT_FAILED_STATUS') ."' ORDER BY post_time DESC"; 
+		{
+			$sql = "SELECT `event`.*,
+						`audit`.`uid` AS 'audit_user', 
+						`audit`.`comments`,
+						`audit`.`time` AS 'audit_time', 
+						`users`.`nickname` AS 'organizer'
+					FROM `event`,`users`,`audit` WHERE 
+					`users`.`id` = `event`.`organizer_id` AND
+					`event`.`eid` = `audit`.`eid` AND 
+					`event`.`status` = '".F3::get('EVENT_FAILED_STATUS') ."' ORDER BY post_time DESC"; 
+
+			return DB::sql($sql);
+		}
 		else
 			return array();
 		

@@ -27,7 +27,7 @@
 		</F3:check>
 		</td>
 
-		<td>点击后显示相应的消息盒子里的event.audit_comments</td>
+		<td>{{@event.comments}}</td>
 		<td>{{@event.post_time}}</td>
 		<td>
 			<a href="#" class="btn btn-danger" onclick="ajax_handle_event('{{@event.eid}}','{{@HANDLE_DEL}}'); return false;">删除</a>
