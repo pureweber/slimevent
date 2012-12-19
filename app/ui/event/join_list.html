@@ -1,0 +1,37 @@
+<F3:include href="common/header.html" />
+
+<div class="container" style="margin-top:-52px">
+
+		<h3>报名名单: <a href="{{@WEB_ROOT}}event/{{@e.eid}}">{{@e.title}}</a></h3>
+
+		<table class="table table-condensed">
+
+		<thead>
+		  <tr>
+			<th>#</th>
+			<F3:check if="{{@COOKIE.se_user_group != @STUDENT_GROUP}}">  <!--学生用户自己创建的活动无法查看报名人的学号-->
+			<th>学号</th>
+			</F3:check>
+			<th>用户名</th>
+			<th>报名时间</th>
+		  </tr>
+		</thead>
+
+		<tbody>
+
+		<F3:repeat group="{{@u}}" value="{{@v}}" count="{{@cnt}}">
+		  <tr>
+			<td>{{@cnt}}</td>
+			<F3:check if="{{@COOKIE.se_user_group != @STUDENT_GROUP}}">  <!--学生用户自己创建的活动无法查看报名人的学号-->
+			<td>{{@v.name}}</td>
+			</F3:check>
+			<td><a href="{{@WEB_ROOT}}user/{{@v.uid}}">{{@v.nickname}}</a></td>
+			<td>{{@v.time}}</td>
+		  </tr>
+		 </F3:repeat>
+		</tbody>
+
+		</table>
+
+</div>
+<F3:include href="common/footer.html" />

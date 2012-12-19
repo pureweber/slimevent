@@ -1,0 +1,69 @@
+<script type="text/javascript">
+	function ajax_update_my_profile()
+	{
+		$(".alert").hide();
+		$("#profile_update").show();
+		var options = {
+			url : "{{@WEB_ROOT}}my/profile/update",
+			type : 'POST',
+			success : function(data){
+				if(data == 0)   //更新失败 
+				{
+					$(".alert").hide();
+					$("#profile_fail").show();
+				}
+				else
+				{
+					$(".alert").hide();
+					$("#profile_success").fadeIn();
+				}
+			},
+		};
+		$("#profile-form").ajaxSubmit(options);
+	}
+		
+</script>
+
+
+<h3>个人资料</h3>
+
+<div class="alert alert-info" id="profile_update" style="display:none">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  正在努力的向服务器提交数据，请稍等...
+</div>
+
+<div class="alert alert-success" id="profile_success" style="display:none">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  个人资料更新成功
+</div>
+
+<div class="alert alert-error" id="profile_fail" style="display:none">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  更新失败，该名称已被其它用户占用
+</div>
+
+<form class="form-horizontal offset2" id="profile-form" method="post" enctype="multipart/form-data">
+
+<div class="control-group">
+
+<div class="input-append">
+  <span class="add-on">机构名称</span>
+  <input class="span2" id="prependedInput" disabled type="text" value="{{@u.0.nickname}}">
+</div>
+
+<span class="label label-important">如需修改设机构名称，请联系我们</span>
+
+</div>
+
+<div class="control-group">
+
+<div class="input-append">
+  <span class="add-on">关于我们</span>
+  <textarea name="introduction" class="span4" rows="6">{{@u.1.introduction}}</textarea>
+</div>
+
+</div>
+
+ <button type="button" onclick="ajax_update_my_profile();" class="btn btn-info offset3">更新一下</button>
+
+</form>

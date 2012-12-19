@@ -1,2 +1,5 @@
-cas/cas.cer
-static/font-awesome
+poster
+temp
+.*.swp
+.*.swo
+

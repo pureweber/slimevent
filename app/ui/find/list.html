@@ -1,0 +1,88 @@
+<F3:repeat group="{{@events}}" value="{{@e}}">
+
+	<div class="row">
+
+		<div class="poster">
+			<img src="{{@e.poster}}" onerror="javascript:this.src='{{@DEFAULT_IMG}}'" />
+		</div>
+
+		<div class="info">
+			<h4>
+
+				<a href="{{@WEB_ROOT}}event/{{@e.eid}}">{{@e.title}}</a>
+						<a href="{{@WEB_ROOT}}find/by?key=time&word={{@e.time_status}}">
+						<F3:check if="{{@e.time_status==@EVENT_NOT_BEGIN}}">
+							<span class="label label-info">{{@e.time_status}}</span>
+						</F3:check>
+						<F3:check if="{{@e.time_status==@EVENT_IS_RUNNING}}">
+							<span class="label label-success">{{@e.time_status}}</span>
+						</F3:check>
+						<F3:check if="{{@e.time_status==@EVENT_HAVE_END}}">
+							<span class="label label-important">{{@e.time_status}}</span>
+						</F3:check>
+						</a>
+			</h4>
+			<ul>
+				<li class="event-label"><span>
+
+						<!--<a href="{{@WEB_ROOT}}find/by?key=time&word={{@e.time_status}}">-->
+						<!--<F3:check if="{{@e.time_status==@EVENT_NOT_BEGIN}}">-->
+							<!--<span class="label label-info">{{@e.time_status}}</span>-->
+						<!--</F3:check>-->
+						<!--<F3:check if="{{@e.time_status==@EVENT_IS_RUNNING}}">-->
+							<!--<span class="label label-success">{{@e.time_status}}</span>-->
+						<!--</F3:check>-->
+						<!--<F3:check if="{{@e.time_status==@EVENT_HAVE_END}}">-->
+							<!--<span class="label label-important">{{@e.time_status}}</span>-->
+						<!--</F3:check>-->
+						<!--</a>-->
+
+			<F3:repeat group="{{@e.label}}" value="{{@v}}">
+					<a href="{{@WEB_ROOT}}find/by?key=label&word={{@v}}">{{@v}}</a>
+			</F3:repeat>
+				</span></li>
+
+						<F3:check if="{{@e.begin_date == @e.end_date}}">
+							<F3:true>
+							<li>
+							<span><i class="icon-time"></i> 时间</span> : {{@e.begin_date}} ({{@e.begin_weekday}}) {{@e.begin_time}} - {{@e.end_time}}
+							</li>
+							</F3:true>
+
+							<F3:false>
+							<li>
+							<span><i class="icon-time"></i> 开始时间</span> : {{@e.begin_date}} ({{@e.begin_weekday}}) {{@e.begin_time}}
+</li>
+							<li><span><i class="icon-time"></i> 结束时间</span> : {{@e.end_date}} ({{@e.end_weekday}}) {{@e.end_time}}
+							</li>
+							</F3:false>
+						</F3:check>
+
+
+
+				<!-- 一校区 -->
+				<li>
+				<F3:check if="{{@e.region == @REGION.1}}">
+				<span><i class="icon-map-marker"></i> 地点</span> : <a href="{{@WEB_ROOT}}find/by?key=region&word=1">{{@e.region}}</a> {{@e.addr}}
+				</F3:check>
+				<!-- 二校区 -->
+				<F3:check if="{{@e.region == @REGION.2}}">
+				<span><i class="icon-map-marker"></i> 地点</span> : <a href="{{@WEB_ROOT}}find/by?key=region&word=2">{{@e.region}}</a> {{@e.addr}}
+				</F3:check>
+				</li>
+
+				<li class="organizer">
+				<span><i class="icon-user"></i> 发起者</span> : <a href="{{@WEB_ROOT}}user/{{@e.organizer_id}}">{{@e.organizer}}</a>
+				</li>
+
+			</ul>
+			<p style="margin-left:25px">已有<strong>{{@e.joiner_num}}</strong>人报名参加，<strong>{{@e.praiser_num}}</strong>人感兴趣</p>
+		</div>
+
+	</div>
+
+
+</F3:repeat>
+
+{{@pagination}}
+

@@ -1,0 +1,57 @@
+<div id="index-carousel" class="carousel slide">
+	<!-- Carousel items -->
+	<div class="carousel-inner">
+
+		<div class="item">
+			<div class="title">
+				<!--<h4></h4>-->
+			</div>
+			<div class="content" style="padding:15px">
+				<h1>第一版低调测试中...</h1>
+				<h1>第一版低调测试中...</h1>
+				<h1>第一版低调测试中...</h1>
+				<F3:include href="index/slide-hero.html" />
+			</div>
+		</div>
+
+		<!--<F3:include href="index/slide-items.html" />-->
+
+	<!-- items -->
+	<F3:repeat group="{{@hot_events}}" value="{{@e}}" counter="{{@c}}">
+		<F3:check if="{{@c % @SLIDE.PER_PAGE_SHOW == 1}}"> 
+			<div class='active item'>
+				<div class="title">
+					<h4>热门活动</h4>
+				</div>
+				<div class="content">
+		</F3:check>
+		
+				<div class="item-item">
+					<img src="{{@e.poster}}" onerror="javascript:this.src='{{@DEFAULT_IMG}}'" style="width:110px;height:150px">
+					<div class="e-title">
+						<a href="{{@WEB_ROOT}}event/{{@e.eid}}">{{@e.title}}</a>
+					</div>
+				</div>
+
+		<F3:check if="{{@c % @SLIDE.PER_PAGE_SHOW == 0}}">
+				</div>
+			</div>
+		</F3:check>
+	</F3:repeat>
+
+	</div>
+	<!-- Carousel nav -->
+	<a class="carousel-control left" href="#index-carousel" style="top:50%" data-slide="prev">&lsaquo;</a>
+	<a class="carousel-control right" href="#index-carousel" style="top:50%" data-slide="next">&rsaquo;</a>
+</div>
+
+<script type="text/javascript">
+
+	$(document).ready(function () {
+		$(".e-title a").each(function(){
+			sliceCharacters($(this), 24);
+		});
+	});
+
+</script>
+

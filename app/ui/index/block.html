@@ -1,0 +1,72 @@
+<F3:repeat group="{{@INDEX_BLOCK}}" value="{{@block}}">
+	<F3:repeat group="{{@event}}" value="{{@es}}" key="{{@k}}">
+		<F3:check if="{{@k == @block.name}}">
+
+		<div class="index-block">
+			<div class="category-title">
+				<h4>{{@block.title}}</h4>
+				<span>
+					<a href="{{@WEB_ROO}}find/by?key={{@block.con}}&word={{@block.value}}">>>查看更多</a>
+				</span>
+			</div>
+			<div class="content">
+				<ul>
+			<F3:repeat group="{{@es}}" value="{{@e}}">
+					<li class="li-item">
+						<div class="poster">
+							<a href="{{@WEB_ROOT}}event/{{@e.eid}}">
+								<img src="{{@e.poster}}" onerror="javascript:this.src='{{@DEFAULT_IMG}}'" />
+							</a>
+						</div>
+
+						<div class="info">
+							<div class="title">
+								<a href="{{@WEB_ROOT}}event/{{@e.eid}}">{{@e.title}}</a>
+							</div>
+							<ul>
+							<F3:check if="{{@e.begin_date == @e.end_date}}">
+								<F3:true>
+								<li>{{@e.begin_date}} {{@e.begin_time}} - {{@e.end_time}}</li>
+								</F3:true>
+								<F3:false>
+								<li>{{@e.begin_date}} ~ {{@e.end_date}} </li>
+								</F3:false>
+							</F3:check>
+								<li class="addr">
+									<span>{{@e.region}}</span>
+									<a href="{{@WEB_ROOT}}user/{{@e.organizer_id}}">{{@e.organizer}}</a>
+									<span>  主办</span>
+								</li>
+							</ul>
+							<p>{{@e.praiser_num}}人感兴趣</p>
+						</div>
+
+
+					</li>
+
+				</F3:repeat>
+				</ul>
+			</div>
+		</div>
+			
+		</F3:check>
+	</F3:repeat>
+			<div style="clear:both"></div>
+		<hr>
+
+</F3:repeat>
+
+
+<script type="text/javascript">
+
+	var blockNumOfChar = 48;
+
+	$(document).ready(function () {
+		$(".index-block .li-item .info .title a").each(function(){
+			sliceCharacters($(this), blockNumOfChar);
+		});
+	});
+
+</script>
+
+

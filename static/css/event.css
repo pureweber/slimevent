@@ -3,9 +3,180 @@ body{
 }
 .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
 }
+#login{
+	margin-top:55px;
+}
+#login .item{
+	padding-top:10px;
+	height:50px;
+}
+.login-label{
+	float:left;
+	width:70px;
+	padding-right:15px;
+	text-align:right
+}
+
+#index-carousel{
+	width:600px;
+	height:260px;
+}
+
+#index-carousel .item{
+}
+
+#index-carousel .item-item{
+	float:left;
+	width:110px;
+	/*height:200px;*/
+	margin:10px 20px;
+}
+#index-carousel .item-item .e-title{
+	margin-top:8px;
+	text-align:center;
+}
+
+#index-carousel .item-item .e-title a{
+	font-size:14px;
+	line-height:18px;
+}
+
+.index-block {
+	/*border-bottom:1px solid #ccc;*/
+}
+
+.index-block .category-title{
+	position:relative;
+}
+.index-block .category-title span{
+	position:absolute;
+	right:10px;
+	top:12px;
+}
+
+.index-block .content{
+	width:620px;
+	height:100%;
+}
+
+.index-block .content ul{
+	margin:0px;
+	list-style:none;
+	height:100%;
+}
+
+.index-block .content ul .li-item{
+	width:300px;
+	height:110px;
+	margin-top:12px;
+	float:left;
+}
+
+.index-block .content .poster{
+	float:left;
+}
+
+.index-block .content .poster img{
+	width:70px;
+	height:90px;
+	padding:0;
+}
+
+.index-block .content .info{
+	font-size:12px;
+}
+
+
+.index-block .content .info .title{
+	font-size:13px;
+	width:180px;
+}
+
+.sidebar .entry legend{
+	font-size:15px;
+}
+
+.sidebar .entry{
+	margin-left:10px;
+	font-size:12px;
+	/*border-bottom:1px dotted #ccc;*/
+}
+
+.sidebar .entry ul{
+	list-style:none;
+	margin-left:10px;
+}
+
+.sidebar .entry ul li .organizer a{
+	color:#333;
+}
+.sidebar .entry ul li{
+	line-height:22px;
+}
+
+.sidebar .entry .title{
+	position:relative;
+}
+
+.sidebar .entry .title span{
+	position:absolute;
+	right:10px;
+	top:8px;
+}
+
+#i-want-create{
+	border:none;
+	margin:25px 10px;
+}
+
+.banner{
+	margin-left:30px;
+}
+
+.poster{
+	float:left;
+}
+
+.poster img{
+	padding-top:20px;
+	width:110px;
+	height:165px;
+}
+
+.info{
+	float:left;
+	margin-left:15px;
+}
+
+.info > h4{
+	width:450px;
+}
+
+.info ul{
+	list-style:none;
+}
+
+.info .hoster a{
+	/*color:#333;*/
+}
+
+.info .event-label{
+	margin-bottom:10px;
+}
+
+
+.info .event-label span a:hover{
+	color:#08c;
+	text-decoration:none;
+}
+
+.info .event-label span a{
+	color:#888;
+}
+
 
 .navbar .brand{
-	color:#fff;
+	/*color:#fff;*/
 }
 
 .social{
@@ -141,3 +312,119 @@ section.meta p{
 
 /* Large desktop */
 @media (min-width: 1200px) {  }
+
+.event-item{
+	margin-top:8px;
+}
+#event-items{
+	margin-top:60px;	
+}
+#event{
+	padding-top:26px;
+}
+#event-title h1{
+	font-size:26px;
+}
+#event-info{
+}
+#event-items{
+	margin-top:20px;
+}
+#event-social{
+	height:45px; 
+	margin-top:15px;
+	background:#f1f1f1;
+	position:relative;
+}
+#event-join{
+	position:absolute;
+	right:18px;
+	top: 8px;
+}
+.jiathis_style{
+	padding:15px;
+	margin:0px;
+	width: 600px;
+}
+
+.create-event fieldset{
+	margin:20px 0;
+}
+
+/**********FIND*************/
+#find-result-list .info{
+	font-size:13px;
+}
+
+#find-result-list .info h4{
+	font-size:16px;
+}
+
+#find-result-list .row{
+	margin-left:10px;
+	border-bottom:1px dotted #ccc;
+	padding-bottom:20px;
+	padding-left:20px;
+}
+
+#find-sidebar .entry{
+	border:none;
+}
+
+#search-box{
+	margin-left:0px;
+}
+
+#result-note{
+	margin-left:0px;
+	border-bottom:2px dotted #ddd;
+}
+
+#result-note #note{
+	margin-left:45px;
+}
+
+#result-note p{
+	font-size:15px;
+}
+
+#num{
+	margin-left:20px;
+}
+
+.filter{
+	float:left;
+	margin-left:20px;
+}
+.filter>a{
+	color:#333;
+}
+.filter a{
+	font-size:13px;
+}
+.filter .icon-chevron-down{
+	margin-left:5px;
+}
+
+.filter-list{
+	display:none;
+	position:absolute;
+	top:0;
+	left:0;
+	background-color:#fff;
+	border:1px solid #ccc;
+	padding:10px;
+}
+
+.filter-list ul{
+	list-style:none;
+	margin-left:0px;
+}
+
+
+#order{
+	margin-left:10px;
+	float:right;
+}
+
+

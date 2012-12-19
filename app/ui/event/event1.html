@@ -1,0 +1,277 @@
+<F3:include href="common/header.html" />
+
+<script type="text/javascript">
+
+</script>
+
+<div class="container">
+	<div class="row" style="margin-top:-10px;">
+
+
+		<div class="span9" id="event" style="margin-top:-26px" data-spy="scroll" data-target="#plusstrap-subnav-fixed">
+
+			<div id="event-info" class="row">
+
+				<div class="span3" id="event-img">
+					<img style="width:200px; height:270px; margin-top:26px;" src="{{@e.poster}}" onerror="javascript:this.src='{{@DEFAULT_IMG}}'" />
+				</div>
+
+				<div class="span6">
+
+					<div id="event-title">
+						<h3 id="share-event-title">{{@e.title}}
+					<F3:check if="{{@e.old_id != @NO_OLD_ID}}">
+						<a href="{{@WEB_ROOT}}event/{{@e.old_id}}">(原)
+					</F3:check>
+						</h3>
+					</div>
+
+					<div id="event-feature">
+						<a class="btn btn-primary" href="#" onclick="praise_event();return false" style="float:right; margin-right:20px"><i class="icon-thumbs-up"></i> <span id="praise_info"></span></a>
+					</div> <!-- event-feature -->
+
+					<div id="event-status">
+					<F3:check if="{{@e.status==@EVENT_AUDIT_STATUS}}">
+						<span class="label label-warning">审核中</span>
+					</F3:check>
+
+					<F3:check if="{{@e.status==@EVENT_FAILED_STATUS}}">
+						<span class="label label-important">未通过审核</span>
+					</F3:check>
+
+					<F3:check if="{{@e.status==@EVENT_DRAFT_STATUS}}">
+						<a class="btn btn-primary" href="#" onclick="return false" style="float:right; margin-right:20px"><i class="icon-thumbs-up"></i> 草稿(提交审核)</a>
+					</F3:check>
+
+					<F3:check if="{{@e.status==@EVENT_DELETED_STATUS}}">
+						<span class="label label-inverse">已删除</span>
+					</F3:check>
+
+					<F3:check if="{{@e.status==@EVENT_PASSED_STATUS}}">
+						<a href="{{@WEB_ROOT}}find/by?key=time_status&word={{@e.time_status}}">
+						<F3:check if="{{@e.time_status==@EVENT_NOT_BEGIN}}">
+							<span class="label label-info">{{@e.time_status}}</span>
+						</F3:check>
+						<F3:check if="{{@e.time_status==@EVENT_IS_RUNNING}}">
+							<span class="label label-success">{{@e.time_status}}</span>
+						</F3:check>
+						<F3:check if="{{@e.time_status==@EVENT_HAVE_END}}">
+							<span class="label label-important">{{@e.time_status}}</span>
+						</F3:check>
+						</a>
+
+					</F3:check>
+
+					</div> <!-- event-status -->
+
+
+					<div id="event-items">
+					
+						<div id="event-time" class="event-item">
+
+					
+						<F3:check if="{{@e.begin_date == @e.end_date}}">
+							<F3:true>
+							<span><i class="icon-time"></i> 时间</span> : {{@e.begin_date}} ({{@e.begin_weekday}}) {{@e.begin_time}} - {{@e.end_time}} 					
+							<span class="label label-default">{{@e.begin_remain_day}}</span>
+							</F3:true>
+
+							<F3:false>
+							<span><i class="icon-time"></i> 开始时间</span> : {{@e.begin_date}} ({{@e.begin_weekday}}) {{@e.begin_time}} 
+							<span class="label label-default">{{@e.begin_remain_day}}</span>
+							<br>
+							<span><i class="icon-time"></i> 结束时间</span> : {{@e.end_date}} ({{@e.end_weekday}}) {{@e.end_time}} 
+							<span class="label label-default">{{@e.end_remain_day}}</span>
+							</F3:false>
+						</F3:check>
+
+						</div>
+
+						<div id="event-place" class="event-item">
+							<!-- 一校区 -->
+							<F3:check if="{{@e.region == @REGION.1}}">
+							<span><i class="icon-map-marker"></i> 地点</span> : <a href="{{@WEB_ROOT}}find/by?key=region&word=1">{{@e.region}}</a> {{@e.addr}}
+							</F3:check>
+							<!-- 二校区 -->
+							<F3:check if="{{@e.region == @REGION.2}}">
+							<span><i class="icon-map-marker"></i> 地点</span> : <a href="{{@WEB_ROOT}}find/by?key=region&word=2">{{@e.region}}</a> {{@e.addr}}
+							</F3:check>
+						</div>
+						<div id="event-category" class="event-item">
+							<span><i class="icon-reorder"></i> 类型</span> : 
+							<a href="{{@WEB_ROOT}}find/by?key=category_id&word={{@e.category_id}}">{{@e.category}}</a>
+						</div>
+						<div id="event-owner" class="event-item">
+							<span><i class="icon-user"></i> 发起者</span> : <a href="{{@WEB_ROOT}}user/{{@e.organizer_id}}">{{@e.organizer}}</a>
+						</div>
+						<div id="event-category" class="event-item">
+							<span><i class="icon-tags"></i> 标签</span> : 
+						<F3:repeat group="{{@e.label}}" value="{{@v}}">
+							<a href="{{@WEB_ROOT}}find/by?key=label&word={{@v}}">{{@v}}</a>
+						</F3:repeat>
+						</div>
+					</div><!-- event-items -->
+
+		
+
+				</div><!--span7-->
+
+			</div> <!-- event-info row -->
+
+			<div id="event-social">
+				<!-- JiaThis Button BEGIN -->
+				<div class="jiathis_style">
+					<span class="jiathis_txt"><i class="icon-share"></i>分享到：</span>
+					<a class="jiathis_button_renren">人人网</a>
+					<a class="jiathis_button_tsina">新浪微博</a>
+					<a class="jiathis_button_tqq">腾讯微博</a>
+					<a class="jiathis_button_douban">豆瓣</a>
+					<a class="jiathis_button_googleplus">Google+</a>
+					<a href="http://www.jiathis.com/share?uid=1592234" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+					<a class="jiathis_counter_style"></a>
+				</div>
+
+			<F3:check if="{{@e.sign_up==@EVENT_NEED_SIGN}}">  <!-- 需要报名的才显示 我要报名 -->
+					<a class="btn btn-danger" id="event-join" href="#" onclick="join_event();"><i class="icon-group"></i> <span id="join_info"></span></a>
+			</F3:check>
+
+				<!-- JiaThis Button END -->
+			</div><!-- event-social -->
+
+			<div id="event-details" style="margin-top:15px;">
+				<h3> 活动详情 </h3>
+				<div style="padding:5px 20px;">
+					{{@e.introduction}}
+				</div>
+			</div><!-- event-details -->
+
+			<hr>
+
+			<div id="event-discuss">
+				<!-- Duoshuo Comment BEGIN -->
+				<div class="ds-thread"></div>
+				<!-- Duoshuo Comment END -->
+			</div> <!-- event-discuss -->
+
+		</div><!-- event span10 -->
+
+		<div class="span3">
+			<F3:include href="event/sidebar.html" />
+		</div>
+
+	</div><!-- row -->
+</div><!-- Container -->
+
+<div id="event-end">
+</div>
+
+		<!-- Ajax get praise and join info BEGIN -->
+
+		<script type="text/javascript">
+
+			$(function(){
+				$body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');
+
+				$(".subnav li a").click(function(){
+					var id = $(this).attr("href");
+					var top = $(id).offset().top;
+					$body.animate({scrollTop:top - 79}, 100);
+					return false;
+				});
+
+				$(window).scroll(function(){
+					var ids = new Array("info", "social", "details", "discuss", "end");
+					var numOfIds = ids.length;
+
+					var scrollTop = $(document).scrollTop();
+					for(var i = 0; i < numOfIds - 1; i++){
+						if((scrollTop + $(window).height()) == $(document).height()){
+							$(".subnav li").removeClass("active").eq(numOfIds - 2).addClass("active");
+							break;
+						}
+						var sTop = (scrollTop + 80);
+						if(sTop >= $("#event-"+ids[i]).offset().top && sTop <= $("#event-"+ids[i+1]).offset().top){
+							$(".subnav li").removeClass("active").eq(i).addClass("active");
+							break;
+						}
+					}
+				})
+			});
+
+			var uid="{{@COOKIE.se_user_id}}";
+			var e_status="{{@e.status}}";
+
+			function praise_event() {
+				if(uid === "") 
+				{
+					var x = confirm("亲，请先登录！");
+					if( x == true)
+						window.location.href="{{@WEB_ROOT}}login?backurl="+window.location.href; 
+				}
+				else if(e_status != "{{@EVENT_PASSED_STATUS}}")
+					alert("操作失败，因为该活动尚未审核通过");
+				else
+					$.post('{{@WEB_ROOT}}event/praise',{eid:{{@e.eid}}},function(data){
+						$("#praise_info").html(data);
+					});
+			}
+
+			function join_event() {
+				if(uid === "") 
+				{
+					var x = confirm("亲，请先登录！");
+					if( x == true)
+						window.location.href="{{@WEB_ROOT}}login?backurl="+window.location.href; 
+				}
+				else if(e_status != "{{@EVENT_PASSED_STATUS}}")
+					alert("操作失败，因为该活动尚未审核通过");
+				else
+					$.post('{{@WEB_ROOT}}event/join',{eid:{{@e.eid}}},function(data){
+						$("#join_info").html(data);
+					});
+			}
+
+			(function() {
+				$.post('{{@WEB_ROOT}}event/get_praise_info',
+						{eid:"{{@e.eid}}", uid:"{{@COOKIE.se_user_id}}"},
+						function(data){
+							$("#praise_info").html(data);
+						});
+				
+				if("{{@e.sign_up}}" === "{{@EVENT_NEED_SIGN}}")
+					$.post('{{@WEB_ROOT}}event/get_join_info',
+						{eid:"{{@e.eid}}", uid:"{{@COOKIE.se_user_id}}"},
+						function(data){
+							$("#join_info").html(data);
+						});
+			})();
+
+		</script>
+
+		<!-- Ajax get praise_info END -->
+
+		<!-- Duoshuo Comment BEGIN -->
+		<script type="text/javascript">
+			var duoshuoQuery = {short_name:"kjlmfe"};
+			(function() {
+				var ds = document.createElement('script');
+				ds.type = 'text/javascript';ds.async = true;
+				ds.src = 'http://static.duoshuo.com/embed.js';
+				ds.charset = 'UTF-8';
+				(document.getElementsByTagName('head')[0] 
+				|| document.getElementsByTagName('body')[0]).appendChild(ds);
+			})();
+		</script>
+		<!-- Duoshuo Comment END -->
+
+		<!-- JiaThis Button BEGIN -->
+		<script type="text/javascript">
+			var jiathis_config = {
+				title:document.getElementById("share-event-title").innerHTML,
+				data_track_clickback:true
+				};
+		</script>
+		<script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js?uid=1592234" charset="utf-8"></script>
+		<!-- JiaThis Button END -->
+
+<F3:include href="common/footer.html" />

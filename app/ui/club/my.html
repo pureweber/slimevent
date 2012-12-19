@@ -1,0 +1,67 @@
+<F3:include href="common/header.html" />
+<div class="container">
+	<div class="row">
+		<div class="tabbable tabs-left">
+
+        	<ul class="nav nav-tabs">
+                <li class={{ @GET.d == 'event' ? 'active' : ''}}><a href="#my_event" data-toggle="tab">我的活动</a></li>
+                <!--<li class=""><a href="#msg_box" data-toggle="tab">站内消息</a></li>-->
+            	<li class={{ @GET.d == 'profile' ? 'active' : ''}}><a href="#my_profile" onclick="ajax_get_my_profile();" data-toggle="tab">个人资料</a></li>
+            </ul>
+
+       		<div class="tab-content">
+
+ 				<div class="tab-pane {{ @GET.d == 'event' ? 'active' : ''}}" id="my_event">
+					<F3:include href="club/my_event.html" />
+                </div><!-- my_event -->
+
+                <div class="tab-pane" id="msg_box">
+					<h3>站内消息</h3>
+					<F3:include href="msgbox/list.html" />
+                </div><!-- msg_box -->
+
+                <div class="tab-pane {{ @GET.d == 'profile' ? 'active' : ''}}" id="my_profile">
+					<!--<h3>个人资料</h3>-->
+					<F3:include href="club/my_profile.html" />
+                </div> <!-- my_profile -->
+
+             </div><!-- tab-content -->
+
+		</div><!-- tabbable tabs-left -->
+	</div><!-- row -->
+</div><!-- Container -->
+
+<script src="{{@WEB_ROOT}}static/js/jquery.form.js" type="text/javascript"></script>
+
+<!--<script src="/slimevent/static/js/jquery.validform-zh_CN.js" type="text/javascript" charset="utf8"></script>-->
+<script src="{{@WEB_ROOT}}static/js/validform.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+	function ajax_get_my_profile()
+	{
+		$.post('{{@WEB_ROOT}}my/profile/get',{},function(data){
+			$("#my_profile").html(data);
+		});
+	}
+
+	function ajax_handle_event(eid,type)
+	{
+		$.post('{{@WEB_ROOT}}event/handle',{eid: eid, type : type},function(data){
+			$("#event_"+eid).fadeOut();
+			//$("#event_"+eid).remove();
+		});
+	}
+
+	$(document).ready(function () {
+		var d = "{{@GET.d}}";
+		if(d == 'event')
+			//自动加载显示草稿
+			ajax_my_event_list('{{@EVENT_DRAFT_STATUS}}');
+		if(d == 'profile')
+			ajax_get_my_profile();
+	});
+
+</script>
+
+<F3:include href="common/footer.html" />

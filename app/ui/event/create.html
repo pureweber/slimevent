@@ -1,0 +1,61 @@
+<F3:include href="common/header.html" />
+
+<div class="container">
+
+<div class="row">
+	<div class="span8">
+
+		<h3>创建活动</h3>
+
+		<article class="create-event">
+
+
+		<F3:include href="event/event-form.html" />
+
+		<div class="pull-right">
+			<button onclick="publish()" type="button" class="btn btn-success btn-large"><i class="icon-ok-sign"></i> 提交审核</button>
+			<!--<button onclick="saveDraft()" type="button" class="btn btn-large"><i class="icon-file"></i> 存为草稿</button>-->
+			<button onclick="saveDraft()" type="button" class="btn btn-large"><i class="icon-file"></i> 存为草稿</button>
+		</div>
+
+		</article>
+
+	</div><!-- span8-->
+
+	<div class="offset1 span3">
+		<F3:include href="event/event-form-sidebar.html" />
+	</div>
+
+
+</div><!-- row -->
+</div><!-- Container -->
+<script type="text/javascript">
+	function publish(){
+		/*
+		var options = {
+			target : '#tip',
+			url : "{{@WEB_ROOT}}audit",
+			type : 'POST',
+			success : function(eid){alert(eid);update_form(eid);}
+		}
+		$("#create-form").ajaxSubmit(options);
+		*/
+		if(!getIntroAndValidate())	return false;
+		hasSaved = true;
+		$("#create-form").attr('action', '{{@WEB_ROOT}}publish').submit();
+	}
+
+	function saveDraft(){
+		if(!getIntroAndValidate())	return false;
+		hasSaved = true;
+		var options = {
+			url : "{{@WEB_ROOT}}draft",
+			type : 'POST',
+			success : function(eid){updateForm(eid);},
+		}
+		$("#create-form").ajaxSubmit(options);
+	}
+</script>
+
+
+<F3:include href="common/footer.html" />
