@@ -74,8 +74,14 @@ class JoinList{
 	 */
 	static function get_join_user($eid)
 	{
-		$sql = "SELECT `uid`, `time` FROM `join` WHERE `eid` = :eid";
-		return DB::sql($sql, array(':eid' => $eid));
+
+		$sql = "SELECT `uid`,`time`, `nickname`,`name` FROM `join`,`users` WHERE `eid` = :eid AND `users`.`id` = `join`.`uid` ORDER BY `time` ASC";
+		$r = DB::sql($sql, array(':eid' => $eid));
+
+		foreach($r as &$v)
+			$v['time'] = date("Y-m-d H:i:s", $v['time']);
+
+		return $r;
 	}
 
 	/**

@@ -209,6 +209,20 @@ class SEEvent extends SECommon{
 		return $eid;
 	}
 
+	function show_event_join_list()
+	{
+		$eid = F3::get('PARAMS.eventID');  //活动id
+
+		if(Account::verify_handle_event_permission($eid) === false)
+			Sys::error(F3::get("NO_PERMISSION_SEE_JOIN_LIST"), $eid);
+
+		$e = Event::get_basic_info($eid);
+		$u = JoinList::get_join_user($eid);
+		F3::set("u",$u);
+		F3::set("e",$e);
+		echo Template::serve('event/join_list.html');
+	}
+
 };
 
 ?>
