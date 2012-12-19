@@ -4,14 +4,14 @@
 		<div class="tabbable tabs-left">
 
         	<ul class="nav nav-tabs">
-                <li class="active"><a href="#my_event" data-toggle="tab">我的活动</a></li>
-                <li class=""><a href="#msg_box" data-toggle="tab">站内消息</a></li>
-            	<li class=""><a href="#my_profile" onclick="ajax_get_my_profile();" data-toggle="tab">个人资料</a></li>
+                <li class={{ @GET.d == 'event' ? 'active' : ''}}><a href="#my_event" data-toggle="tab">我的活动</a></li>
+                <!--<li class=""><a href="#msg_box" data-toggle="tab">站内消息</a></li>-->
+            	<li class={{ @GET.d == 'profile' ? 'active' : ''}}><a href="#my_profile" onclick="ajax_get_my_profile();" data-toggle="tab">个人资料</a></li>
             </ul>
 
        		<div class="tab-content">
 
- 				<div class="tab-pane active" id="my_event">
+ 				<div class="tab-pane {{ @GET.d == 'event' ? 'active' : ''}}" id="my_event">
 					<F3:include href="club/my_event.html" />
                 </div><!-- my_event -->
 
@@ -20,7 +20,7 @@
 					<F3:include href="msgbox/list.html" />
                 </div><!-- msg_box -->
 
-                <div class="tab-pane" id="my_profile">
+                <div class="tab-pane {{ @GET.d == 'profile' ? 'active' : ''}}" id="my_profile">
 					<!--<h3>个人资料</h3>-->
 					<F3:include href="club/my_profile.html" />
                 </div> <!-- my_profile -->
@@ -54,8 +54,12 @@
 	}
 
 	$(document).ready(function () {
-		//自动加载显示草稿
-		ajax_my_event_list('{{@EVENT_DRAFT_STATUS}}');
+		var d = "{{@GET.d}}";
+		if(d == 'event')
+			//自动加载显示草稿
+			ajax_my_event_list('{{@EVENT_DRAFT_STATUS}}');
+		if(d == 'profile')
+			ajax_get_my_profile();
 	});
 
 </script>

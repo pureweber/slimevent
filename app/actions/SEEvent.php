@@ -141,6 +141,7 @@ class SEEvent extends SECommon{
 	}
 
 	function show_create(){
+		$uid = Account::the_user_id();
 		F3::set("title", "创建活动");
 		$region = F3::get("REGION");
 		$category = Category::get_all();
@@ -170,6 +171,30 @@ class SEEvent extends SECommon{
 		$event = Account::view_one_event($this->eid);
 		$event = $this->format_info_to_show($event);
 		F3::set('e',$event);
+
+		$uid = $event['organizer_id'];
+		$label = $event['label'];
+
+		if(count($label) == 0)
+			$r = 0;
+		else
+		{
+			$con = "`event`.`status` = :e AND `event`.`eid` <> $this->eid AND ( `event`.`label` LIKE '%$label[0]%' ";
+			foreach($label as $l)
+				$con .= "OR `event`.`label` LIKE '%$l%' ";
+			$con .= ") ORDER BY `post_time` DESC";
+
+			$r = $this->show_by("",$con,array(':e' => F3::get("EVENT_PASSED_STATUS")), 'related_events', 5);
+		}
+
+		if($r == 0)
+			$this->show_by("", '`event`.`status` = :e ORDER BY RAND() DESC',
+				array(':e' => F3::get("EVENT_PASSED_STATUS")), 'related_events', 5);
+
+		$this->show_by("","`event`.`status` = :e AND `event`.`organizer_id` = '$uid' ORDER BY `post_time` DESC",
+			array(':e' => F3::get("EVENT_PASSED_STATUS")), 'other_events', 5);
+		$this->show_by("", '`event`.`status` = :e ORDER BY RAND() DESC',
+			array(':e' => F3::get("EVENT_PASSED_STATUS")), 'guess_events', 5);
 		//Code::dump($event);
 		echo Template::serve('event/event1.html');
 	}

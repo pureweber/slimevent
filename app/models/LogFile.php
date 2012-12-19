@@ -65,7 +65,7 @@ class LogFile{
 		$request_uri = F3::get('SERVER.REQUEST_URI');
 		$request_method = F3::get('SERVER.REQUEST_METHOD');
 		$receive_data = self::JSON(F3::get($request_method));
-		$request_time = (string)F3::get('SERVER.REQUEST_TIME');
+		$request_time = (string)time(); 
 
 		$data = array(
 			'uid' => $uid,
