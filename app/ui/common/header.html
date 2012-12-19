@@ -90,7 +90,7 @@
 					<ul class="nav">
 						<li {{ @route[0] == 'home' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}"><i class="icon-home"></i> 首页</a></li>
 						<li {{ @route[0] == 'discover' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}find"><i class="icon-search"></i> 发现</a></li>
-						<li {{ @route[0] == 'my' ? 'class="active"' : '' }}><a href="{{@WEB_ROOT}}my"><i class="icon-list"></i> 我的活动</a></li>
+						<li {{ @route[0] == 'my' ? 'class="active"' : '' }}><a href="{{@WEB_ROOT}}my?d=event"><i class="icon-list"></i> 个人中心</a></li>
 						<li {{ @route[0] == 'feedback' ? 'class="active"' : '' }}><a href="{{@WEB_ROOT}}feedback"><i class="icon-comments"></i> 问题反馈</a></li>
 					</ul>
 
@@ -105,14 +105,20 @@
 							</a>
 							<ul class="dropdown-menu">
 								<li>
-									<a href="{{@WEB_ROOT}}my#msgbox">
-										<i class="icon-envelope-alt" ></i>
-										<span> 消息盒子({{@unread_msg}})</span> </a>
+									<a href="{{@WEB_ROOT}}my?d=event">
+										<i class="icon-list" ></i>
+										<span> 我的活动</span>
+									</a>
 								</li>
+								<!-- <li>-->
+									<!--<a href="{{@WEB_ROOT}}my#msgbox">-->
+										<!--<i class="icon-envelope-alt" ></i>-->
+										<!--<span> 消息盒子({{@unread_msg}})</span> </a>-->
+								<!--</li>-->
 								<li>
-									<a href="{{@WEB_ROOT}}my">
-										<i class="icon-cog" ></i>
-										<span> 个人设置</span>
+									<a href="{{@WEB_ROOT}}my?d=profile">
+										<i class="icon-github" ></i>
+										<span> 个人资料</span>
 									</a>
 								</li>
 								<!--<li><a href="#"><i class="icon-retweet"></i> SNS绑定</a></li>-->
