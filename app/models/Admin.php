@@ -20,16 +20,20 @@ class Admin	extends Service{
 		$nickname = trim($nickname);
 
 		if(strlen($name) < intval(F3::get('MIN_NAME_LEN')) || strlen($name) > intval(F3::get('MAX_NAME_LEN')))
-			Sys::error(F3::get('ILLEGAL_NAME_LEN'), $name);  //用户名长度不合法
+			return F3::get('ILLEGAL_NAME_LEN');
+			//Sys::error(F3::get('ILLEGAL_NAME_LEN'), $name);  //用户名长度不合法
 
 		if(strlen($pwd) < intval(F3::get('MIN_PWD_LEN')) || strlen($pwd) > intval(F3::get('MAX_PWD_LEN')))
-			Sys::error(F3::get('ILLEGAL_PWD_LEN'), $pwd);  //密码长度不合法
+			return F3::get('ILLEGAL_PWD_LEN');
+			//Sys::error(F3::get('ILLEGAL_PWD_LEN'), $pwd);  //密码长度不合法
 
 		if(strlen($nickname) < intval(F3::get('MIN_NICKNAME_LEN')) || strlen($nickname) > intval(F3::get('MAX_NICKNAME_LEN')))
-			Sys::error(F3::get('ILLEGAL_NICKNAME_LEN'), $nickname);  //昵称长度不合法
+			return F3::get('ILLEGAL_NICKNAME_LEN');
+			//Sys::error(F3::get('ILLEGAL_NICKNAME_LEN'), $nickname);  //昵称长度不合法
 
 		if(self::exists($name, $nickname) === true)
-			Sys::error(F3::get('USERS_NAME_OR_NICKNAME_SAME_CODE'),array('name'=>$name, 'nickname'=>$nickname)); //用户名或者昵称已经存在
+			return F3::get('USERS_NAME_OR_NICKNAME_SAME_CODE');
+			//Sys::error(F3::get('USERS_NAME_OR_NICKNAME_SAME_CODE'),array('name'=>$name, 'nickname'=>$nickname)); //用户名或者昵称已经存在
 
 		switch($group)
 		{
@@ -41,7 +45,8 @@ class Admin	extends Service{
 			//case F3::get('ADMIN_GROUP'):  
 				break;
 			default:
-				Sys::error(F3::get('ILLEGAL_USER_GROUP'));  //不是合法的用户组
+				return F3::get('ILLEGAL_USER_GROUP');
+			//	Sys::error(F3::get('ILLEGAL_USER_GROUP'));  //不是合法的用户组
 		}
 
 		return array('name' => $name, 
@@ -59,11 +64,14 @@ class Admin	extends Service{
 	 * @param $pwd : 密码 
 	 * @param $group : 用户组 
 	 * @param $nickname : 昵称
-	 * @return $uid : 新建用户的$id
+	 * @return 错误编码  或者 true 
 	 */
 	static function add_user($name, $pwd, $group, $nickname)
 	{
 		$data = self::check_new_user($name, $pwd, $group, $nickname);
+
+		if(!is_array($data))
+			return $data;
 
 		EDB::insert('users', $data);
 		$uid = DB::get_insert_id();
@@ -71,7 +79,7 @@ class Admin	extends Service{
 		EDB::deleted($group, 'uid', $uid);
 		EDB::insert($group, array('uid' => $uid));   //在相关联的用户表里插入新用户 
 
-		return $uid;
+		return true;  //成功
 	}
 
 	/**

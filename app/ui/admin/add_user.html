@@ -1,9 +1,18 @@
-<F3:include href="common/header.html" />
-<div class="container">
+<script type="text/javascript">
+	function ajax_add_user()
+	{
+		var options = {
+			url : "{{@WEB_ROOT}}user/add",
+			type : 'POST',
+			success : function(data){
+					alert(data);
+			},
+		};
+		$("#add_user_form").ajaxSubmit(options);
+	}
 
-<h2> 添加用户 </h2>
-
-<form class="form-horizontal" method="POST">
+</script>
+<form id="add_user_form" class="form-horizontal" method="POST">
 
   <div class="control-group">
     <label class="control-label" for="inputEmail">用户名</label>
@@ -15,7 +24,7 @@
   <div class="control-group">
     <label class="control-label" for="inputPassword">密码</label>
     <div class="controls">
-      <input type="password" id="inputPassword" name="pwd" placeholder="Password">
+      <input type="password" id="inputPassword" name="pwd">
     </div>
   </div>
 
@@ -40,13 +49,7 @@
 
   <div class="control-group">
     <div class="controls">
-      <label class="checkbox">
-        <input type="checkbox"> Remember me
-      </label>
-      <button type="submit" class="btn">Sign in</button>
+      <button type="button" onclick="ajax_add_user()" class="btn btn-primary">添加</button>
     </div>
   </div>
 </form>
-
-</div> <!-- container -->
-<F3:include href="common/footer.html" />

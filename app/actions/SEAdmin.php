@@ -31,8 +31,9 @@ class SEAdmin extends SECommon{
 		$pwd = F3::get('POST.pwd');
 		$group = F3::get('POST.group');
 		$nickname =  F3::get('POST.nickname');
-		$uid = Admin::add_user($name, $pwd, $group, $nickname);
-		echo $uid;
+		$r = Admin::add_user($name, $pwd, $group, $nickname);
+
+		echo $r;
 	}
 
 }

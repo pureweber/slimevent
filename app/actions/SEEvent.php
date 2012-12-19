@@ -147,7 +147,7 @@ class SEEvent extends SECommon{
 		$category = Category::get_all();
 
 		$this->generate_select_option($region, 'region');
-		$this->generate_select_option($category, 'category');
+		$this->generate_select_option($category, 'category_id');
 
 		F3::set("title1", "创建活动");
 		echo Template::serve('event/create.html');

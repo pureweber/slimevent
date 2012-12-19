@@ -265,6 +265,7 @@ class SEHome extends SECommon{
 
 	function show_login()
 	{	
+		$backurl = F3::get('GET.backurl');
 		switch(F3::get('GET.auth'))
 		{
 			case F3::get('CAS_AUTH'):
@@ -286,20 +287,33 @@ class SEHome extends SECommon{
 		}
 
 		Account::login($name, $pwd);
-		F3::reroute('/');
+
+		if($backurl == "")
+			F3::reroute('/');
+		else
+			F3::reroute($backurl);
 	}
 
 	function login()
 	{
 		$user_name = F3::get('POST.user_name');
+		if($user_name == "")
+		{
+			echo "用户名不能为空";
+			return;
+		}
 		$user_pwd = F3::get('POST.user_pwd');
-
+		if($user_pwd == "")
+		{
+			echo "密码不能为空";
+			return;
+		}
 		$user = Account::login($user_name, $user_pwd); 
 
 		if($user === false)
-			F3::reroute('/club/login/?show_msg=1');  
+			echo "用户名密码不正确";
 		else 
-			F3::reroute('/');
+			echo 0;
 	}
 
 	function logout()

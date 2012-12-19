@@ -6,7 +6,7 @@
 				<div class="span6">
 					<h2> 学生登录 </h3>
 
-					<a class="btn btn-large btn-danger" href="{{@WEB_ROOT}}login/?auth=cas">
+					<a class="btn btn-large btn-danger" href="{{@WEB_ROOT}}login/?auth=cas&&backurl={{@GET.backurl}}">
 						<i class="icon-user"></i> 通过哈工大统一身份认证登录
 					</a>
 					<div class="alert alert-block" style="margin-top:10px;">
@@ -18,7 +18,7 @@
 
 				<div class="span6">
 					<h2> 社团登录 </h2>
-					<form class="form-horizontal" method="POST">
+					<form id="login_form" class="form-horizontal" method="POST">
 
 						<F3:check if="{{@show_msg}}">
 							<F3:true>
@@ -44,7 +44,7 @@
 
 					  	<div class="control-group">
 							<div class="controls">
-							  	<button type="submit" class="btn btn-primary">登录</button>
+							  	<button type="button" onclick="ajax_login()" class="btn btn-primary">登录</button>
 							</div>
 					 	</div>
 
@@ -53,5 +53,27 @@
 
 			</div><!-- row -->
 		</div><!-- Container -->
+
+<script src="{{@WEB_ROOT}}static/js/jquery.form.js" type="text/javascript"></script>
+
+<!--<script src="/slimevent/static/js/jquery.validform-zh_CN.js" type="text/javascript" charset="utf8"></script>-->
+<script src="{{@WEB_ROOT}}static/js/validform.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+	function ajax_login()
+	{
+		var options = {
+			url : "{{@WEB_ROOT}}login",
+			type : 'POST',
+			success : function(data){
+				if(data == 0)
+					window.location.href="{{@WEB_ROOT}}"; 
+				else
+					alert(data);
+			},
+		};
+		$("#login_form").ajaxSubmit(options);
+	}
+</script>
 
 <F3:include href="common/footer.html" />
