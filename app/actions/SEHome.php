@@ -155,7 +155,8 @@ class SEHome extends SECommon{
 				$con = "eid = :a ";
 		}
 
-		if($order != null && stripos($con, 'status') === false){
+		//if($order != null && stripos($con, 'status') === false){
+		if(stripos($con, 'status') === false){
 			$con .= "AND event.status = :s ";
 			$data[':s'] = F3::get("EVENT_PASSED_STATUS");
 		}
