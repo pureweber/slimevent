@@ -2,7 +2,7 @@
 	<!-- Carousel items -->
 	<div class="carousel-inner">
 
-		<div class="item">
+		<div class="active item">
 			<div class="title">
 				<!--<h4></h4>-->
 			</div>
@@ -12,6 +12,7 @@
 				<h1>第一版低调测试中...</h1>
 				<F3:include href="index/slide-hero.html" />
 			</div>
+
 		</div>
 
 		<!--<F3:include href="index/slide-items.html" />-->
@@ -19,7 +20,7 @@
 	<!-- items -->
 	<F3:repeat group="{{@hot_events}}" value="{{@e}}" counter="{{@c}}">
 		<F3:check if="{{@c % @SLIDE.PER_PAGE_SHOW == 1}}"> 
-			<div class='active item'>
+			<div class='item'>
 				<div class="title">
 					<h4>热门活动</h4>
 				</div>
@@ -33,7 +34,7 @@
 					</div>
 				</div>
 
-		<F3:check if="{{@c % @SLIDE.PER_PAGE_SHOW == 0}}">
+		<F3:check if="{{@c % @SLIDE.PER_PAGE_SHOW == 0 || @c = count(@hot_events)}}">
 				</div>
 			</div>
 		</F3:check>
