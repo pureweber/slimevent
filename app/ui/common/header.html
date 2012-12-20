@@ -27,7 +27,10 @@
 		if("{{@COOKIE.se_user_id}}" === "") 
 		{
 			if( confirm("亲，请先登录！") == true)
+			{
 				window.location.href="{{@WEB_ROOT}}login?backurl="+window.location.href; 
+				return false;
+			}
 			else
 				return false;
 		}

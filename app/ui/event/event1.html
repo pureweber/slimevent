@@ -92,9 +92,15 @@
 							<F3:check if="{{@e.region == @REGION.1}}">
 							<span><i class="icon-map-marker"></i> 地点</span> : <a href="{{@WEB_ROOT}}find/by?key=region&word=1">{{@e.region}}</a> {{@e.addr}}
 							</F3:check>
+
 							<!-- 二校区 -->
 							<F3:check if="{{@e.region == @REGION.2}}">
 							<span><i class="icon-map-marker"></i> 地点</span> : <a href="{{@WEB_ROOT}}find/by?key=region&word=2">{{@e.region}}</a> {{@e.addr}}
+							</F3:check>
+
+							<!-- 建筑校区 -->
+							<F3:check if="{{@e.region == @REGION.3}}">
+							<span><i class="icon-map-marker"></i> 地点</span> : <a href="{{@WEB_ROOT}}find/by?key=region&word=3">{{@e.region}}</a> {{@e.addr}}
 							</F3:check>
 						</div>
 						<div id="event-category" class="event-item">
