@@ -27,26 +27,18 @@
 		if("{{@COOKIE.se_user_id}}" === "") 
 		{
 			if( confirm("亲，请先登录！") == true)
-			{
-				window.location.href="{{@WEB_ROOT}}login?backurl="+window.location.href; 
-				return false;
-			}
+				window.location.href="{{@WEB_ROOT}}login?backurl="+encodeURIComponent(window.location.href.replace(/http:\/\//, ''));
 			else
 				return false;
 		}
+				return false;
 		return true;
 	}
 
 	function create_event()
 	{
-		var group = "{{@COOKIE.se_user_group}}";
 		if(is_login() === true)
-		{
-			if(group === "{{@STUDENT_GROUP}}" || group === "{{@ORG_GROUP}}" || group === "{{@CLUB_GROUP}}")
-				window.location.href="{{@WEB_ROOT}}create"; 
-			else
-				alert("操作失败，只有学生、社团、机构用户才能进行该操作");
-		}
+			window.location.href="{{@WEB_ROOT}}create"; 
 	}
 
 		$(function(){
@@ -110,14 +102,6 @@
 </head>
 <body>
 	<div id="wrap">
-
-		<!--[if lt IE 9]>
-		<div class="alert alert-error" style="margin-top:-50px;margin-bottom:30px">
-			<div style="text-align:center;">
-				亲爱的用户，为了您能获得更好的浏览体验，我们作出了一个艰难的决定：网站将不对旧版本IE浏览器(IE8及以下)进行兼容，建议您升级IE浏览器或安装<a style="color:#B94A48;" href="http://www.google.cn/intl/zh-CN/chrome/browser/"><strong>Google Chrome</strong></a>、<a style="color:#B94A48;" href="http://firefox.com.cn/"><strong>Firefox</strong></a>等标准浏览器，否则网站某些功能可能无法正常使用
-			</div>
-		</div>
-		<![endif]-->
 
 		<div class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
@@ -227,6 +211,11 @@
 		</F3:false>
 	</F3:check>
 
-	<F3:check if="{{@GET.first_login == 'true'}}">
-		<F3:include href="common/set_nickname.html" />
-	</F3:check>
+		<!--[if lt IE 9]>
+		<div class="alert alert-error" style="margin-top:-50px;margin-bottom:30px">
+			<div style="text-align:center;">
+				亲爱的用户，为了您能获得更好的浏览体验，我们作出了一个艰难的决定：网站将不对旧版本IE浏览器(IE8及以下)进行兼容，建议您升级IE浏览器或安装<a style="color:#B94A48;" href="http://www.google.cn/intl/zh-CN/chrome/browser/"><strong>Google Chrome</strong></a>、<a style="color:#B94A48;" href="http://firefox.com.cn/"><strong>Firefox</strong></a>等标准浏览器，否则网站某些功能可能无法正常使用
+			</div>
+		</div>
+		<![endif]-->
+
