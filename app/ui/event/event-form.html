@@ -56,7 +56,7 @@
 		<input class="validate-required span2" placeholder="时间" type="text" name="begin_time"
 			value="{{@POST.begin_time}}" style="margin-left:10px">
 		<i class="icon-time icon-large" style="margin: 6px 0 0 -22.5px; pointer-events: none; position: relative;"></i>
-		<p class="help-block"></p>
+		<span class="label" style="margin-left:10px">开始时间须大于当前时间</span>
 	</div>
 
 </div>
@@ -73,6 +73,7 @@
 		<input class="validate-required validate-time-order span2 end-time" placeholder="时间" type="text"
 			name="end_time" value="{{@POST.end_time}}" style="margin-left:10px">
 		<i class="icon-time icon-large" style="margin: 6px 0 0 -22.5px; pointer-events: none; position: relative;"></i>
+		<span class="label" style="margin-left:10px">结束时间须大于开始时间</span>
 	</div>
 </div>
 
@@ -105,6 +106,7 @@
 	<label class="control-label">标签</label>
 	<div class="controls">
 		<input type="text" placeholder="" class="input-xlarge" name="label" value="{{@POST.label}}">
+		<span class="label" style="margin-left:10px">标签可以使活动更易发现</span>
 		<p class="help-block">多个标签请用空格分隔</p>
 	</div>
 </div>
@@ -116,7 +118,9 @@
 
 
 <fieldset>
-	<legend>上传海报</legend>
+	<legend>上传海报
+	<span class="label" style="margin-left:10px">为了让您的图片更好的显示，建议您上传（高:宽=4:3) 的图片</span>
+	</legend>
 <div class="control-group">
 	<label class="control-label" for="input01"></label>
 	<div class="controls">

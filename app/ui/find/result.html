@@ -67,8 +67,9 @@
 						<div class="filter-list">
 							<ul>
 								<li><a href="#region-all">全部校区</a></li>
-								<li><a href="#region-1">一校区</a></li>
-								<li><a href="#region-2">二校区</a></li>
+								<F3:repeat group="{{@REGION}}" key="{{@k}}" value="{{@c}}">
+								<li><a href="#region-{{@k}}">{{@c}}</a></li>
+							</F3:repeat>
 							</ul>
 						</div>
 					</div>

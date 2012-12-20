@@ -27,7 +27,10 @@
 		if("{{@COOKIE.se_user_id}}" === "") 
 		{
 			if( confirm("亲，请先登录！") == true)
+			{
 				window.location.href="{{@WEB_ROOT}}login?backurl="+window.location.href; 
+				return false;
+			}
 			else
 				return false;
 		}
@@ -36,8 +39,14 @@
 
 	function create_event()
 	{
+		var group = "{{@COOKIE.se_user_group}}";
 		if(is_login() === true)
-			window.location.href="{{@WEB_ROOT}}create"; 
+		{
+			if(group === "{{@STUDENT_GROUP}}" || group === "{{@ORG_GROUP}}" || group === "{{@CLUB_GROUP}}")
+				window.location.href="{{@WEB_ROOT}}create"; 
+			else
+				alert("操作失败，只有学生、社团、机构用户才能进行该操作");
+		}
 	}
 
 		$(function(){
@@ -218,3 +227,6 @@
 		</F3:false>
 	</F3:check>
 
+	<F3:check if="{{@GET.first_login == 'true'}}">
+		<F3:include href="common/set_nickname.html" />
+	</F3:check>
