@@ -268,8 +268,9 @@ class SEHome extends SECommon{
 
 
 	function show_login()
-	{	
-		$backurl = F3::get('GET.backurl');
+	{
+		$backurl = urlencode(F3::get('GET.backurl'));
+		//Code::dump($backurl);
 		switch(F3::get('GET.auth'))
 		{
 			case F3::get('CAS_AUTH'):
@@ -304,9 +305,9 @@ class SEHome extends SECommon{
 		else
 		{
 			if(isset($first_login))
-				F3::reroute($backurl."?first_login=true");
+				F3::reroute("http://".urldecode($backurl)."?first_login=true");
 			else
-				F3::reroute($backurl);
+				F3::reroute("http://".urldecode($backurl));
 		}
 	}
 
