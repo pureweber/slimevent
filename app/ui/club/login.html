@@ -74,6 +74,16 @@
 		};
 		$("#login_form").ajaxSubmit(options);
 	}
+
+	$(document).ready(function(){
+		$("input[name='user_pwd']").keydown(function(e){
+			var curkey = e.which;
+			if(curkey == 13){
+				ajax_login();
+				return false;
+			}
+		});
+	});
 </script>
 
 		<!--<div class="container">-->
