@@ -36,8 +36,14 @@
 
 	function create_event()
 	{
+		var group = "{{@COOKIE.se_user_group}}";
 		if(is_login() === true)
-			window.location.href="{{@WEB_ROOT}}create"; 
+		{
+			if(group === "{{@STUDENT_GROUP}}" || group === "{{@ORG_GROUP}}" || group === "{{@CLUB_GROUP}}")
+				window.location.href="{{@WEB_ROOT}}create"; 
+			else
+				alert("操作失败，只有学生、社团、机构用户才能进行该操作");
+		}
 	}
 
 		$(function(){

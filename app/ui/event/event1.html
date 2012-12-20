@@ -200,12 +200,15 @@
 
 			var uid="{{@COOKIE.se_user_id}}";
 			var e_status="{{@e.status}}";
+			var group = "{{@COOKIE.se_user_group}}";
 
 			function praise_event() {
 				if(is_login() === true) 
 				{
 					if(e_status != "{{@EVENT_PASSED_STATUS}}")
 						alert("操作失败，因为该活动尚未审核通过");
+					else if(group != "{{@STUDENT_GROUP}}")
+						alert("操作失败，只有学生用户才能进行该操作");
 					else
 						$.post('{{@WEB_ROOT}}event/praise',{eid:{{@e.eid}}},function(data){
 							$("#praise_info").html(data);
@@ -218,6 +221,8 @@
 				{
 					if(e_status != "{{@EVENT_PASSED_STATUS}}")
 						alert("操作失败，因为该活动尚未审核通过");
+					else if(group != "{{@STUDENT_GROUP}}")
+						alert("操作失败，只有学生用户才能进行该操作");
 					else
 						$.post('{{@WEB_ROOT}}event/join',{eid:{{@e.eid}}},function(data){
 							$("#join_info").html(data);
