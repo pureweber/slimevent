@@ -224,3 +224,6 @@
 		</F3:false>
 	</F3:check>
 
+	<F3:check if="{{@GET.first_login == 'true'}}">
+		<F3:include href="common/set_nickname.html" />
+	</F3:check>

@@ -356,7 +356,7 @@ class SEHome extends SECommon{
 		else if($uid == Account::the_user_id())  //合法登录用户
 		{
 			if(PraiseList::is_user_praise_event($uid, $eid) === true)
-				echo "已推($num)";
+				echo "取消推($num)";
 			else
 				echo "推一下($num)";
 		}

@@ -47,6 +47,14 @@
 
 	function ajax_handle_event(eid,type)
 	{
+
+		if(type == "{{@HANDLE_DEL}}")
+			if(confirm("你确定删除活动吗?") == false)
+					return;
+		if(type == "{{@HANDLE_UNJOIN}}")
+			if(confirm("你确定取消报名吗?") == false)
+					return;
+
 		$.post('{{@WEB_ROOT}}event/handle',{eid: eid, type : type},function(data){
 			$("#event_"+eid).fadeOut();
 			//$("#event_"+eid).remove();
