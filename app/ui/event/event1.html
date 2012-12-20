@@ -266,7 +266,9 @@
 		<!-- JiaThis Button BEGIN -->
 		<script type="text/javascript">
 			var jiathis_config = {
-				title:document.getElementById("share-event-title").innerHTML,
+				title: "[{{@e.category}}] {{@e.title}}",
+				pic: "{{@e.poster}}",
+				summary: "[时间]: {{@e.begin_date}} ({{@e.begin_weekday}}) {{@e.begin_time}}  [地点]: 哈工大 {{@e.region}} {{@e.addr}} 本活动由{{@e.organizer}}发起",
 				data_track_clickback:true
 				};
 		</script>
