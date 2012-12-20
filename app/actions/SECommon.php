@@ -110,6 +110,9 @@ class SECommon{
 		$d['introduction'] = F3::get("POST.introduction");
 		$d['sign_up'] = F3::get("POST.sign_up");
 
+		$d['introduction'] = preg_replace("/\<script/", "&lt;script", $d['introduction']);
+		$d['introduction'] = preg_replace("/\<\/script\>/", "&lt/script&gt;", $d['introduction']);
+
 		return $d;
 	}
 
