@@ -92,9 +92,15 @@
 							<F3:check if="{{@e.region == @REGION.1}}">
 							<span><i class="icon-map-marker"></i> 地点</span> : <a href="{{@WEB_ROOT}}find/by?key=region&word=1">{{@e.region}}</a> {{@e.addr}}
 							</F3:check>
+
 							<!-- 二校区 -->
 							<F3:check if="{{@e.region == @REGION.2}}">
 							<span><i class="icon-map-marker"></i> 地点</span> : <a href="{{@WEB_ROOT}}find/by?key=region&word=2">{{@e.region}}</a> {{@e.addr}}
+							</F3:check>
+
+							<!-- 建筑校区 -->
+							<F3:check if="{{@e.region == @REGION.3}}">
+							<span><i class="icon-map-marker"></i> 地点</span> : <a href="{{@WEB_ROOT}}find/by?key=region&word=3">{{@e.region}}</a> {{@e.addr}}
 							</F3:check>
 						</div>
 						<div id="event-category" class="event-item">
@@ -200,12 +206,15 @@
 
 			var uid="{{@COOKIE.se_user_id}}";
 			var e_status="{{@e.status}}";
+			var group = "{{@COOKIE.se_user_group}}";
 
 			function praise_event() {
 				if(is_login() === true) 
 				{
 					if(e_status != "{{@EVENT_PASSED_STATUS}}")
 						alert("操作失败，因为该活动尚未审核通过");
+					else if(group != "{{@STUDENT_GROUP}}")
+						alert("操作失败，只有学生用户才能进行该操作");
 					else
 						$.post('{{@WEB_ROOT}}event/praise',{eid:{{@e.eid}}},function(data){
 							$("#praise_info").html(data);
@@ -218,6 +227,8 @@
 				{
 					if(e_status != "{{@EVENT_PASSED_STATUS}}")
 						alert("操作失败，因为该活动尚未审核通过");
+					else if(group != "{{@STUDENT_GROUP}}")
+						alert("操作失败，只有学生用户才能进行该操作");
 					else
 						$.post('{{@WEB_ROOT}}event/join',{eid:{{@e.eid}}},function(data){
 							$("#join_info").html(data);
@@ -261,7 +272,9 @@
 		<!-- JiaThis Button BEGIN -->
 		<script type="text/javascript">
 			var jiathis_config = {
-				title:document.getElementById("share-event-title").innerHTML,
+				title: "[{{@e.category}}] {{@e.title}}",
+				pic: "{{@e.poster}}",
+				summary: "[时间]: {{@e.begin_date}} ({{@e.begin_weekday}}) {{@e.begin_time}}  [地点]: 哈工大 {{@e.region}} {{@e.addr}} 本活动由{{@e.organizer}}发起",
 				data_track_clickback:true
 				};
 		</script>

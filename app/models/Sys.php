@@ -28,8 +28,9 @@ class Sys{
 
 		EDB::insert('errorlog',$data);
 
-		Account::unset_cookie();
-		F3::reroute("/login");
+		//Account::unset_cookie();
+		//F3::reroute("/login");
+		F3::reroute("/");
 	}
 
 	static function time_quaters(){
