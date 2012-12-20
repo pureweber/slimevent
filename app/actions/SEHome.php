@@ -191,6 +191,9 @@ class SEHome extends SECommon{
 		$word = F3::get("GET.word");
 		$order = F3::get("GET.order");
 
+		//如果搜索框神码都没输入，就在value里面放上"-"作为标识，可以解决很多问题
+		$word = $word == '' ? '-' : $word;
+
 		$data = $this->find_by($key, $word, $order);
 
 		$url = "find/by?";

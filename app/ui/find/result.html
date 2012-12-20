@@ -10,7 +10,7 @@
 			<F3:include href="find/summary.html" />
 
 			<div class="row" id="search-box">
-				<form method="get" action="{{@WEB_ROOT}}find/by" class="form-inline span8" onsubmit="return checkEmpty();" >
+				<form method="get" action="{{@WEB_ROOT}}find/by" class="form-inline span8">
 					<label for="word"></label>
 					<input name="word" class="span5"  style="line-height:20px;height:20px;font-size:15px"
 						type="text"  placeholder="根据活动名称、介绍、标签搜索" >
@@ -121,6 +121,7 @@
 
 		<!-- sidebar -->
 		<div class="span4">
+<!--http://wrapbootstrap.com/preview/WB0DFT966-->
 			<F3:include href="find/sidebar.html" />
 		</div>
 
@@ -139,8 +140,8 @@
 			word = decodeURIComponent(word[1]);
 		}
 
-		console.log(key);
-		console.log(word);
+		//console.log(key);
+		//console.log(word);
 
 		$(".filter").each(function(){
 			var id = $(this).attr("id");
@@ -155,10 +156,10 @@
 			}else{
 				return;
 			}
-			console.log(href);
+			//console.log(href);
 
 			var content = $(this).find("a[href='"+href+"']").html();
-			console.log(content);
+			//console.log(content);
 			$(this).children("a").html(content);
 		})
 
@@ -185,7 +186,7 @@
 			var search = loc.search;
 
 			var reg = "/"+name+"=(\\w+|(%\\w{2})+)(&|$)/"; // 匹配"name=value"
-			console.log(reg);
+			//console.log(reg);
 			if(search.search(eval(reg)) != -1)// 如果原url中存在，则替换
 				search = search.replace(eval(reg), name+"="+value+"&");
 			else // 否则添加
