@@ -18,7 +18,7 @@ class SEHome extends SECommon{
 
 	function test()
 	{
-		echo Template::serve('/login.html');
+		echo Template::serve('common/set_nickname.html');
 	}
 
 	function feedback(){
@@ -191,6 +191,9 @@ class SEHome extends SECommon{
 		$word = F3::get("GET.word");
 		$order = F3::get("GET.order");
 
+		//如果搜索框神码都没输入，就在value里面放上"-"作为标识，可以解决很多问题
+		$word = $word == '' ? '-' : $word;
+
 		$data = $this->find_by($key, $word, $order);
 
 		$url = "find/by?";
@@ -274,9 +277,11 @@ class SEHome extends SECommon{
 				$pwd = F3::get('DEFAULT_PWD');
 				if(Account::exists($name) === false)  //首次通过CAS登录
 				{
+					echo $pwd;
 					$group = F3::get('STUDENT_GROUP');
 					$nickname = $name;
 					Admin::add_user($name, $pwd, $group, $nickname);
+					$first_login = "true";
 				}
 				break;
 			case F3::get('CLUB_AUTH'):
@@ -290,9 +295,19 @@ class SEHome extends SECommon{
 		Account::login($name, $pwd);
 
 		if($backurl == "")
-			F3::reroute('/');
+		{
+			if(isset($first_login))
+				F3::reroute('/?first_login=true');
+			else
+				F3::reroute('/');
+		}
 		else
-			F3::reroute($backurl);
+		{
+			if(isset($first_login))
+				F3::reroute($backurl."?first_login=true");
+			else
+				F3::reroute($backurl);
+		}
 	}
 
 	function login()
@@ -378,7 +393,10 @@ class SEHome extends SECommon{
 			$info['nickname'] = Account::the_user_name();
 
 		if(Account::update_user_info($uid, $info) === true) //false 昵称重复或者为空  true 更新成功
+		{
+			Account::update_cookie();
 			echo "1";
+		}
 		else
 			echo "0";
 	}
@@ -396,7 +414,7 @@ class SEHome extends SECommon{
 
 	function show_user_info()
 	{
-		Account::the_user_id();
+//		Account::the_user_id();
 		$uid = F3::get('PARAMS.userID');
 		$u = Account::get_user_full_info($uid);
 	//	Code::dump($u);

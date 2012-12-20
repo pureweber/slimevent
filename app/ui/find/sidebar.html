@@ -1,5 +1,9 @@
 <div id="find-sidebar" class="sidebar">
 
+<div class="entry" id="i-want-create" style="margin-left:20px; margin-top:-6px">
+	<a href="#" onclick="create_event(); return false;" class="btn btn-large"><i class="icon-bullhorn" style="margin-right:10px"></i>我要发起活动</a>
+</div>
+
 <div class="entry">
 	<div class="title">
 		<!--<h4>最新发布的活动</h4>-->
@@ -53,7 +57,7 @@
 
 	$(document).ready(function () {
 		$("#find-sidebar .entry .content li .title a").each(function(){
-			sliceSidebarCharacters($(this), sidebarNumOfChar);
+			sliceSidebarCharacters($(this), 40);
 		});
 	});
 

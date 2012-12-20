@@ -202,33 +202,27 @@
 			var e_status="{{@e.status}}";
 
 			function praise_event() {
-				if(uid === "") 
+				if(is_login() === true) 
 				{
-					var x = confirm("亲，请先登录！");
-					if( x == true)
-						window.location.href="{{@WEB_ROOT}}login?backurl="+window.location.href; 
+					if(e_status != "{{@EVENT_PASSED_STATUS}}")
+						alert("操作失败，因为该活动尚未审核通过");
+					else
+						$.post('{{@WEB_ROOT}}event/praise',{eid:{{@e.eid}}},function(data){
+							$("#praise_info").html(data);
+						});
 				}
-				else if(e_status != "{{@EVENT_PASSED_STATUS}}")
-					alert("操作失败，因为该活动尚未审核通过");
-				else
-					$.post('{{@WEB_ROOT}}event/praise',{eid:{{@e.eid}}},function(data){
-						$("#praise_info").html(data);
-					});
 			}
 
 			function join_event() {
-				if(uid === "") 
+				if(is_login() === true) 
 				{
-					var x = confirm("亲，请先登录！");
-					if( x == true)
-						window.location.href="{{@WEB_ROOT}}login?backurl="+window.location.href; 
+					if(e_status != "{{@EVENT_PASSED_STATUS}}")
+						alert("操作失败，因为该活动尚未审核通过");
+					else
+						$.post('{{@WEB_ROOT}}event/join',{eid:{{@e.eid}}},function(data){
+							$("#join_info").html(data);
+						});
 				}
-				else if(e_status != "{{@EVENT_PASSED_STATUS}}")
-					alert("操作失败，因为该活动尚未审核通过");
-				else
-					$.post('{{@WEB_ROOT}}event/join',{eid:{{@e.eid}}},function(data){
-						$("#join_info").html(data);
-					});
 			}
 
 			(function() {

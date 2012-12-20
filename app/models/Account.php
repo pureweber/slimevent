@@ -11,7 +11,7 @@ class Account{
 	 * 设置当前用户cookie
 	 * @param $user 用户关联数组
 	 */
-	protected static function set_cookie($user)
+	static function set_cookie($user)
 	{
 		setcookie('se_user_id', $user['id'], time() + F3::get('COOKIE_TIME'), '/');
 		setcookie('se_user_name', $user['nickname'], time() + F3::get('COOKIE_TIME'), '/');
@@ -33,6 +33,13 @@ class Account{
 		setcookie('se_theme', '', time() - F3::get('COOKIE_TIME'), '/');
 	}
 
+	static function update_cookie()
+	{
+		$uid = Account::the_user_id();
+		self::unset_cookie();
+		$user = Account::get_user($uid);
+		self::set_cookie($user);
+	}
 	/**
 	 * 生成cookie密钥token
 	 * @return sring se_user_token
@@ -194,7 +201,7 @@ class Account{
 
 		return $u[0];
 	}
-
+	
 	/**
 	 * 登录系统
 	 * @param  $name : 用户名 
