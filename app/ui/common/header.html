@@ -21,6 +21,25 @@
 	<link type="text/css" rel="stylesheet" href="{{@WEB_ROOT}}static/css/gritter.css" />
 
 	<script type="text/javascript">
+
+	function is_login()
+	{
+		if("{{@COOKIE.se_user_id}}" === "") 
+		{
+			if( confirm("亲，请先登录！") == true)
+				window.location.href="{{@WEB_ROOT}}login?backurl="+window.location.href; 
+			else
+				return false;
+		}
+		return true;
+	}
+
+	function create_event()
+	{
+		if(is_login() === true)
+			window.location.href="{{@WEB_ROOT}}create"; 
+	}
+
 		$(function(){
 			$('.dropdown-toggle').dropdown()
 			//var noty = $('#wrap').noty({text:'Hello!'});
@@ -100,7 +119,10 @@
 						<!--<li {{ @route[0] == 'discover' ? 'class="active"' : ''}}><a href="{{@WEB_ROOT}}find"><i class="icon-search"></i> 发现活动</a></li>-->
 						<li {{ @route[0] == 'discover' ? 'class="active"' : ''}}>
 							<a href="{{@WEB_ROOT}}find/by?word=-&key=keyword&time=未开始&order=post"><i class="icon-search"></i> 发现活动</a></li>
+
+						<F3:check if="{{@COOKIE.se_user_id}} != ''">
 						<li {{ @route[0] == 'my' ? 'class="active"' : '' }}><a href="{{@WEB_ROOT}}my?d=event"><i class="icon-list"></i> 个人中心</a></li>
+						</F3:check>
 						<li {{ @route[0] == 'feedback' ? 'class="active"' : '' }}><a href="{{@WEB_ROOT}}feedback"><i class="icon-comments"></i> 问题反馈</a></li>
 					</ul>
 

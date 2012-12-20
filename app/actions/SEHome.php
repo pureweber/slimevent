@@ -396,7 +396,7 @@ class SEHome extends SECommon{
 
 	function show_user_info()
 	{
-		Account::the_user_id();
+//		Account::the_user_id();
 		$uid = F3::get('PARAMS.userID');
 		$u = Account::get_user_full_info($uid);
 	//	Code::dump($u);
