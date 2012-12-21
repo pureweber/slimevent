@@ -253,7 +253,7 @@ class SECommon{
 		// format label
 		$info['label'] = explode(' ',$info['label']);
 		if($info['poster'] == "")
-				$info['poster'] = F3::get('WEB_ROOT').F3::get('DEFAULT_IMG');
+			$info['poster'] = F3::get('DEFAULT_IMG');
 
 		//$info['short_title'] = $this->format_short_title_to_show($info['title']);
 

@@ -217,10 +217,10 @@
 
 		$("input[name='title']").focus();
 
-		$(window).bind('beforeunload',function(){ 
-			if(!hasSaved)
-				return '您输入的内容尚未保存，确定离开此页面吗？'; 
-			});
+//		$(window).bind('beforeunload',function(){ 
+//			if(!hasSaved)
+//				return '您输入的内容尚未保存，确定离开此页面吗？'; 
+//			});
 
 		$("input[name='begin_date']").blur(function(){
 				var end = $("input[name='end_date']");
