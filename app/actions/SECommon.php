@@ -148,6 +148,9 @@ class SECommon{
 		$d['introduction'] = F3::get("POST.introduction");
 		$d['sign_up'] = F3::get("POST.sign_up");
 
+		$d['introduction'] = preg_replace("/\<script/", "&lt;script", $d['introduction']);
+		$d['introduction'] = preg_replace("/\<\/script\>/", "&lt/script&gt;", $d['introduction']);
+
 		return $d;
 	}
 
@@ -250,7 +253,7 @@ class SECommon{
 		// format label
 		$info['label'] = explode(' ',$info['label']);
 		if($info['poster'] == "")
-				$info['poster'] = F3::get('DEFAULT_IMG');
+				$info['poster'] = F3::get('WEB_ROOT').F3::get('DEFAULT_IMG');
 
 		//$info['short_title'] = $this->format_short_title_to_show($info['title']);
 
