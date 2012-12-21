@@ -272,20 +272,21 @@ class SEHome extends SECommon{
 	function show_login()
 	{
 		$backurl = urlencode(F3::get('GET.backurl'));
-		//Code::dump($backurl);
 		switch(F3::get('GET.auth'))
 		{
 			case F3::get('CAS_AUTH'):
 				$name = CAS::login();
 				$pwd = F3::get('DEFAULT_PWD');
-				if(Account::exists($name) === false)  //首次通过CAS登录
+				$u = Account::exists($name);
+				if($u === false)  //首次通过CAS登录
 				{
-					echo $pwd;
 					$group = F3::get('STUDENT_GROUP');
-					$nickname = $name;
+					$nickname = 'S'.$name;
 					Admin::add_user($name, $pwd, $group, $nickname);
 					$first_login = "true";
 				}
+				else if($u['nickname'] == 'S'.$u['name'])
+					$first_login = "true";
 				break;
 			case F3::get('CLUB_AUTH'):
 				echo Template::serve('club/login.html');

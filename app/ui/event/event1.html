@@ -218,9 +218,11 @@
 					else if(group != "{{@STUDENT_GROUP}}")
 						alert("操作失败，只有学生用户才能进行该操作");
 					else
+					{
 						$.post('{{@WEB_ROOT}}event/praise',{eid:{{@e.eid}}},function(data){
 							$("#praise_info").html(data);
 						});
+					}
 				}
 			}
 

@@ -32,7 +32,6 @@
 			else
 				return false;
 		}
-				return false;
 		return true;
 	}
 
@@ -55,7 +54,6 @@
 		});
 
 	var sidebarNumOfChar = 40;
-
 
 	function sliceSidebarCharacters(it, numOfChar){
 		append = count(it.parent("span").next().find("a").html());
@@ -214,6 +212,9 @@
 		</F3:false>
 	</F3:check>
 
+	<F3:check if="{{@GET.first_login == 'true'}}">
+		<F3:include href="common/set_nickname.html" />
+	</F3:check>
 		<!--[if lt IE 9]>
 		<div class="alert alert-error" style="margin-top:-50px;margin-bottom:30px">
 			<div style="text-align:center;">
