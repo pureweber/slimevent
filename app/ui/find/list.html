@@ -3,7 +3,9 @@
 	<div class="row">
 
 		<div class="poster">
-			<img src="{{@e.poster}}" onerror="javascript:this.src='{{@WEB_ROOT}}{{@DEFAULT_IMG}}'" />
+			<a href="{{@WEB_ROOT}}event/{{@e.eid}}">
+			<img src="{{@WEB_ROOT}}{{@THUMB_IMG_DIR}}{{@e.poster}}" />
+			</a>
 		</div>
 
 		<div class="info">

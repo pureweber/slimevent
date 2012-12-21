@@ -18,7 +18,9 @@ class SEHome extends SECommon{
 
 	function test()
 	{
-		echo Template::serve('common/set_nickname.html');
+		$file = Sys::resize_image("./temp/4.jpg",170,220);
+		$file2 = Sys::cutphoto("./temp/4.jpg","./temp/101.jpg",170,220);
+		imagejpeg($file, "./temp/100.jpg");
 	}
 
 	function feedback(){
@@ -336,7 +338,7 @@ class SEHome extends SECommon{
 	function logout()
 	{
 		Account::logout();
-		if(Account::the_user_group() == F3::get('STUDENT_GROUP'))
+		if(Account::the_user_group() === F3::get('STUDENT_GROUP'))
 			CAS::logout();
 		F3::reroute('/');
 	}

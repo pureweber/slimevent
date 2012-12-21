@@ -28,7 +28,9 @@
 		</F3:check>
 		
 				<div class="item-item">
-					<img src="{{@e.poster}}" onerror="javascript:this.src='{{@WEB_ROOT}}{{@DEFAULT_IMG}}'" style="width:110px;height:150px">
+					<a href="{{@WEB_ROOT}}event/{{@e.eid}}">
+					<img src="{{@WEB_ROOT}}{{@THUMB_IMG_DIR}}{{@e.poster}}" />
+					</a>
 					<div class="e-title">
 						<a href="{{@WEB_ROOT}}event/{{@e.eid}}">{{@e.title}}</a>
 					</div>
