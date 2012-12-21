@@ -1,4 +1,3 @@
-
 <form class="form-horizontal" id="create-form" method="post" enctype="multipart/form-data">
 
 <fieldset>
@@ -126,7 +125,7 @@
 	<div class="controls">
 	<div class="fileupload fileupload-{{@POST.eid ? 'exists' : 'new'}}" data-provides="fileupload">
 		<div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">
-			<img src="{{@POST.poster}}"/>
+			<img src="{{@WEB_ROOT}}{{@ORI_IMG_DIR}}{{@POST.poster}}"/>
 		</div>
 		<div>
 			<span class="btn btn-file upload-button">

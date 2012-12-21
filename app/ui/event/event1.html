@@ -1,7 +1,6 @@
 <F3:include href="common/header.html" />
 
 <script type="text/javascript">
-
 </script>
 
 <div class="container">
@@ -13,7 +12,10 @@
 			<div id="event-info" class="row">
 
 				<div class="span3" id="event-img">
-					<img style="width:200px; height:270px; margin-top:26px;" src="{{@e.poster}}" onerror="javascript:this.src='{{@DEFAULT_IMG}}'" />
+					<a href="{{@WEB_ROOT}}{{@ORI_IMG_DIR}}{{@e.poster}}">
+					<img style="width:200px; height:270px; margin-top:28px;" src="{{@WEB_ROOT}}{{@THUMB_IMG_DIR}}{{@e.poster}}"/>
+					<span class="label label-inverse" style="margin-top:7px;">温馨提示：点击图片可以查看大图哦</span>
+					</a>
 				</div>
 
 				<div class="span6">

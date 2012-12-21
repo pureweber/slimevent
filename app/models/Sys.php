@@ -68,6 +68,52 @@ class Sys{
 
 		return $arr;
 	}
+
+	static function resize_image($image_path, $max_width, $max_height)
+{
+	list($width, $height, $type) = getimagesize($image_path);
+
+	$types = array(
+		1 => 'imagecreatefromgif',
+		2 => 'imagecreatefromjpeg',
+		3 => 'imagecreatefrompng',
+		6 => 'imagecreatefromwbmp');
+
+	$creater = $types[$type];
+
+	if(!function_exists($creater))
+		return -1;
+
+	$img = $creater($image_path);
+	$dist_img = $img;
+
+	$ratio = $width / $height;
+
+	if($ratio > $max_width/$max_height){
+		if($width > $max_width)
+		{
+			$d_height = intval($max_width / $ratio);
+			$dist_img = imagecreatetruecolor($max_width, $d_height);
+			imagecopyresampled($dist_img, $img,
+				0, 0,	0, 0,
+				$max_height, $d_height,	$width, $height);
+
+		}
+	}
+	else{
+		if($height > $max_height)
+		{
+			$d_width = intval($max_height * $ratio);
+			$dist_img = imagecreatetruecolor($d_width, $max_height);
+			imagecopyresampled($dist_img, $img,
+				0, 0,	0, 0,
+				$d_width, $max_height,	$width, $height);
+		}
+	}
+
+	return $dist_img;
+}
+
 };
 
 ?>
