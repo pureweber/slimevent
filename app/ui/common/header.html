@@ -28,9 +28,7 @@
 		{
 			if( confirm("亲，请先登录！") == true)
 				window.location="{{@WEB_ROOT}}login?backurl="+encodeURIComponent(window.location.href.replace(/http:\/\//, ''));
-				//console.log("{{@WEB_ROOT}}login?backurl="+encodeURIComponent(window.location.href.replace(/http:\/\//, '')));
-			else
-				return false;
+			return false;
 		}
 		return true;
 	}
