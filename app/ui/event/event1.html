@@ -1,7 +1,6 @@
 <F3:include href="common/header.html" />
 
 <script type="text/javascript">
-
 </script>
 
 <div class="container">
@@ -13,7 +12,10 @@
 			<div id="event-info" class="row">
 
 				<div class="span3" id="event-img">
-					<img style="width:200px; height:270px; margin-top:26px;" src="{{@e.poster}}" onerror="javascript:this.src='{{@DEFAULT_IMG}}'" />
+					<a href="{{@WEB_ROOT}}{{@ORI_IMG_DIR}}{{@e.poster}}">
+					<img style="width:200px; height:270px; margin-top:28px;" src="{{@WEB_ROOT}}{{@THUMB_IMG_DIR}}{{@e.poster}}"/>
+					<span class="label label-inverse" style="margin-top:7px;">温馨提示：点击图片可以查看大图哦</span>
+					</a>
 				</div>
 
 				<div class="span6">
@@ -216,9 +218,11 @@
 					else if(group != "{{@STUDENT_GROUP}}")
 						alert("操作失败，只有学生用户才能进行该操作");
 					else
+					{
 						$.post('{{@WEB_ROOT}}event/praise',{eid:{{@e.eid}}},function(data){
 							$("#praise_info").html(data);
 						});
+					}
 				}
 			}
 
@@ -273,8 +277,8 @@
 		<script type="text/javascript">
 			var jiathis_config = {
 				title: "[{{@e.category}}] {{@e.title}}",
-				pic: "{{@e.poster}}",
-				summary: "[时间]: {{@e.begin_date}} ({{@e.begin_weekday}}) {{@e.begin_time}}  [地点]: 哈工大 {{@e.region}} {{@e.addr}} 本活动由{{@e.organizer}}发起",
+				pic: "{{@WEB_URL}}{{@WEB_ROOT}}{{@THUMB_IMG_DIR}}{{@e.poster}}",
+				summary: "[时间]: {{@e.begin_date}} ({{@e.begin_weekday}}) {{@e.begin_time}}  [地点]: 哈工大 {{@e.region}} {{@e.addr}} 本活动由 {{@e.organizer}} 发起",
 				data_track_clickback:true
 				};
 		</script>

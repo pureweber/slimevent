@@ -31,7 +31,7 @@ class Admin	extends Service{
 			return F3::get('ILLEGAL_NICKNAME_LEN');
 			//Sys::error(F3::get('ILLEGAL_NICKNAME_LEN'), $nickname);  //昵称长度不合法
 
-		if(self::exists($name, $nickname) === true)
+		if(self::exists($name, $nickname) !== false)
 			return F3::get('USERS_NAME_OR_NICKNAME_SAME_CODE');
 			//Sys::error(F3::get('USERS_NAME_OR_NICKNAME_SAME_CODE'),array('name'=>$name, 'nickname'=>$nickname)); //用户名或者昵称已经存在
 

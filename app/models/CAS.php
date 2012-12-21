@@ -51,8 +51,10 @@ class CAS{
 
 		// force CAS authentication
 		phpCAS::forceAuthentication();
-		phpCAS::logout();
 
+		$url = F3::get('WEB_URL').F3::get('WEB_ROOT');
+
+		phpCAS::logout(array('url' => $url));
 	}
 
 };

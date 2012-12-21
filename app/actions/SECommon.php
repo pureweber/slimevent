@@ -58,17 +58,55 @@ class SECommon{
 			F3::set("select_".$name, $o);
 	}
 
+		/* 
+		 *判断上传的图片是否为标准图片 
+		 *$file $FILES['']获取的值 
+		 *return 正常图片 true ;  异常图片 false; 
+		 */  
+		function isimage($file){  
+			if ($file["type"] == "image/gif") {  
+				@$im = imagecreatefromgif($file['tmp_name']);  
+			} elseif ($file["type"] == "image/png" || $file["type"] == "image/x-png") {  
+				@$im = imagecreatefrompng($file['tmp_name']);  
+			} elseif ($file["type"] == "image/bmp") {  
+				@$im = imagecreatefromwbmp($file['tmp_name']);  
+			} else {  
+				@$im = imagecreatefromjpeg($file['tmp_name']);  
+			}  
+
+			if($im==false){  
+				return false;  
+			}else{  
+				return true;  
+			}  
+	}  
+
 	 function upload_img($name){
+		if(isset($_FILES[$name]) == false)
+			return "";
+
 		$img = $_FILES[$name];
-		$img_ext = substr(strrchr($img['name'], '.'), 1);
-		$dest_dir = F3::get('UPLOAD_IMG_DIR');
-
-		$dest = $dest_dir.md5(time()).'.'.$img_ext;
-
-		$state = move_uploaded_file($img['tmp_name'], $dest);
 		
-		$save_path = F3::get('WEB_ROOT').$dest;
-		return $save_path;
+		if($this->isimage($img) === false)
+			return "";
+
+		$img_ext = substr(strrchr($img['name'], '.'), 1);
+		$img_name = md5(time().$name).'.'.$img_ext;
+
+		//$ori_dir = F3::get('ORI_IMG_DIR');
+		//$thumb_dir = F3::get('THUMB_IMG_DIR');
+
+		$ori_dest = F3::get('ORI_IMG_DIR').$img_name;
+		$thumb_dest = F3::get('THUMB_IMG_DIR').$img_name;
+
+		$state = move_uploaded_file($img['tmp_name'], $ori_dest);
+		$thumb = Sys::resize_image($ori_dest,F3::get('PIC_W'),F3::get('PIC_H'));
+
+		if($thumb == -1)
+			return "";
+
+		imagejpeg($thumb, $thumb_dest);
+		return $img_name;
 	}
 
 	/**
@@ -109,6 +147,9 @@ class SECommon{
 		$d['label'] = F3::get("POST.label");
 		$d['introduction'] = F3::get("POST.introduction");
 		$d['sign_up'] = F3::get("POST.sign_up");
+
+		$d['introduction'] = preg_replace("/\<script/", "&lt;script", $d['introduction']);
+		$d['introduction'] = preg_replace("/\<\/script\>/", "&lt/script&gt;", $d['introduction']);
 
 		return $d;
 	}
@@ -212,7 +253,7 @@ class SECommon{
 		// format label
 		$info['label'] = explode(' ',$info['label']);
 		if($info['poster'] == "")
-				$info['poster'] = F3::get('DEFAULT_IMG');
+			$info['poster'] = F3::get('DEFAULT_IMG');
 
 		//$info['short_title'] = $this->format_short_title_to_show($info['title']);
 

@@ -7,9 +7,13 @@
 				<!--<h4></h4>-->
 			</div>
 			<div class="content" style="padding:15px">
-				<h1>第一版低调测试中...</h1>
-				<h1>第一版低调测试中...</h1>
-				<h1>第一版低调测试中...</h1>
+
+				<div class="hero-unit" style="background-color:rgba(212, 235, 253, 0.56);">
+  					<h2 style="text-align:center">欢迎使用 SlimEvent</h2>
+					<p style="text-align:center">全面、及时、便捷的获取哈工大校内活动</p>
+					<p style="text-align:right">内测中</p>
+				</div>
+
 				<F3:include href="index/slide-hero.html" />
 			</div>
 
@@ -27,8 +31,10 @@
 				<div class="content">
 		</F3:check>
 		
-				<div class="item-item">
-					<img src="{{@e.poster}}" onerror="javascript:this.src='{{@DEFAULT_IMG}}'" style="width:110px;height:150px">
+				<div class="item-item poster">
+					<a href="{{@WEB_ROOT}}event/{{@e.eid}}">
+					<img src="{{@WEB_ROOT}}{{@THUMB_IMG_DIR}}{{@e.poster}}" />
+					</a>
 					<div class="e-title">
 						<a href="{{@WEB_ROOT}}event/{{@e.eid}}">{{@e.title}}</a>
 					</div>
