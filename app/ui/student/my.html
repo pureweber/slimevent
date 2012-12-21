@@ -62,8 +62,8 @@
 	$(document).ready(function () {
 		var d = "{{@GET.d}}";
 		if(d == 'event')
-			//自动加载显示草稿
-			ajax_my_event_list('{{@EVENT_DRAFT_STATUS}}');
+			//自动加载显示带审核 
+			ajax_my_event_list('{{@EVENT_AUDIT_STATUS}}');
 		if(d == 'profile')
 			ajax_get_my_profile();
 	});

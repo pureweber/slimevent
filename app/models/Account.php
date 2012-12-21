@@ -272,7 +272,7 @@ class Account{
 
 	/**
 	 * 检测用户名为name 或者昵称为nickname的用户(排除uid用户）是否存在
-	 * @return 如果存在 true 如果不存在,返回false
+	 * @return 如果存在 array 如果不存在,返回false
 	 */
 	static function exists($name = "", $nickname = "", $uid = -1)
 	{
@@ -282,7 +282,7 @@ class Account{
 		if( count($r) == 0 )
 			return false;
 		else
-			return true;
+			return $r[0];
 	}
 
 	/**
@@ -291,7 +291,7 @@ class Account{
 	 */
 	static function update_user_nickname($uid, $nickname)
 	{
-		if(trim($nickname) == "" || self::exists("", $nickname, $uid))
+		if(trim($nickname) == "" || (self::exists("", $nickname, $uid) !== false))
 			return false;
 
 		$sql = "UPDATE `users` SET `nickname` = :nickname WHERE `id` = :uid";

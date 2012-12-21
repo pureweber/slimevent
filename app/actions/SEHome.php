@@ -18,7 +18,9 @@ class SEHome extends SECommon{
 
 	function test()
 	{
-		echo Template::serve('common/set_nickname.html');
+		$file = Sys::resize_image("./temp/4.jpg",170,220);
+		$file2 = Sys::cutphoto("./temp/4.jpg","./temp/101.jpg",170,220);
+		imagejpeg($file, "./temp/100.jpg");
 	}
 
 	function feedback(){
@@ -268,21 +270,23 @@ class SEHome extends SECommon{
 
 
 	function show_login()
-	{	
-		$backurl = F3::get('GET.backurl');
+	{
+		$backurl = urlencode(F3::get('GET.backurl'));
 		switch(F3::get('GET.auth'))
 		{
 			case F3::get('CAS_AUTH'):
 				$name = CAS::login();
 				$pwd = F3::get('DEFAULT_PWD');
-				if(Account::exists($name) === false)  //首次通过CAS登录
+				$u = Account::exists($name);
+				if($u === false)  //首次通过CAS登录
 				{
-					echo $pwd;
 					$group = F3::get('STUDENT_GROUP');
-					$nickname = $name;
+					$nickname = 'S'.$name;
 					Admin::add_user($name, $pwd, $group, $nickname);
 					$first_login = "true";
 				}
+				else if($u['nickname'] == 'S'.$u['name'])
+					$first_login = "true";
 				break;
 			case F3::get('CLUB_AUTH'):
 				echo Template::serve('club/login.html');
@@ -304,9 +308,9 @@ class SEHome extends SECommon{
 		else
 		{
 			if(isset($first_login))
-				F3::reroute($backurl."?first_login=true");
+				F3::reroute("http://".urldecode($backurl)."?first_login=true");
 			else
-				F3::reroute($backurl);
+				F3::reroute("http://".urldecode($backurl));
 		}
 	}
 
@@ -334,14 +338,9 @@ class SEHome extends SECommon{
 
 	function logout()
 	{
-		//			CAS::logout("http://www.baidu.com");
-		//if(Account::is_login() !== false)
-		//{
-			//if(Account::the_user_group() == F3::get('STUDENT_GROUP'))
-				//echo "bb";
-			//}
-
 		Account::logout();
+		if(Account::the_user_group() === F3::get('STUDENT_GROUP'))
+			CAS::logout();
 		F3::reroute('/');
 	}
 

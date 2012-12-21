@@ -12,8 +12,8 @@
 <div class="tabbable"> 
 
 	<ul class="nav nav-tabs">
-    	<li class="active"><a href="#{{@EVENT_DRAFT_STATUS}}_status" onclick="ajax_my_event_list('{{@EVENT_DRAFT_STATUS}}');" data-toggle="tab">草稿</a></li>
-    	<li><a href="#{{@EVENT_AUDIT_STATUS}}_status" onclick="ajax_my_event_list('{{@EVENT_AUDIT_STATUS}}');" data-toggle="tab">待审核</a></li>
+        <!--<li class="active"><a href="#{{@EVENT_DRAFT_STATUS}}_status" onclick="ajax_my_event_list('{{@EVENT_DRAFT_STATUS}}');" data-toggle="tab">草稿</a></li>-->
+    	<li class="active"><a href="#{{@EVENT_AUDIT_STATUS}}_status" onclick="ajax_my_event_list('{{@EVENT_AUDIT_STATUS}}');" data-toggle="tab">待审核</a></li>
     	<li><a href="#{{@EVENT_PASSED_STATUS}}_status" onclick="ajax_my_event_list('{{@EVENT_PASSED_STATUS}}');" data-toggle="tab">已通过</a></li>
     	<li><a href="#{{@EVENT_FAILED_STATUS}}_status" onclick="ajax_my_event_list('{{@EVENT_FAILED_STATUS}}');" data-toggle="tab">未通过</a></li>
         <!--<li><a href="#{{@EVENT_PRAISE_STATUS}}_status" onclick="ajax_my_event_list('{{@EVENT_PRAISE_STATUS}}');" data-toggle="tab">赞过的</a></li>-->
@@ -22,8 +22,8 @@
 
   	<div class="tab-content">
 
-    	<div class="tab-pane active" id="draft_status">
-    	</div>
+        <!--<div class="tab-pane active" id="draft_status">-->
+        <!--</div>-->
 
     	<div class="tab-pane" id="praise_status">
   		</div>
@@ -37,7 +37,7 @@
 		<div class="tab-pane" id="failed_status">
   		</div>
 
-   		<div class="tab-pane" id="auditing_status">
+   		<div class="tab-pane active" id="auditing_status">
   		</div>
 
 	</div> <!-- tab-content -->

@@ -1,4 +1,3 @@
-
 <form class="form-horizontal" id="create-form" method="post" enctype="multipart/form-data">
 
 <fieldset>
@@ -53,7 +52,7 @@
 			name="begin_date" value="{{@POST.begin_date}}">
 		<i class="icon-calendar icon-large" style="margin: 6px 0 0 -24.5px; pointer-events: none; position: relative;"></i>
 
-		<input class="validate-required span2" placeholder="时间" type="text" name="begin_time"
+		<input class="validate-required validate-time-order span2" placeholder="时间" type="text" name="begin_time"
 			value="{{@POST.begin_time}}" style="margin-left:10px">
 		<i class="icon-time icon-large" style="margin: 6px 0 0 -22.5px; pointer-events: none; position: relative;"></i>
 		<span class="label" style="margin-left:10px">开始时间须大于当前时间</span>
@@ -126,7 +125,7 @@
 	<div class="controls">
 	<div class="fileupload fileupload-{{@POST.eid ? 'exists' : 'new'}}" data-provides="fileupload">
 		<div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">
-			<img src="{{@POST.poster}}"/>
+			<img src="{{@WEB_ROOT}}{{@ORI_IMG_DIR}}{{@POST.poster}}"/>
 		</div>
 		<div>
 			<span class="btn btn-file upload-button">
@@ -218,10 +217,10 @@
 
 		$("input[name='title']").focus();
 
-		$(window).bind('beforeunload',function(){ 
-			if(!hasSaved)
-				return '您输入的内容尚未保存，确定离开此页面吗？'; 
-			});
+//		$(window).bind('beforeunload',function(){ 
+//			if(!hasSaved)
+//				return '您输入的内容尚未保存，确定离开此页面吗？'; 
+//			});
 
 		$("input[name='begin_date']").blur(function(){
 				var end = $("input[name='end_date']");
