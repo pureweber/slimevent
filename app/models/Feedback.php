@@ -27,24 +27,29 @@ class Feedback{
 
 
 	/**
-	 * @param $eid
-	 * @return array 用户赞活动记录关联数组
+	 * @return int 反馈总数
 	 */
-	static function get_feedback()
+	static function get_num()
 	{
-		$sql = "SELECT * FROM `feedback` ORDER BY time DESC";
-		return DB::sql($sql, array(':eid' => $eid));
+		//$sql = "SELECT * FROM `feedback`, `users` WHERE feedback.uid = users.id ORDER BY time DESC";
+		$sql = "SELECT count(*) FROM `feedback`";
+		$r = DB::sql($sql);
+		return $r[0]['count(*)'];
 	}
 
+
 	/**
-	 * 返回$uid用户赞过的所有活动信息(eid, time)
-	 * @return array 用户赞活动记录关联数组
+	 * @return array 关联数组
 	 */
-	static function get_praise_event($uid)
+	static function get_all_feedback($page)
 	{
-		$sql = "SELECT * FROM `feedback` WHERE uid = :uid ORDER BY time DESC";
-		return DB::sql($sql, array(':uid' => $uid));
+		//$sql = "SELECT * FROM `feedback`, `users` WHERE feedback.uid = users.id ORDER BY time DESC";
+		$per = F3::get('PER_PAGE_SHOW');
+		$p = $page * $per;
+		$sql = "SELECT * FROM `feedback` ORDER BY time DESC LIMIT {$p}, {$per};";
+		return DB::sql($sql);
 	}
+
 
 };
 
